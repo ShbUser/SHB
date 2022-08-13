@@ -6,7 +6,8 @@ let objectID = require('mongodb').ObjectId
 
 // ...............for OTP......................
 const accountSid = "AC22e3681b7937cf0418c521f272ad6259"
-const authToken = "2ae820f8e17cc90025cfb32336f0da2f"
+const authToken = "f77fabafff2dbd09b546d5da1f25cdac"
+//"2ae820f8e17cc90025cfb32336f0da2f"
 const serviceSid= "VA6cad9fa25705ba1d0ba9711ca5a77237"
 
 const client = require('twilio')(accountSid, authToken);
@@ -28,7 +29,7 @@ module.exports = {
         let response = {}
         return new Promise(async (resolve, reject) => {
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ email: userData.email })
-            console.log(user);
+            // console.log(user);
             if (user) {
                 
                 bcrypt.compare(userData.password, user.password).then((status) => {
@@ -64,7 +65,9 @@ module.exports = {
       },
       sendOtp: (mobile) => {
         return new Promise((resolve,reject)=>{
+            console.log("ggggggggggggggggggggggggggFirst");
             client.verify.v2.services(serviceSid).verifications.create({to:'+91'+mobile,channel:'sms'}).then((verification=>{
+                console.log("ggggggggggggggggggggggggggcheck");
                 resolve(verification)
             }))
         })

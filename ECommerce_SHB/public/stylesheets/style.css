@@ -1,5 +1,6 @@
 
 ::placeholder{
+    font-style: italic;
     font-size: small;
 }
 
@@ -10,5 +11,8 @@ body{
 }
 
 .bdrShdw{
-    box-shadow: 5px 10px 50px #28a76c;
+    
+   border-radius: .5em;
+    padding-top: 2em;
+    
 }
