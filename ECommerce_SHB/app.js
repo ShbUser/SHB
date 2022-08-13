@@ -5,21 +5,27 @@ let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 var session=require('express-session');
 let db=require('./config/Connection');
+var hbs=require('express-handlebars')
 
 let usersRouter = require('./routes/users');
 let adminRouter = require('./routes/admin');
 
 let app = express();
+let fileUpload=require('express-fileupload');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+app.engine('hbs',hbs.engine({extname:'hbs',defaultLayout:'layout',layoutsDir:__dirname+'/views/layout/',partialsDir:__dirname+'/views/partials/'}));
 app.use(logger('dev'));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(fileUpload());
 
 db.connect((err)=>{
   if (err) Console.log("Connection err : "+err)

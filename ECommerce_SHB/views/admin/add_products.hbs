@@ -1,0 +1,62 @@
+<div style="margin-top: -35em;">
+    <header>
+        <div class="row  text-center">
+            <div class="col-xl-4">
+
+            </div>
+            <div class="col-xl-4">
+                <h4>SHB online hub Administrator</h4>
+            </div>
+        </div>
+
+    </header>
+    <hr>
+
+    <section>
+        <div class="col-10 d-flex justify-content-center bdrShdw">
+            <form action="/admin/add-product" method="POST" enctype="multipart/form-data">
+                <p>Add &nbsp;<span><b><u>Products</u></b></span> </p>
+                <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="name" required>
+                <br>
+                <input type="text" class="form-control" id="inputAddress" name="price" placeholder="price" required>
+                <br>
+                <input type="text" class="form-control" id="inputAddress" placeholder="Size" name="size" required>
+                <br>
+                <div class="btn-group dropdown">
+                    <button type="button" class="btn btn-light dropdown-toggle btn-sm" data-bs-toggle="dropdown"
+                        aria-expanded="false" name="catgry"> Category
+                    </button>
+                    <ul class="dropdown-menu">
+                        <!-- Dropdown menu links -->
+                        <li><button class="dropdown-item" type="button">Mens</button></li>
+                        <li><button class="dropdown-item" type="button">Womens</button></li>
+                        <li><button class="dropdown-item" type="button">Boys</button></li>
+                        <li><button class="dropdown-item" type="button">Girls</button></li>
+                    </ul><input type="text" class="form-control" id="inputAddress" placeholder="" name="category"
+                        required>
+                </div><br><br>
+
+                <input type="text" class="form-control" id="inputAddress" placeholder="Qauantity" name="qty" required>
+                <br>
+                {{!-- <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio1" value="option1">
+                    <label class="form-check-label" for="inlineRadio1">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="inlineRadio2" value="option2">
+                    <label class="form-check-label" for="inlineRadio2">Female</label>
+                </div><br><br> --}}
+
+                <input type="text" class="form-control" id="inputCity" placeholder="Description" name="description"
+                    required>
+                <br>
+                <label for="inputCity" class="form-label">Image</label>
+                <input class="form-control" type="file" id="formFile" name="img" required>
+                <div class=""><button type="submit" class="btn btn-primary mt-2">submit</button></div>
+
+
+            </form>
+        </div>
+
+    </section>
+</div>
