@@ -32,7 +32,7 @@ module.exports = {
     getCategory: () => {
         return new Promise(async(resolve, reject) => {
             let categories=await db.get().collection(collection.CATEGORY_COLLECTION).find().toArray()
-            resolve(categories  )
+            resolve(categories )
         })            
     },
 
@@ -43,4 +43,33 @@ module.exports = {
            resolve(product)
         })
     },
+    getUpdateCategory: (catID)=>{
+         return new Promise(async(resolve,reject)=>{         
+             await db.get().collection(collection.CATEGORY_COLLECTION).findOne({_id:objectID(catID)}).then((category)=>{                 
+                 resolve(category)
+             })
+         })
+     },
+     setUpdateCategory:(categ,catID)=>{
+        return new Promise(async(resolve,reject0)=>{
+           await db.get().collection(collection.CATEGORY_COLLECTION).updateOne({_id:objectID(catID)},
+            {$set:{
+                name:categ.name,
+                description:categ.description    
+            }
+            }).then((response)=>{
+                resolve(response)
+            })
+            
+        })
+        
+    },
+    deleteCategory:(catId)=>{
+        return new Promise(async(resolve,reject)=>{
+             await db.get().collection(collection.CATEGORY_COLLECTION).deleteOne({_id:objectID(catId)}).then((response)=>{
+                resolve(response)
+             })
+         })
+ 
+     },
 }

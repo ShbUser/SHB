@@ -1,0 +1,52 @@
+<div class="container" style="margin-top: -36em;">
+    <header>
+        <div class="row  text-center">
+            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                <h4>SHB online hub Administrator</h4>
+            </div>
+        </div>
+
+    </header>
+    <hr>
+
+
+    <section>
+        <div class="row d-flex justify-content-center bdrShdw">
+           
+                <table class="table mt-3" id="productsJS">
+                    <thead>
+                        <tr>
+                            
+                            <th scope="col">Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Mobile</th>
+
+                            <th>Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each users}}
+                        <tr>
+
+                            
+                            <td>{{this.name}}</td>
+                            <td>{{this.email}}</td>
+                            <td>{{this.mobile}}</td>
+                            <td>
+                                <a href="/admin/edit-product/{{this._id}}" class="btn btn-light">Block <i class="fa-solid fa-user-lock"></i></a>
+                                <a href="/admin/delete-product/{{this._id}}" class="btn btn-light"
+                                    onclick="return confirm('Are u want to delete {{this.Name}} ?')">Un block<i class="fa-solid fa-unlock"></i></a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#productsJS').DataTable();
+    });
+</script>
