@@ -88,28 +88,21 @@
 					{{#if user}}
 					<li><a class="dropdown-item" href="/logout"><i class="fa-solid fa-user-plus"></i>Log out</a></li>	
 
-					<li><a class="dropdown-item" data-bs-toggle="modal"
-					data-bs-target="#LoginModal" href="#"><i class="fa fa-fw fa-user text-dark mr-3"></i>Profile</a></li>
+					<li><a class="dropdown-item" href="#"><i class="fa fa-fw fa-user text-dark mr-3"></i>Profile</a></li>
 					
 
-					<li><a class="dropdown-item" data-bs-toggle="modal"
-					data-bs-target="#SignUPModal" href="#"> <i class="fa-solid fa-heart"></i>Wish list</a></li>
+					<li><a class="dropdown-item" href="#"> <i class="fa-solid fa-heart"></i>Wish list</a></li>
 						
-					<li><a class="dropdown-item" data-bs-toggle="modal"
-					data-bs-target="#SignUPModal" href="#"> <i class="fa-solid fa-arrow-down-wide-short"></i>Orders</a></li>			
+					<li><a class="dropdown-item" href="#"> <i class="fa-solid fa-arrow-down-wide-short"></i>Orders</a></li>			
 					{{else}}
-					<li><a class="dropdown-item" data-bs-toggle="modal"
-					data-bs-target="#LoginModal" href="#"><i class="fa fa-fw fa-user text-dark mr-3"></i>Login</a></li>
+					<li><a class="dropdown-item" href="/login"><i class="fa fa-fw fa-user text-dark mr-3"></i>Login</a></li>
 
-						<li><a class="dropdown-item" data-bs-toggle="modal"
-					data-bs-target="#LoginModal" href="#"><i class="fa fa-fw fa-user text-dark mr-3"></i>Profile</a></li>
+					<li><a class="dropdown-item" href="#"><i class="fa fa-fw fa-user text-dark mr-3"></i>Profile</a></li>
 					
 
-					<li><a class="dropdown-item" data-bs-toggle="modal"
-					data-bs-target="#SignUPModal" href="#"> <i class="fa-solid fa-heart"></i>Wish list</a></li>
+					<li><a class="dropdown-item" href="#"> <i class="fa-solid fa-heart"></i>Wish list</a></li>
 						
-					<li><a class="dropdown-item" data-bs-toggle="modal"
-					data-bs-target="#SignUPModal" href="#"> <i class="fa-solid fa-arrow-down-wide-short"></i>Orders</a></li>
+					<li><a class="dropdown-item" href="#"> <i class="fa-solid fa-arrow-down-wide-short"></i>Orders</a></li>
 					{{/if}}
 					</ul>
 					
@@ -121,95 +114,9 @@
 
 	</div>
 </nav>
-<!-- Modal -->
 
 
-<div class="modal fade" id="LoginModal" tabindex="-1" aria-labelledby="LoginModal" aria-hidden="true">
-	<div class="modal-dialog modal-lg ">
-		<div class="modal-content">
-			<div class="modal-header">
-				{{!-- <h5 class="modal-title" id="exampleModalLabel">Login</h5> --}}
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<div class="row">
-					<div class="col-xl-6 ">
-						<img src="assets/img/login_image.png" alt="Login">
-					</div>
-					<div class="col-xl-6 pt-5 mt-4">
-						<form action="/login" method="post">
-							<div class="mb-3">
-								<input type="email" class="form-control" id="recipient-name" placeholder="Email"
-									name="email" required>
-							</div>
-							<div class="mb-3">
-								<input type="password" class="form-control" id="recipient-name" placeholder="Password"
-									name="password" required>
-							</div>
-							<div class="modal-footer">
 
-								<button type="submit" class="btn btn-outline-primary">Login</button>
-							</div>
-
-						</form>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
-								data-bs-target="#SignUPModal">SignUp?</button>
-						</div>
-					</div>
-				</div>
-			</div>
-
-		</div>
-	</div>
-</div>
-
-<!--Signup modal--->
-<div class="modal fade" id="SignUPModal" tabindex="-1" aria-labelledby="SignUPModal" aria-hidden="true">
-	<div class="modal-dialog modal-fullscreen">
-		<div class="modal-content">
-			<div class="modal-header text-success">
-				<h2>Register here</h2>
-				{{!-- <h5 class="modal-title" id="exampleModalLabel">Login</h5> --}}
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<div class="row mt-5">
-					<div class="col-xl-4 col-md-4">
-
-					</div>
-					<div class="col-xl-4 col-md-4">
-						<form action="/register" method="post">
-							<div class="mb-3">
-								<input type="text" class="form-control" id="recipient-name" name="name"
-									placeholder="User name" required>
-							</div>
-							<div class="mb-3">
-								<input type="email" class="form-control" id="recipient-name"
-									placeholder="Email(Optional)" name="email" required>
-							</div>
-							<div class="mb-3">
-								<input type="text" class="form-control" id="recipient-name" placeholder="Mobile no:"
-									name="mobile" required>
-							</div>
-							<div class="mb-3">
-								<input type="password" class="form-control" id="recipient-name" placeholder="Password"
-									name="password" required>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" class="btn btn-outline-primary">Register</button>
-							</div>
-
-
-						</form>
-
-					</div>
-				</div>
-			</div>
-
-		</div>
-	</div>
-</div>
 
 <!-- Close Header -->
 

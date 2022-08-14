@@ -1,0 +1,65 @@
+<div class="container" style="margin-top: -35em">
+    <header>
+        <div class="row  text-center">
+            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                <h4><span class="text-success">SHB</span> online hub Administrator</h4>
+            </div>
+        </div>
+
+    </header>
+    <hr>
+
+    <section>
+        <div class="d-flex justify-content-center bdrShdw">
+            <form action="/admin/update_product/{{product._id}}" method="POST" enctype="multipart/form-data">
+                <p>Update &nbsp;<span><b><u>Products</u></b></span> </p>
+
+                <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="name"
+                    value="{{product.name}}" required>
+                <br>
+                <input type="text" class="form-control" id="inputAddress" name="price" placeholder="price"
+                    value="{{product.price}}" required>
+                <br>
+                <input type="text" class="form-control" id="inputAddress" placeholder="Size" name="size"
+                    value="{{product.size}}" required>
+                <br>
+                <div class="btn-group dropdown">
+                    <button type="button" class="btn btn-light dropdown-toggle btn-sm" data-bs-toggle="dropdown"
+                        aria-expanded="false" name="catgry"> Category
+                    </button>
+                    <ul class="dropdown-menu">
+
+                        {{!-- add Categories from collection --}}
+                        {{#each category}}
+                        <li><button class="dropdown-item" type="button">{{this.name}}</button></li>
+                        {{/each}}
+
+                    </ul><input type="text" class="form-control" id="inputAddress" placeholder="" name="category"
+                        value="{{product.category}}" required>
+                </div><br><br>
+
+                <input type="text" class="form-control" id="inputAddress" placeholder="Qauantity" name="qty"
+                    value="{{product.qty}}" required>
+                <br>
+
+                <input type="text" class="form-control" id="inputCity" placeholder="Description" name="description"
+                    value="{{product.description}}" required>
+                <br>
+                <label for="inputCity" class="form-label">Image</label>
+                <img src="/product-images/{{product._id}}.jpg" style="width: 100px; height: 70px;" id="preview">
+
+                <input class="form-control" type="file" id="formFile" name="image" onchange="previewFile(event)">
+
+                <div><button type="submit" class="btn btn-primary mt-2">Update</button></div>
+
+
+            </form>
+        </div>
+
+    </section>
+</div>
+<script>
+    function previewFile(event) {
+        document.getElementById('preview').src = URL.createObjectURL(event.target.files[0])
+    }
+</script>

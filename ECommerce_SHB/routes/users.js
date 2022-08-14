@@ -19,6 +19,19 @@ router.get('/', function(req, res, next) {
   res.render('users/home', { title: 'shb',user});
 });
 
+router.get('/login',(req,res)=>{
+  if (req.session.user) {
+    res.redirect('/')
+  } else {
+    res.render('users/login', { "loginErr": req.session.userLoginErr})
+    req.session.userLoginErr = false
+  }
+})
+
+router.get('/signup',(req,res)=>{
+  res.render('users/signup')
+})
+
 router.post('/signup', (req,res)=>{
   userHelper.doSignUp(req.body).then((response) => {
     req.session.userLoggedIn = true
@@ -35,8 +48,8 @@ router.post('/login', (req, res) => {
         res.redirect('/')
         }
     else {
-      // req.session.userLoginErr = "Invalid Username or Password"
-      // res.redirect('/')
+      req.session.userLoginErr = "!!! You entered invalid Username or Password"
+      res.redirect('/login')
     }
   })
 

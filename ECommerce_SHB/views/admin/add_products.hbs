@@ -2,7 +2,7 @@
     <header>
         <div class="row  text-center">
             <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                <h4>SHB online hub Administrator</h4>
+                <h4><span class="text-success">SHB</span> online hub Administrator</h4>
             </div>
         </div>
 
@@ -11,7 +11,7 @@
 
     <section>
         <div class="d-flex justify-content-center bdrShdw">
-            <form action="/admin/add-product" method="POST" enctype="multipart/form-data">
+            <form action="/admin/add_product" method="POST" enctype="multipart/form-data">
                 <p>Add &nbsp;<span><b><u>Products</u></b></span> </p>
                 <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="name" required>
                 <br>
@@ -24,12 +24,13 @@
                         aria-expanded="false" name="catgry"> Category
                     </button>
                     <ul class="dropdown-menu">
-                    
+                    <li><button class="dropdown-item" type="button">asdf</button></li>
                         {{!-- add Categories from collection --}}
-                        {{#each response}}
+                        {{#each category}}
                         <li><button class="dropdown-item" type="button">{{this.name}}</button></li>
+                         
                         {{/each}}
-
+                        
                     </ul><input type="text" class="form-control" id="inputAddress" placeholder="" name="category"
                         required>
                 </div><br><br>
@@ -42,7 +43,7 @@
                 <br>
                 <label for="inputCity" class="form-label">Image</label>
                 <input class="form-control" type="file" id="formFile" name="img" required>
-                <div class=""><button type="submit" class="btn btn-primary mt-2">submit</button></div>
+                <div class=""><button type="submit" class="btn btn-primary mt-2">Save</button></div>
 
 
             </form>
