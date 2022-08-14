@@ -1,0 +1,60 @@
+<div class="container" style="margin-top: -36em;">
+    <header>
+        <div class="row  text-center">
+            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                <h4>SHB online hub Administrator</h4>
+            </div>
+        </div>
+
+    </header>
+    <hr>
+
+
+    <section>
+        <div class="row d-flex justify-content-center bdrShdw">
+           
+                <table class="table mt-3" id="productsJS">
+                    <thead>
+                        <tr>
+                            
+                            <th scope="col">Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Size</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Category</th>
+                            <th>Image</th>
+                            <th>Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each products}}
+                        <tr>
+
+                            
+                            <td>{{this.name}}</td>
+                            <td>{{this.price}}</td>
+                            <td>{{this.size}}</td>
+                            <td>{{this.qty}}</td>
+                            <td>{{this.description}}</td>
+                            <td>{{this.category}}</td>
+                            <td><img style="width: 50px; height: 50px;" src="/product-images/{{this._id}}.jpg" alt="">
+                            </td>
+                            <td>
+                                <a href="/admin/edit-product/{{this._id}}" class="btn btn-light">Edit <i class="fa-solid fa-file-pen"></i></a>
+                                <a href="/admin/delete-product/{{this._id}}" class="btn btn-light"
+                                    onclick="return confirm('Are u want to delete {{this.Name}} ?')">Delete<i class="fa-solid fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#productsJS').DataTable();
+    });
+</script>
