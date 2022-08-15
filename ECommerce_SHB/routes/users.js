@@ -73,6 +73,7 @@ router.post("/register", async (req, res) => {
 router.post('/signUpOtpVerify',(req,res)=>{
   userHelper.verifyOtp(req.body,req.session.mobile).then((check)=>{
     if(check === 'approved'){
+      req.session.user.isBlock=false
       userHelper.doSignUp(req.session.user).then((data)=>{
         user=req.session.user
         req.session.userLoggedIn = true

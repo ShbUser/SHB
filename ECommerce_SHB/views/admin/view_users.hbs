@@ -1,4 +1,4 @@
-<div class="container" style="margin-top: -36em;">
+<div class="container">
     <header>
         <div class="row  text-center">
             <div class="col-12 col-md-12 col-lg-12 col-xl-12">
@@ -33,11 +33,15 @@
                             <td>{{this.email}}</td>
                             <td>{{this.mobile}}</td>
                             <td>
-                                <a href="/admin/edit-product/{{this._id}}" class="btn btn-light">Block <i
-                                        class="fa-solid fa-user-lock"></i></a>
-                                <a href="/admin/delete-product/{{this._id}}" class="btn btn-light"
-                                    onclick="return confirm('Are u want to delete {{this.Name}} ?')">Un block<i
+                                {{#if this.isBlock}}
+                                <a href="/admin/unblock-user/{{this._id}}" class="btn btn-light"
+                                    onclick="return confirm('Do u want to unblock  {{this.Name}} ?')">Un block<i
                                         class="fa-solid fa-unlock"></i></a>
+                                        {{else}}
+                                <a href="/admin/block-user/{{this._id}}" class="btn btn-light"
+                                    onclick="return confirm('Do u want to Block {{this.Name}} ?')">Block<i
+                                        class="fa-solid fa-unlock"></i></a>
+                                {{/if}}
                             </td>
                         </tr>
                         {{/each}}

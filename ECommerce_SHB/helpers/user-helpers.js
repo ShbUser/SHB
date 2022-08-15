@@ -1,6 +1,6 @@
-var db = require('../config/Connection')
-var collection = require('../config/collections')
-var bcrypt = require('bcrypt')
+let db = require('../config/Connection')
+let collection = require('../config/collections')
+let bcrypt = require('bcrypt')
 const { response } = require('express')
 let objectID = require('mongodb').ObjectId
 
@@ -28,7 +28,7 @@ module.exports = {
 
         let response = {}
         return new Promise(async (resolve, reject) => {
-            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ email: userData.email })
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ email: userData.email,isBlock:false  })
             // console.log(user);
             if (user) {
 
@@ -49,12 +49,7 @@ module.exports = {
 
         })
     },
-    getAllUsers: () => {
-        return new Promise(async (resolve, reject) => {
-            let users = await db.get().collection(collection.USER_COLLECTION).find().toArray()
-            resolve(users)
-        })
-    },
+    
 
     userCheck: (userData) => {
         return new Promise(async (resolve, reject) => {
@@ -70,10 +65,8 @@ module.exports = {
         });
     },
     sendOtp: (mobile) => {
-        return new Promise((resolve, reject) => {
-            console.log("ggggggggggggggggggggggggggFirst");
-            client.verify.v2.services(serviceSid).verifications.create({ to: '+91' + mobile, channel: 'sms' }).then((verification => {
-                console.log("ggggggggggggggggggggggggggcheck");
+        return new Promise((resolve, reject) => {           
+            client.verify.v2.services(serviceSid).verifications.create({ to: '+91' + mobile, channel: 'sms' }).then((verification => {               
                 resolve(verification)
             }))
         })
