@@ -15,7 +15,6 @@ const verifyLogin = (req, res, next) => {
 // ................................. GET methods................................................
 
 router.get('/', (req, res) => {
-
     res.render('admin/log_in_ad', { "loginErr": req.session.adminLoginErr })
 })
 router.get('/admin_home', verifyLogin, (req, res) => {

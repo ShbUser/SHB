@@ -21,3 +21,12 @@ body{
     background-size: cover;
     font-size: smaller;
 }
+
+.list-group a:hover{
+    transform: scale(1.1);
+    background-color: teal;
+    color: wheat;
+    /* transition: width 2s;
+    width: 12em; */
+    
+}

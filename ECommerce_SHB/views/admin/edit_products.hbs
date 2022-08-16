@@ -46,11 +46,11 @@
                     value="{{product.description}}" required>
                 <br>
                 <label for="inputCity" class="form-label">Image</label>
-                <img src="/product-images/{{product._id}}.jpg" style="width: 100px; height: 70px;" id="preview">
+                <img src="/product-images/{{product._id}}.jpg" style="width: 100px; height: 70px;" id="preview" class="rounded-circle">
 
                 <input class="form-control" type="file" id="formFile" name="image" onchange="previewFile(event)">
 
-                <div><button type="submit" class="btn btn-primary mt-2">Update</button></div>
+                <div><button type="submit" class="btn btn-outline-success mt-2"><i class="fa-solid fa-cloud-arrow-up"></i>Update</button></div>
 
 
             </form>

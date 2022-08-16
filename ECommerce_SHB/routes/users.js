@@ -80,7 +80,7 @@ router.post('/signUpOtpVerify',(req,res)=>{
         res.redirect('/')
       })
     }else{
-      res.render('users/signup_Otp')
+      res.render('users/signup_Otp',{otpError:"You Entered Wrong OTP"})
     }
   })
 })

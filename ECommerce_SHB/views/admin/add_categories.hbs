@@ -17,12 +17,12 @@
                     <input type="text" class="form-control" id="cat_name" name="name" placeholder="Category" required>
                     <input type="text" class="form-control" id="cat_name" name="description" placeholder="Description"
                         required>
-                    <button type="submit" class="btn btn-success">Add Category</button>
+                    <button type="submit" class="btn btn-outline-success"><i class="fa-solid fa-cloud-arrow-up"></i>Add Category</button>
                 </form>
                     <br>
                 
                 <table class="table mt-3" id="productsJS">
-                    <thead>
+                    <thead class="bg-success ">
                         <tr>
                             <th scope="col">Category</th>
                             <th scope="col">Description</th>
@@ -35,9 +35,9 @@
                             <td>{{this.name}}</td>
                             <td>{{this.description}}</td>
                             <td>
-                                <a href="/admin/edit_category/{{this._id}}" class="btn btn-light">Edit <i
+                                <a href="/admin/edit_category/{{this._id}}" class="btn btn-outline-success">Edit <i
                                         class="fa-solid fa-file-pen"></i></a>
-                                <a href="/admin/delete_category/{{this._id}}" class="btn btn-light"
+                                <a href="/admin/delete_category/{{this._id}}" class="btn btn-outline-danger"
                                     onclick="return confirm('Do u want to delete {{this.Name}} ?')">Delete<i
                                         class="fa-solid fa-trash"></i></a>
                             </td>

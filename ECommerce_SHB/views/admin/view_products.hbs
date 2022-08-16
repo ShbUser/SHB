@@ -15,7 +15,7 @@
 
             <div class="col-7 col-md-7 col-lg-9 col-xl-9 ">
                 <table class="table" style="width: 68em;" id="productsJS">
-                    <thead>
+                    <thead class="bg-success">
                         <tr>
 
                             <th scope="col">Name</th>
@@ -39,12 +39,12 @@
                             <td>{{this.qty}}</td>
                             <td>{{this.description}}</td>
                             <td>{{this.category}}</td>
-                            <td><img style="width: 50px; height: 50px;" src="/product-images/{{this._id}}.jpg" alt="">
+                            <td><img style="width: 50px; height: 50px;" src="/product-images/{{this._id}}.jpg" class="rounded-circle" alt="">
                             </td>
                             <td>
-                                <a href="/admin/edit_products/{{this._id}}" class="btn btn-light">Edit <i
+                                <a href="/admin/edit_products/{{this._id}}" class="btn btn-outline-success">Edit <i
                                         class="fa-solid fa-file-pen"></i></a>
-                                <a href="/admin/delete_products/{{this._id}}" class="btn btn-light"
+                                <a href="/admin/delete_products/{{this._id}}" class="btn btn-outline-danger"
                                     onclick="return confirm('Are u want to delete {{this.Name}} ?')">Delete<i
                                         class="fa-solid fa-trash"></i></a>
                             </td>

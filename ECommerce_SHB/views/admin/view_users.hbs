@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container ">
     <header>
         <div class="row  text-center">
             <div class="col-12 col-md-12 col-lg-12 col-xl-12">
@@ -12,9 +12,9 @@
 
     <section>
         <div class="row d-flex justify-content-center bdrShdw">
-            <div class="col-7 col-md-7 col-lg-9 col-xl-9">
-                <table class="table mt-3"  id="productsJS">
-                    <thead>
+            <div class="col-7 col-md-7 col-lg-9 col-xl-9 ">
+                <table class="table mt-3 "  id="productsJS">
+                    <thead class="bg-success ">
                         <tr>
 
                             <th scope="col">Name</th>
@@ -34,13 +34,14 @@
                             <td>{{this.mobile}}</td>
                             <td>
                                 {{#if this.isBlock}}
-                                <a href="/admin/unblock-user/{{this._id}}" class="btn btn-light"
-                                    onclick="return confirm('Do u want to unblock  {{this.Name}} ?')">Un block<i
-                                        class="fa-solid fa-unlock"></i></a>
+                                <a href="/admin/unblock-user/{{this._id}}" class="btn btn-outline-danger"
+                                    onclick="return confirm('Do u want to unblock  {{this.Name}} ?')">Un block?
+                                    <i class="fa-solid fa-unlock"></i></a>
                                         {{else}}
-                                <a href="/admin/block-user/{{this._id}}" class="btn btn-light"
-                                    onclick="return confirm('Do u want to Block {{this.Name}} ?')">Block<i
-                                        class="fa-solid fa-unlock"></i></a>
+                                <a href="/admin/block-user/{{this._id}}" class="btn btn-outline-success"
+                                    onclick="return confirm('Do u want to Block {{this.Name}} ?')">Block?
+                                    <i class="fa-solid fa-lock"></i>
+                                    </a>
                                 {{/if}}
                             </td>
                         </tr>
