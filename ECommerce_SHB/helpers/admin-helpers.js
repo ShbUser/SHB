@@ -38,31 +38,27 @@ module.exports = {
     //     })
     // }
 
+    doBlockUser:(userID)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectID(userID)},
+            {
+                $set:{ isBlock: true  }
+            }).then(()=>{
+                resolve()
+            })
 
-    doBlockUser: (userID) => {
-        return new Promise(async (resolve, reject) => {
-            await db.get().collection(collection.USER_COLLECTION).updateOne({ _Id: objectID(userID) },
-                {
-                    $set: {
-                        isBlock: true
-                    }
-                }).then((response)=>{
-                    resolve(response)
-                })
         })
     },
-
-    doUnBlockUser: (userID) => {
-        return new Promise(async (resolve, reject) => {
-            await db.get().collection(collection.USER_COLLECTION).updateOne({ _Id: objectID(userID) },
-                {
-                    $set: {
-                        isBlock: false
-                    }
-                }).then((response)=>{
-                    resolve(response)
-                })
+    
+    doUnBlockUser:(userID)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectID(userID)},
+            {
+                $set:{ isBlock: false  }
+            }).then(()=>{
+                resolve()
             })
-    }
 
+        })
+    }
 }
