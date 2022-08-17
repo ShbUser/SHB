@@ -72,7 +72,6 @@ module.exports = {
     },
     verifyOtp: (otp, mobile) => {
         return new Promise((resolve, reject) => {
-            console.log(otp, mobile)
             client.verify.v2.services(serviceSid).verificationChecks.create({ to: '+91' + mobile, code: otp.otp }).then((verification_check) => {
                 resolve(verification_check.status)
             })
