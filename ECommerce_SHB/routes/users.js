@@ -30,7 +30,8 @@ router.get('/login', (req, res) => {
 })
 
 router.get('/signup', (req, res) => {
-  res.render('users/signup')
+  
+  res.render('users/signup',{emailErr:""})
 })
 
 router.post('/signup', (req, res) => {
@@ -55,13 +56,22 @@ router.post('/login', (req, res) => {
   })
 
 })
+// router.post("/email_Verification", async (req, res) => {
+  
+//   userHelper.userCheck(req.body).then((response) => {
+//     if (response.exist) {
+//       response.status=true
+//       res.json({status :true})
+//     }
+//   })
+// })
+
 
 router.post("/register", async (req, res) => {
-
-  
+  // progress="50%"
   userHelper.userCheck(req.body).then((response) => {
     if (response.exist) {
-      res.redirect('/')
+      res.render('users/signup',{emailErr:"!!!..Entered email allready exist..."})
     } else {
       userHelper.sendOtp(req.body.mobile).then((data) => {
         req.session.user = req.body

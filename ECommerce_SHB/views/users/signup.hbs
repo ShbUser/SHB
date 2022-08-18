@@ -1,36 +1,88 @@
-<section>
+<section class="signupPage">
+
+
+    {{!-- <img src="/assets/img/shape.png" width="200em"> --}}
 
     <div class="row">
-        <div class="col-md-4 m-auto">
-            <div class="container mt-5 pt-5">
-                <h2 class="text-center">Create a new account </h2>
-                <form action="/register" method="post">
+
+        <div class="col-md-4 m-auto signupPageColtrans editColor ">
+            <div class="container  mt-5 pt-5">
+
+                <h2 class="text-center">Register your account</h2>
+
+                <div class="progress" style="height: 2px;">
+                    <div class="progress-bar bg-success" role="progressbar" id="progressID" aria-valuenow="25"
+                        aria-valuemin="50" aria-valuemax="80"></div>
+                </div>
+
+                <form action="/register" method="post" id="mysignupform">
                     <div class="mb-3">
                         <label for="" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="inputtxt" name="name" required onchange="" >
+                        <input type="text" class="form-control" id="namefield" name="name" onchange="">
 
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Email address</label>
                         <input type="email" class="form-control" id="" aria-describedby="emailHelp" name="email"
-                            required>
+                            id="email_vetrify">
+                        {{#if emailErr}}
+                        
+                        <script>
+                            a = 10
+                            const id = setInterval(function () {
+                                a = a + 2
+                                if (a == "80") clearInterval(id)
+                                else
+                                    document.getElementById('progressID').style.width = a + "%"
+                            }, 20)
+                            
+                        </script> 
+                        {{/if}}
+                       <label style="color: red;">{{emailErr}}</label>
+
                         <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                     </div>
                     <label for="exampleInputEmail1" class="form-label">Mobile</label>
                     <div class="mb-3">
-                        <input type="text" class="form-control" id="recipient-name" placeholder="" name="mobile"
-                            required>
+                        <input type="text" class="form-control" id="recipient-name" name="mobile">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="" name="password" required>
+                        <input type="password" class="form-control" id="" name="password">
                     </div>
                     <a href="/login" style="font-size:small; color: blue;">Allready have account ?</a>
 
-                    <button type="submit" class="btn btn-primary" style="float:right;">Register</button>
-
+                    <button type="submit"  class="btn btn-primary" id="btn" style="float:right;">
+                        Register</button>
                 </form>
+
             </div>
         </div>
     </div>
 </section>
+<script>
+
+    $(document).ready(function () {
+        $("#mysignupform").validate({
+            rules: {
+                name: {
+                    required: true,
+                    lettersonly: true
+
+                },
+                email: {
+                    required: true
+                },
+                mobile: {
+                    required: true
+                },
+
+                password: {
+                    required: true,
+                    maxlength: 5
+                }
+            }
+        })
+
+    })
+</script>

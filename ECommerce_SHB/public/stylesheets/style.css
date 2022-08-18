@@ -30,3 +30,22 @@ body{
     width: 12em; */
     
 }
+.error{
+    color: red;
+}
+.editColor input{
+    border-color: blue;
+    background-color: white;
+}
+.signupPage{
+    background-image: url("/assets/img/banner3.webp");
+    background-size: cover;
+    height: 37em;
+
+}
+.signupPageColtrans{
+    background-color: white;
+    opacity: .9;
+    margin-top: 20em;
+    border-radius: 2em;
+}
