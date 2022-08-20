@@ -2,6 +2,7 @@ let express = require('express');
 const { resolve } = require('promise');
 let router = express.Router();
 let userHelper = require('../helpers/user-helpers')
+let productHelper = require('../helpers/product-helpers');
 let scrpt = require('../public/javascripts/script')
 
 /* GET users listing. */
@@ -18,7 +19,11 @@ router.get('/', function (req, res, next) {
   if (req.session.userLoggedIn) {
     user = req.session.user
   }
-  res.render('users/home', { title: 'shb', user });
+  productHelper.getAllProducts().then((products)=>{
+   
+      res.render('users/home', { title: 'shb', user ,products});
+  })
+  
 });
 
 router.get('/login', (req, res) => {
@@ -35,11 +40,17 @@ router.get('/signup', (req, res) => {
   res.render('users/signup', { emailErr: "" })
 })
 
-// router.get('/signup_otp',(req,res)=>{
+ router.get('/cart',(req,res)=>{
 
-//   res.render('users/signup_otp')
-// })
+  res.render('users/cart')
+})
 
+router.get('/single_product/:id',(req,res)=>{
+
+  res.render('users/single_product',{id})
+})
+
+// ................................post methods.................................................
 
 router.post('/signup', (req, res) => {
   userHelper.doSignUp(req.body).then((response) => {
@@ -81,7 +92,6 @@ router.post('/login', (req, res) => {
 
 
 router.post('/register', (req, res) => {
-  // progress="50%"
   userHelper.userCheck(req.body).then((response) => {
     if (response.exist) {
       res.render('users/signup', {

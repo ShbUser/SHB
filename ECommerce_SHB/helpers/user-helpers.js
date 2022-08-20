@@ -6,7 +6,7 @@ let objectID = require('mongodb').ObjectId
 
 // ...............for OTP......................
 const accountSid = "AC22e3681b7937cf0418c521f272ad6259"
-const authToken = "702ba3a86f90c2b3f64f464bee7ff074"
+ const authToken = "ASDeer2432434324fsfwr34ad45errew454"
 const serviceSid = "VA6cad9fa25705ba1d0ba9711ca5a77237"
 
 const client = require('twilio')(accountSid, authToken);
@@ -77,6 +77,12 @@ module.exports = {
             })
         })
     }
+
+    //....................................................................................................................
+    
+
+    
+
 
 
 }

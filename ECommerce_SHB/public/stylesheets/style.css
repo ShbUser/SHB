@@ -10,29 +10,17 @@ body{
     overflow-x: hidden;
 }
 
-.bdrShdw{
-    
-   border-radius: .5em;
-    padding-top: 2em;
-    
+.error{
+    color: red;
 }
+
+/* ........................user side................................. */
 .lognMdfy{
     background-image: url("/assets/img/banner2.webp");
     background-size: cover;
     font-size: smaller;
 }
 
-.list-group a:hover{
-    transform: scale(1.1);
-    background-color: teal;
-    color: wheat;
-    /* transition: width 2s;
-    width: 12em; */
-    
-}
-.error{
-    color: red;
-}
 .editColor input{
     border-color: blue;
     background-color: white;
@@ -48,4 +36,22 @@ body{
     opacity: .9;
     margin-top: 20em;
     border-radius: 2em;
+}
+
+.bdrShdw{
+    
+    border-radius: .5em;
+     padding-top: 2em;
+     
+ }
+
+/* ...........................admin................................ */
+
+.list-group a:hover{
+    transform: scale(1.1);
+    background-color: teal;
+    color: wheat;
+    /* transition: width 2s;
+    width: 12em; */
+    
 }

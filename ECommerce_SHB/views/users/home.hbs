@@ -66,49 +66,55 @@
 					data-bs-target="#templatemo_search">
 					<i class="fa fa-fw fa-search text-dark mr-2"></i>
 				</a>
-				<a class="nav-icon position-relative text-decoration-none" href="#">
+				<a class="nav-icon position-relative text-decoration-none" href="/cart">
 					<i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
 					<span
 						class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
 				</a>
-				
+
 				<div class="dropdown">
 					<button class="btn btn-light dropdown-toggle p-0 ms-5" type="button" id="login"
 						data-bs-toggle="dropdown" aria-expanded="false">
 						<i class="fa fa-fw fa-user text-dark mr-3"></i>
 						<span
-						class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span>
+							class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span>
 						{{#if user}}
 						{{user.name}}
 						{{else}}
 						Account
 						{{/if}}
-					</button>					
-					<ul class="dropdown-menu bg-success p-0" aria-labelledby="dropdownMenuButton1">	
-					{{#if user}}
-					<li><a class="dropdown-item" href="/logout"><i class="fa-solid fa-right-from-bracket"></i>Log out</a></li>	
+					</button>
+					<ul class="dropdown-menu bg-success p-0" aria-labelledby="dropdownMenuButton1">
+						{{#if user}}
+						<li><a class="dropdown-item" href="/logout"><i class="fa-solid fa-right-from-bracket"></i>Log
+								out</a></li>
 
-					<li><a class="dropdown-item" href="#"><i class="fa fa-fw fa-user text-dark mr-3"></i>Profile</a></li>
-					
+						<li><a class="dropdown-item" href="#"><i class="fa fa-fw fa-user text-dark mr-3"></i>Profile</a>
+						</li>
 
-					<li><a class="dropdown-item" href="#"> <i class="fa-solid fa-heart"></i>Wish list</a></li>
-						
-					<li><a class="dropdown-item" href="#"> <i class="fa-solid fa-arrow-down-wide-short"></i>Orders</a></li>			
-					{{else}}
-					<li><a class="dropdown-item" href="/login"><i class="fa fa-fw fa-user text-dark mr-3"></i>Login</a></li>
 
-					<li><a class="dropdown-item" href="#"><i class="fa fa-fw fa-user text-dark mr-3"></i>Profile</a></li>
-					
+						<li><a class="dropdown-item" href="#"> <i class="fa-solid fa-heart"></i>Wish list</a></li>
 
-					<li><a class="dropdown-item" href="#"> <i class="fa-solid fa-heart"></i>Wish list</a></li>
-						
-					<li><a class="dropdown-item" href="#"> <i class="fa-solid fa-arrow-down-wide-short"></i>Orders</a></li>
-					{{/if}}
+						<li><a class="dropdown-item" href="#"> <i
+									class="fa-solid fa-arrow-down-wide-short"></i>Orders</a></li>
+						{{else}}
+						<li><a class="dropdown-item" href="/login"><i
+									class="fa fa-fw fa-user text-dark mr-3"></i>Login</a></li>
+
+						<li><a class="dropdown-item" href="#"><i class="fa fa-fw fa-user text-dark mr-3"></i>Profile</a>
+						</li>
+
+
+						<li><a class="dropdown-item" href="#"> <i class="fa-solid fa-heart"></i>Wish list</a></li>
+
+						<li><a class="dropdown-item" href="#"> <i
+									class="fa-solid fa-arrow-down-wide-short"></i>Orders</a></li>
+						{{/if}}
 					</ul>
-					
+
 
 				</div>
-				
+
 			</div>
 		</div>
 
@@ -220,22 +226,40 @@
 			</p>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-12 col-md-4 p-5 mt-3">
-			<a href="#"><img src="./assets/img/category_img_01.jpg" class="rounded-circle img-fluid border"></a>
-			<h5 class="text-center mt-3 mb-3">Womens</h5>
+	<div class="row ">
+		{{#each products}}
+		 <div class="col-md-3 col-xl-2 mt-3">
+            <div class="card " style="width: 180px; height: 300px;">
+                <a href="/single_product/{{this._id}}">
+				<img src="/product-images/{{this._id}}.jpg" class="card-img-top" style="width: 180px; height: 150px;" alt="...">
+				</a>
+                <div class="card-body">
+                    <h5 class="card-title" style="font-weight: bold; font-size: medium;">{{this.name}}</h5>
+                    <h5 class="card-title" style="font-weight: lighter; font-size: medium;">{{this.category}}</h5>
+                    <h5 class="card-title" style="font-weight:normal; font-size: medium;">RS: {{this.price}}</h5>
+                    {{!-- <p class="card-text" style="font-weight: lighter; font-size: medium;">{{this.description}}</p>     --}}                   
+					 <button class="btn btn-outline-light" onclick="addToCart('{{this._id}}') ">
+					<i class="fa-solid fa-heart text-success"></i></button>      
+					 <button class="btn btn-outline-light" onclick="addToCart('{{this._id}}') ">
+					<i class="fa fa-fw fa-cart-arrow-down text-success"></i></button>      
+					
+                </div>
+            </div>            
+
+        </div>
+		{{/each}}
+		{{!-- <div class="col-12 col-md-4 p-5 mt-3">
+			<a href="#"><img src="/product-images/{{this._id}}.jpg" class="rounded-circle img-fluid border"></a>
+			<h2 class="h5 text-center mt-3 mb-3">{{this.category}}</h2>
 			<p class="text-center"><a class="btn btn-success">Go Shop</a></p>
 		</div>
 		<div class="col-12 col-md-4 p-5 mt-3">
-			<a href="#"><img src="./assets/img/category_img_02.jpg" class="rounded-circle img-fluid border"></a>
-			<h2 class="h5 text-center mt-3 mb-3">Mens</h2>
+			<a href="#"><img src="/product-images/{{this._id}}.jpg" class="rounded-circle img-fluid border"></a>
+			<h2 class="h5 text-center mt-3 mb-3">{{this.category}}</h2>
 			<p class="text-center"><a class="btn btn-success">Go Shop</a></p>
-		</div>
-		<div class="col-12 col-md-4 p-5 mt-3">
-			<a href="#"><img src="./assets/img/category_img_03.jpg" class="rounded-circle img-fluid border"></a>
-			<h2 class="h5 text-center mt-3 mb-3">Kids</h2>
-			<p class="text-center"><a class="btn btn-success">Go Shop</a></p>
-		</div>
+
+		</div> --}}
+
 	</div>
 </section>
 <!-- End Categories of The Month -->

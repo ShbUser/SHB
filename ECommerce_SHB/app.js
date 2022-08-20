@@ -6,14 +6,14 @@ let logger = require('morgan');
 let session=require('express-session');
 let db=require('./config/Connection');
 let hbs=require('express-handlebars')
-let multer=require('multer')
+//let multer=require('multer')
 
 let usersRouter = require('./routes/users');
 let adminRouter = require('./routes/admin');
 
 let app = express();
 
-// let fileUpload=require('express-fileupload');
+ let fileUpload=require('express-fileupload');
 // const upload = multer({ dest: "public/files" });
 
 // view engine setup
@@ -29,8 +29,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-// app.use(fileUpload());
-// app.use(upload())
+ app.use(fileUpload());
+// app.use(multer())
 
 db.connect((err)=>{
   if (err) Console.log("Connection err : "+err)

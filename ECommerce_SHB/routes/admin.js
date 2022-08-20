@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 let productHelper = require('../helpers/product-helpers');
 const adminHelper = require('../helpers/admin-helpers');
-const multer  = require('multer')
+const multer = require('multer')
 
 const verifyLogin = (req, res, next) => {
     if (req.session.adminLoggedIn) {
@@ -84,17 +84,17 @@ router.get('/signout', (req, res) => {
     res.redirect('/admin')
 })
 
-router.get('/block-user/:id',(req,res)=>{
-        adminHelper.doBlockUser(req.params.id).then((response)=>{
-            res.redirect('/admin/view_users')
-        })
-        
-})
-router.get('/unblock-user/:id',(req,res)=>{
-    adminHelper.doUnBlockUser(req.params.id).then((response)=>{
+router.get('/block-user/:id', (req, res) => {
+    adminHelper.doBlockUser(req.params.id).then((response) => {
         res.redirect('/admin/view_users')
     })
-    
+
+})
+router.get('/unblock-user/:id', (req, res) => {
+    adminHelper.doUnBlockUser(req.params.id).then((response) => {
+        res.redirect('/admin/view_users')
+    })
+
 })
 
 // .........................................Post methods..........................................................
@@ -116,37 +116,45 @@ router.post('/log_in_ad', (req, res) => {
 })
 
 const storage = multer.diskStorage({
-            destination: function (req, file, cb) {
-              cb(null, './images/')
-            },
-            filename: function (req, file, cb) {
-              cb(null, Date.now() + '-' + file.originalname)
-            },
-                   
-          })
-          const upload = multer({ storage: storage }) 
+    destination: function (req, file, cb) {
+        cb(null, 'public')
+    },
+    filename: function (req, file, cb) {
+        cb(null, `product-images/images-
+        ${file.fieldname}-${Date.now()}.${ext}`)
+    },
+   
+})
+const upload = multer({ storage: storage }).array('myimg', 3)
 
-          function fileUpload(req, res, next) {
-            upload.array('files',2);
-            console.log(storage.destination);
-            next();
-          }
+// function fileUpload(req, res, next) {
+//     upload.array('files', 2);
+//     console.log(storage.destination);
+//     next();
+// }
 
-  
-  
-router.post('/add_product', verifyLogin, fileUpload,(req, res) => {
-    
-    res.redirect('/admin/admin_home')
-    // productHelper.addProduct(req.body).then((id) => {
-        // let image = req.files.img
-        // image.mv('./public/product-images/' + id + '.jpg', (err, done) => {
-        //     if (!err)
-        //         res.redirect('/admin/view_products')
-        //     else console.log(err)
-        // })
+
+
+router.post('/add_product',verifyLogin, (req, res) => {
         
+        //  console.log(req.files);
+        // const images = req.files
+        // console.log(images);
+        // let array = []
+        // array = images.map((value) => value.filename)
+        // console.log(array);
+        // req.body.myimg = array
+
+        productHelper.addProduct(req.body).then((id) => {
+            let image = req.files.img
+            image.mv('./public/product-images/' + id + '.jpg', (err, done) => {
+                if (!err)
+            res.redirect('/admin/view_products')
+                else console.log(err)
+            })
+
+        })
     })
-// })
 
 router.post('/add-categories', verifyLogin, (req, res) => {
     productHelper.addCategory(req.body).then((response) => {
