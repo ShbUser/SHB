@@ -1,10 +1,13 @@
 
 
 
+
 async function otpVerify() {
+
     this.document.getElementById('wrong').value = "Please Wait..."
     let otp = document.getElementById('otpID').value
-    const res = await axios.post('/signUpOtpVerify', { otp: otp })
+    alert(":vrfy")
+    await axios.post('/signUpOtpVerify', { otp: otp }) 
         .then((e) => {
             if (e.data.status) {
                 location.href = '/'
@@ -12,29 +15,48 @@ async function otpVerify() {
                 document.getElementById('wrong').value = "!!! You Entered Wrong OTP"
             }
         })
-    }
+}
 
-// async function emailVerify(){
-//     alert("ok")
-//     // let name=document.getElementById('name').value
-//      let email=document.getElementById('email').value
-//     // let mobile=document.getElementById('mobile').value
-//     // let password=document.getElementById('password').value
 
-//     await axios.post('/',{
-//         // name:name,
-//          email:email,
-//         // mobile:mobile,
-//         // password:password
-//     }).then((e)=>{
-//         if(e.data.status){
-//             document.getElementById('emailEr').innerHTML="Error"
+// module.exports={
+//    emailVerify:async()=> {
+//     let email = document.getElementById('emailfield').value
+//     await axios.post('/email_Verification', {
+//         email: email
+//     }).then((e) => {
+//         if (e.data.status) {
+//             emailErr=true
+//             document.getElementById('emailEr').innerHTML = "!!!..Entered email allready exist..."
+        
 //         }
-//         else{
-//             location.href='users/signup_otp'
-//         }
-
+//         return true
+//         // else {
+//         //     register()
+//         // }
 //     })
+// }
+// }
+// async function register() {
+
+//     document.getElementById('emailEr').innerHTML =""   
+//     let name = document.getElementById('namefield').value 
+//     let email = document.getElementById('emailfield').value
+//     let mobile = document.getElementById('mobilefield').value    
+//     let password = document.getElementById('passwordfield').value
+//     await axios.post('/register', {    
+          
+//         name: name,
+//         email: email,
+//         mobile: mobile,
+//         password: password
+        
+//     }).then((e) => {
+//         if (e.data.status) {
+//             alert("ok")
+//             location.href = '/signup_otp'
+//         }
+
+//      })
 // }
 
 

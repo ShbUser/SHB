@@ -1,7 +1,8 @@
 let express = require('express');
+const { resolve } = require('promise');
 let router = express.Router();
 let userHelper = require('../helpers/user-helpers')
-let scrpt= require('../public/javascripts/script')
+let scrpt = require('../public/javascripts/script')
 
 /* GET users listing. */
 let user
@@ -30,9 +31,15 @@ router.get('/login', (req, res) => {
 })
 
 router.get('/signup', (req, res) => {
-  
-  res.render('users/signup',{emailErr:""})
+
+  res.render('users/signup', { emailErr: "" })
 })
+
+// router.get('/signup_otp',(req,res)=>{
+
+//   res.render('users/signup_otp')
+// })
+
 
 router.post('/signup', (req, res) => {
   userHelper.doSignUp(req.body).then((response) => {
@@ -56,49 +63,57 @@ router.post('/login', (req, res) => {
   })
 
 })
+
+
 // router.post("/email_Verification", async (req, res) => {
-  
+
 //   userHelper.userCheck(req.body).then((response) => {
 //     if (response.exist) {
 //       response.status=true
 //       res.json({status :true})
 //     }
+//     else{
+//       response.status=
+//       res.json({status :false})
+//     }
 //   })
 // })
 
 
-router.post("/register", async (req, res) => {
+router.post('/register', (req, res) => {
   // progress="50%"
   userHelper.userCheck(req.body).then((response) => {
     if (response.exist) {
-      res.render('users/signup',{emailErr:"!!!..Entered email allready exist..."})
-    } else {
-      userHelper.sendOtp(req.body.mobile).then((data) => {
-        req.session.user = req.body
-        req.session.mobile = req.body.mobile
+      res.render('users/signup', {
+         emailErr: "!!!..Entered email allready exist...",name:req.body.name,mobile:req.body.mobile 
+        })
+    }
+    else {
+       userHelper.sendOtp(req.body.mobile).then((response) => {
+        req.session.user = req.body        
         res.render('users/signup_otp')
-      })
+       })
     }
   })
-});
+})
 
 router.post('/signUpOtpVerify', (req, res) => {
   let response = {}
-  userHelper.verifyOtp(req.body, req.session.mobile).then((check) => {
+  userHelper.verifyOtp(req.body, req.session.user.mobile).then((check) => {
     if (check === 'approved') {
       req.session.user.isBlock = false
       userHelper.doSignUp(req.session.user).then((data) => {
         user = req.session.user
         req.session.userLoggedIn = true
-       response.status = true
-       res.json({status:true})
+        response.status = true
+        res.json({ status: true })
       })
-    }else{
+    } else {
       response.status = false
-      res.json({status:false})
+      res.json({ status: false })
     }
 
-    
+
   })
 })
 

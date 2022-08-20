@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 let productHelper = require('../helpers/product-helpers');
 const adminHelper = require('../helpers/admin-helpers');
+const multer  = require('multer')
 
 const verifyLogin = (req, res, next) => {
     if (req.session.adminLoggedIn) {
@@ -24,7 +25,7 @@ router.get('/admin_home', verifyLogin, (req, res) => {
 
 router.get('/add_products', verifyLogin, (req, res) => {
     productHelper.getCategory().then((category) => {
-        console.log(category);
+        // console.log(category);
         res.render('admin/add_products', { admin: true, category })
     })
 })
@@ -114,16 +115,38 @@ router.post('/log_in_ad', (req, res) => {
 
 })
 
-router.post('/add_product', verifyLogin, (req, res) => {
-    productHelper.addProduct(req.body).then((id) => {
-        let image = req.files.img
-        image.mv('./public/product-images/' + id + '.jpg', (err, done) => {
-            if (!err)
-                res.redirect('/admin/view_products')
-            else console.log(err)
-        })
+const storage = multer.diskStorage({
+            destination: function (req, file, cb) {
+              cb(null, './images/')
+            },
+            filename: function (req, file, cb) {
+              cb(null, Date.now() + '-' + file.originalname)
+            },
+                   
+          })
+          const upload = multer({ storage: storage }) 
+
+          function fileUpload(req, res, next) {
+            upload.array('files',2);
+            console.log(storage.destination);
+            next();
+          }
+
+  
+  
+router.post('/add_product', verifyLogin, fileUpload,(req, res) => {
+    
+    res.redirect('/admin/admin_home')
+    // productHelper.addProduct(req.body).then((id) => {
+        // let image = req.files.img
+        // image.mv('./public/product-images/' + id + '.jpg', (err, done) => {
+        //     if (!err)
+        //         res.redirect('/admin/view_products')
+        //     else console.log(err)
+        // })
+        
     })
-})
+// })
 
 router.post('/add-categories', verifyLogin, (req, res) => {
     productHelper.addCategory(req.body).then((response) => {

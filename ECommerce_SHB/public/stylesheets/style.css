@@ -17,7 +17,7 @@ body{
     
 }
 .lognMdfy{
-    background-image: url("/assets/img/banner3.webp");
+    background-image: url("/assets/img/banner2.webp");
     background-size: cover;
     font-size: smaller;
 }
@@ -38,7 +38,7 @@ body{
     background-color: white;
 }
 .signupPage{
-    background-image: url("/assets/img/banner3.webp");
+    background-image: url("/assets/img/banner2.webp");
     background-size: cover;
     height: 37em;
 

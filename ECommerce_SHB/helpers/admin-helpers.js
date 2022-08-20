@@ -11,7 +11,7 @@ module.exports = {
             let response = {}
             let user = await db.get().collection(collection.ADMIN_COLLECTION).findOne({ email: adminData.email, password: adminData.password })
             if (user) {
-                console.log(user);
+                // console.log(user);
                 response.user = user
                 response.status = true;
             }

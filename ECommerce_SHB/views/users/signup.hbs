@@ -9,22 +9,20 @@
             <div class="container  mt-5 pt-5">
 
                 <h2 class="text-center">Register your account</h2>
-
+                <form action="/register" method="post" id="mysignupform">
                 <div class="progress" style="height: 2px;">
                     <div class="progress-bar bg-success" role="progressbar" id="progressID" aria-valuenow="25"
                         aria-valuemin="50" aria-valuemax="80"></div>
-                </div>
-
-                <form action="/register" method="post" id="mysignupform">
+                </div>               
                     <div class="mb-3">
                         <label for="" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="namefield" name="name" onchange="">
-
+                        <input type="text" class="form-control" id="namefield" name="name" value="{{name}}">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="" aria-describedby="emailHelp" name="email"
-                            id="email_vetrify">
+                        <input type="email" class="form-control" id="emailfield" 
+                         aria-describedby="emailHelp" name="email">
+                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                         {{#if emailErr}}
                         
                         <script>
@@ -38,29 +36,29 @@
                             
                         </script> 
                         {{/if}}
-                       <label style="color: red;">{{emailErr}}</label>
-
-                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                       <label style="color: red;" id="emailEr">{{emailErr}}</label>
+                        
                     </div>
                     <label for="exampleInputEmail1" class="form-label">Mobile</label>
                     <div class="mb-3">
-                        <input type="text" class="form-control" id="recipient-name" name="mobile">
+                        <input type="text" class="form-control" id="mobilefield" name="mobile" value="{{mobile}}">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="" name="password">
+                        <input type="password" class="form-control" id="passwordfield" name="password">
                     </div>
-                    <a href="/login" style="font-size:small; color: blue;">Allready have account ?</a>
-
-                    <button type="submit"  class="btn btn-primary" id="btn" style="float:right;">
-                        Register</button>
+                    <a href="/users/login" style="font-size:small; color: blue;">Allready have account ?</a>
+                    <button type="submit"  class="btn btn-outline-primary" style="float:right;"> Register</button>
                 </form>
+                    
+               
 
             </div>
         </div>
     </div>
 </section>
 <script>
+
 
     $(document).ready(function () {
         $("#mysignupform").validate({
@@ -72,6 +70,7 @@
                 },
                 email: {
                     required: true
+                    
                 },
                 mobile: {
                     required: true
