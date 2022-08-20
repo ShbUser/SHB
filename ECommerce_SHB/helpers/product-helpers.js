@@ -21,6 +21,13 @@ module.exports = {
         })
 
     },    
+    getSingleProduct:(proID)=>{
+         return new Promise((resolve,reject)=>{         
+             db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id:objectID(proID)}).then((product)=>{                 
+                 resolve(product) 
+             })
+         })
+     },
 
     getAllProducts: () => {
         return new Promise(async (resolve, reject) => {

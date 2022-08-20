@@ -1,3 +1,4 @@
+const { response } = require("express")
 
 
 
@@ -16,6 +17,19 @@ async function otpVerify() {
             }
         })
 }
+
+async function addToCart(proID) {
+  await axios.get('/add-to-cart/'+proID).then((e)=>{
+                if (e.data.status)
+                 {
+                alert("Item added")              
+                let count = document.getElementById('cart-count').value
+                count = parseInt(count) + 1
+                document.getElementById('cart-count').value=count
+                 }
+    })
+}
+
 
 
 // module.exports={

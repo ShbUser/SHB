@@ -76,12 +76,52 @@ module.exports = {
                 resolve(verification_check.status)
             })
         })
-    }
+    },
 
     //....................................................................................................................
     
 
-    
+    getUserCart: (prod, userID) => {
+        let proObj = {
+            item: objectID(prod),
+            quantity: 1
+        }
+        return new Promise(async (resolve, reject) => {
+
+            let user = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectID(userID) })
+
+            if (user) {
+                let prodExist = user.product.findIndex(produc => produc.item == prod)
+                //console.log(prodExist)
+                if (prodExist != -1) {
+                    db.get().collection(collection.CART_COLLECTION).updateOne({ user: objectID(userID), 'product.item': objectID(prod) }, {
+                        $inc: { 'product.$.quantity': 1 }
+                    }
+                    ).then(() => {
+                        resolve()
+                    })
+                } else {
+                    db.get().collection(collection.CART_COLLECTION).updateOne({ user: objectID(userID) },
+                        {
+                            $push: { product: proObj }
+                        }).then((userID) => {
+                            resolve()
+                        })
+                }
+            }
+            else {
+                let objCart = {
+                    user: objectID(userID),
+                    product: [proObj]
+                }
+
+                db.get().collection(collection.CART_COLLECTION).insertOne(objCart).then((userID) => {
+                    resolve()
+                })
+            }
+
+        })
+    }
 
 
 

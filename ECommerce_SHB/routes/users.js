@@ -46,8 +46,18 @@ router.get('/signup', (req, res) => {
 })
 
 router.get('/single_product/:id',(req,res)=>{
+  productHelper.getSingleProduct(req.params.id).then((product)=>{
+    res.render('users/single_product',{product})
+  })
+  
+})
 
-  res.render('users/single_product',{id})
+router.get('/add-to-cart/:id',verifyLogin, (req, res) => {
+  console.log(req.params.id);
+  console.log(req.session.user._id);
+  userHelper.getUserCart(req.params.id, req.session.user._id).then((cartItems) => {
+    res.json({ status: true })
+  })
 })
 
 // ................................post methods.................................................
