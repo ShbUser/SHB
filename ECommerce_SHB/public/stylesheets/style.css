@@ -44,6 +44,14 @@ body{
      padding-top: 2em;
      
  }
+ .checkout{
+    box-shadow: 20px 25px 30px black;
+    border-radius: 2em;
+ }
+
+ .checkoutAnthr{
+    writing-mode: vertical-rl;
+ }
 
 /* ...........................admin................................ */
 

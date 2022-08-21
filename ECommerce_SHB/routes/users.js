@@ -19,6 +19,8 @@ const verifyLogin = (req, res, next) => {
 }
 
 router.get('/', function (req, res, next) {
+      // res.render('users/place_order',{user_head:true})
+
   if (req.session.userLoggedIn) {
     user = req.session.user
   }
@@ -88,7 +90,7 @@ router.get('/del-cart-item/:id', verifyLogin, (req, res) => {
 
 router.get('/place_order', verifyLogin, async (req, res) => {
   let total = await userHelper.getTotalAmount(req.session.user._id)
-  res.render('user/place_order', { total, user: req.session.user })
+  res.render('users/place_order', { user_head:true, total, user: req.session.user })
 })
 
 // ................................post methods.................................................
