@@ -1,7 +1,3 @@
-const { response } = require("express")
-
-
-
 
 async function otpVerify() {
 
@@ -22,14 +18,38 @@ async function addToCart(proID) {
   await axios.get('/add-to-cart/'+proID).then((e)=>{
                 if (e.data.status)
                  {
-                alert("Item added")              
-                let count = document.getElementById('cart-count').value
-                count = parseInt(count) + 1
-                document.getElementById('cart-count').value=count
+                alert("Item added to cart")
+                if(isNaN(document.getElementById('cart-count').value)){ document.getElementById('cart-count').innerHTML=0 }
+                let count = document.getElementById('cart-count').innerHTML
+                count = parseInt(count) + 1                
+                document.getElementById('cart-count').value=1;
+                document.getElementById('cart-count').innerHTML=count
+                // alert(document.getElementById('cart-count').innerHTML)
+                 }
+                 else{
+                    location.href='/login'
                  }
     })
 }
 
+async function setToCount(proid) {    
+    qty = document.getElementById(proid).value    
+    await axios.post('/set-quantity', { prod: proid,  qt: qty }).then((e)=>{
+            if(e.data.status){       
+                 alert("Quantity updated")      
+                document.getElementById('total-price').innerHTML=e.data.total               
+            }
+    })    
+}
+
+async function delCartItem(prodID) {
+    await axios.get('/del-cart-item/'+prodID).then((e)=>{
+        if (e.data.status) {
+            alert("Item deleted")
+            document.getElementById('total-price').innerHTML=e.data.total
+        }
+    })    
+}      
 
 
 // module.exports={

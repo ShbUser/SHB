@@ -120,5 +120,23 @@ module.exports = {
     },
 
 
+    // .....................cart.................................
+
+    getCountCart:(userID)=>{
+        return new Promise(async(resolve,reject)=>{
+            
+            let cart =await db.get().collection(collection.CART_COLLECTION).findOne({user:objectID(userID)})
+            if(cart!=null){
+            cart=cart.product.length
+            
+             resolve(cart)
+            }else {
+                resolve(0)
+            }
+           
+        })
+        
+    }
+    
 
 }
