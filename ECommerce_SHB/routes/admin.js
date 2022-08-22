@@ -12,7 +12,18 @@ const verifyLogin = (req, res, next) => {
         res.redirect('/admin')
     }
 }
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public')
+    },
+    filename: function (req, file, cb) {
+        const ext= file.mimetype.split("/")[1]
 
+        cb(null, `product-images/images-${file.fieldname}-${Date.now()}.${ext}`)
+    },
+   
+})
+const upload = multer({ storage: storage })
 // ................................. GET methods................................................
 
 router.get('/', (req, res) => {
@@ -34,15 +45,19 @@ router.get('/add_categories', verifyLogin, (req, res) => {
     productHelper.getCategory().then((category) => {
         res.render('admin/add_categories', { admin: true, category })
     })
-
 })
 
 router.get('/view_products', verifyLogin, (req, res) => {
     productHelper.getAllProducts().then((products) => {
-        console.log(products);
-        res.render('admin/view_products', { admin: true, products });
+    //    productHelper.getUpdateCategory(products[0].category).then((category)=>{
+        // if(category!=undefined){
+        // products[0].categoryName=category.name
+        // }
+        res.render('admin/view_products', { admin: true, products});
+       })
+        
     })
-})
+// })
 
 router.get('/view_users', verifyLogin, (req, res) => {
     adminHelper.getAllUsers().then((users) => {
@@ -72,9 +87,12 @@ router.get('/delete_products/:id', verifyLogin, (req, res) => {
 
 router.get('/edit_products/:id', verifyLogin, (req, res) => {
 
-    productHelper.getCategory().then((category) => {
+    productHelper.getCategory().then((categories) => {
         productHelper.getUpdateProduct(req.params.id).then((product) => {
-            res.render('admin/edit_products', { admin: true, product, category })
+            productHelper.getUpdateCategory(product.category).then((category)=>{
+                 res.render('admin/edit_products', { admin: true, categories,product,category })
+            })
+           
         })
 
     })
@@ -115,17 +133,7 @@ router.post('/log_in_ad', (req, res) => {
 
 })
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'public')
-    },
-    filename: function (req, file, cb) {
-        cb(null, `product-images/images-
-        ${file.fieldname}-${Date.now()}.${ext}`)
-    },
-   
-})
-const upload = multer({ storage: storage }).array('myimg', 3)
+
 
 // function fileUpload(req, res, next) {
 //     upload.array('files', 2);
@@ -135,23 +143,20 @@ const upload = multer({ storage: storage }).array('myimg', 3)
 
 
 
-router.post('/add_product',verifyLogin, (req, res) => {
-        
-        //  console.log(req.files);
-        // const images = req.files
-        // console.log(images);
-        // let array = []
-        // array = images.map((value) => value.filename)
-        // console.log(array);
-        // req.body.myimg = array
+router.post('/add_product',verifyLogin,upload.array('img', 3) , (req, res) => {
+        const images = req.files
+        let array = []
+        array = images.map((value) => value.filename)
+        console.log(array);
+        req.body.myimg = array
 
         productHelper.addProduct(req.body).then((id) => {
-            let image = req.files.img
-            image.mv('./public/product-images/' + id + '.jpg', (err, done) => {
-                if (!err)
-            res.redirect('/admin/view_products')
-                else console.log(err)
-            })
+            // let image = req.files.img
+            // image.mv('./public/product-images/' + id + '.jpg', (err, done) => {
+            //     if (!err)
+             res.redirect('/admin/view_products')
+            //     else console.log(err)
+            // })
 
         })
     })
@@ -169,12 +174,14 @@ router.post('/update-categories/:id', verifyLogin, (req, res) => {
 })
 
 router.post('/update_product/:id', verifyLogin, (req, res) => {
+    console.log(req.body,"ssssssssssssssssssssssssssssssssssssss")
     productHelper.setUpdateProduct(req.body, req.params.id).then((response) => {
+        
         res.redirect('/admin/view_products')
-        if (req.files.image) {
-            let image = req.files.image
-            image.mv('./public/product-images/' + req.params.id + '.jpg')
-        }
+        // if (req.files.image) {
+        //     let image = req.files.image
+        //     image.mv('./public/product-images/' + req.params.id + '.jpg')
+        // }
     })
 })
 

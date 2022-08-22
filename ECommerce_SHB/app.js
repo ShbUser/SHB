@@ -13,7 +13,7 @@ let adminRouter = require('./routes/admin');
 
 let app = express();
 
- let fileUpload=require('express-fileupload');
+//  let fileUpload=require('express-fileupload');
 // const upload = multer({ dest: "public/files" });
 
 // view engine setup
@@ -29,7 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
- app.use(fileUpload());
+//  app.use(fileUpload());
 // app.use(multer())
 
 db.connect((err)=>{
@@ -38,7 +38,7 @@ db.connect((err)=>{
   console.log("Database connection successfully")
 })
 
-app.use(session({secret:"key", resave:true, saveUninitialized:true,cookie:{maxAge:600000}}))
+app.use(session({secret:"key", resave:true, saveUninitialized:true,cookie:{maxAge:60000000}}))
 
 app.use(function (req,res,next) {
   res.header('Cache-Control','no-store')

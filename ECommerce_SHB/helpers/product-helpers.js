@@ -33,6 +33,21 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let product = await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
             resolve(product)
+            // let product = await db.get().collection(collection.PRODUCT_COLLECTION).agregate([
+            //     {
+            //         $lookup: {
+            //             from: collection.CART_COLLECTION,
+            //             localField: 'category',
+            //             foreignField: '_id',
+            //             as: 'product'
+            //         }
+
+            //     },
+            //     {
+
+            //     }
+
+            // ])
         })
     },
 
@@ -55,7 +70,8 @@ module.exports = {
                         size: products.size,                        
                         category: products.category,
                         qty: products.qty,
-                        description: products.description
+                        description: products.description,
+                        myimg:products.myimg
                     }
                 }).then((response) => {
                     resolve(response)

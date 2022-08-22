@@ -23,20 +23,16 @@
                 <input type="text" class="form-control" id="inputAddress" placeholder="Size" name="size"
                     value="{{product.size}}" required>
                 <br>
-                <div class="btn-group dropdown">
-                    <button type="button" class="btn btn-light dropdown-toggle btn-sm" data-bs-toggle="dropdown"
-                        aria-expanded="false" name="catgry"> Category
-                    </button>
-                    <ul class="dropdown-menu">
 
-                        {{!-- add Categories from collection --}}
-                        {{#each category}}
-                        <li><button class="dropdown-item" type="button">{{this.name}}</button></li>
-                        {{/each}}
+                <select class="form-select" aria-label="Default select example" name="category">
+                    <option selected>{{category.name}}</option>
+                    {{#each categories}}
+                    <option value="{{this._id}}">{{this.name}}</option>
+                    {{/each}}
+                </select>
 
-                    </ul><input type="text" class="form-control" id="inputAddress" placeholder="" name="category"
-                        value="{{product.category}}" required>
-                </div><br><br>
+
+                <br><br>
 
                 <input type="text" class="form-control" id="inputAddress" placeholder="Qauantity" name="qty"
                     value="{{product.qty}}" required>
@@ -46,11 +42,13 @@
                     value="{{product.description}}" required>
                 <br>
                 <label for="inputCity" class="form-label">Image</label>
-                <img src="/product-images/{{product._id}}.jpg" style="width: 100px; height: 70px;" id="preview" class="rounded-circle">
+                <img src="/{{product.myimg.[0]}}" style="width: 100px; height: 70px;" id="preview"
+                    class="rounded-circle">
 
-                <input class="form-control" type="file" id="formFile" name="image" onchange="previewFile(event)">
+                <input class="form-control" type="file" id="img" name="img" multiple onchange="previewFile(event)">
 
-                <div><button type="submit" class="btn btn-outline-success mt-2"><i class="fa-solid fa-cloud-arrow-up"></i>Update</button></div>
+                <div><button type="submit" class="btn btn-outline-success mt-2"><i
+                            class="fa-solid fa-cloud-arrow-up"></i>Update</button></div>
 
 
             </form>
@@ -58,6 +56,7 @@
 
     </section>
 </div>
+
 <script>
     function previewFile(event) {
         document.getElementById('preview').src = URL.createObjectURL(event.target.files[0])

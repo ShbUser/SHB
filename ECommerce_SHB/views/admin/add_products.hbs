@@ -24,18 +24,18 @@
                 <select class="form-select" aria-label="Default select example" name="category">
                     <option selected>Select Category</option>
                     {{#each category}}
-                    <option value="{{this.name}}">{{this.name}}</option>
+                    <option value="{{this._id}}">{{this.name}}</option>
                     {{/each}}
                 </select><br>
 
-                <input type="number" class="form-control" id="inputAddress" placeholder="Qauantity" name="qty" required>
+                <input type="number" class="form-control" id="inputAddress" placeholder="Qauantity" min="1" step="1" name="qty" required>
                 <br>
 
                 <input type="text" class="form-control" id="inputCity" placeholder="Description" name="description"
                     required>
                 <br>
                 <label for="inputCity" class="form-label">Image</label>
-                <input class="form-control btn btn-outline-success" type="file" id="formFile" name="img" multiple required>
+                <input class="form-control btn btn-outline-success" type="file" id="img" name="img"  multiple>
                 <div class="ms-auto">
                 <button type="submit" class="btn btn-outline-success"> <i class="fa-solid fa-cloud-arrow-up"></i>Save</button>
                 </div>

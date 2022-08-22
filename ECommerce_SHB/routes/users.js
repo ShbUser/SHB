@@ -32,8 +32,7 @@ router.get('/', function (req, res, next) {
   })
 
 });
-router.get('/home', (res, req) => {
-
+router.get('/home', (req, res) => {
   res.redirect('/')
 })
 
