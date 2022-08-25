@@ -31,24 +31,41 @@ module.exports = {
 
     getAllProducts: () => {
         return new Promise(async (resolve, reject) => {
-            let product = await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
+            // let product = await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
+            // resolve(product)
+            let product = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate(
+                [
+                    {
+                      $set: {'category': {  '$toObjectId': '$category'   }
+                      }
+                    },
+                    //  {
+                    //   $lookup: 
+                    //   {
+                    //     'from': 'category', 
+                    //     'localField': 'category', 
+                    //     'foreignField': '_id', 
+                    //     'as': 'category'
+                    //   }
+                    // },
+                    
+                     // {
+                //     $set : {category : {$toObjectId : '$category'}} 
+                // },
+                {
+                    $lookup: {
+                        from: collection.CATEGORY_COLLECTION,
+                        localField: 'category',
+                        foreignField: '_id',
+                        as: 'category'
+                    }
+                }
+            ]).toArray()
+            //  console.log(product);
             resolve(product)
-            // let product = await db.get().collection(collection.PRODUCT_COLLECTION).agregate([
-            //     {
-            //         $lookup: {
-            //             from: collection.CART_COLLECTION,
-            //             localField: 'category',
-            //             foreignField: '_id',
-            //             as: 'product'
-            //         }
-
-            //     },
-            //     {
-
-            //     }
-
-            // ])
         })
+        
+       
     },
 
     getUpdateProduct: (proID) => {

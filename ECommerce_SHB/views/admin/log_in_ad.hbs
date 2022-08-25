@@ -1,10 +1,9 @@
-<section>
-    
-    <div class="row">
-        <div class="col-md-4 m-auto">
-            <div class="container mt-5 pt-5">
-                <h2 class="text-center">Login</h2>
-        <form action="/admin/log_in_ad" method="post">
+<section class="lognAdmMdfy">
+    <div class="row ">
+        <div class="col-md-4 m-auto  loginAdm editColor">
+            <img src="/assets/img/admin.jpg" alt="image" width="200" >
+                <h2 class="text-center">Admin Login</h2>
+         <form action="/admin/log_in_ad" method="post">
         
         {{#if loginErr}}
         
@@ -19,10 +18,10 @@
                 <label for="exampleInputPassword1" class="form-label">Password</label>
                 <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
             </div>
-           <a href="/signup">Create a new account ?</a>
-            <button type="submit" class="btn btn-primary"style="float:right;">Login</button>
+           {{!-- <a href="/signup">Create a new account ?</a> --}}
+            <button type="submit" class="btn btn-outline-success border-0"style="float:right;">Login</button>
         </form>
         </div>
-        </div>
+       
     </div>
 </section>

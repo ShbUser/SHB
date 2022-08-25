@@ -10,15 +10,24 @@
     <hr>
 
     <section>
-        <div class="d-flex justify-content-center bdrShdw">
+        <div class="d-flex justify-content-center bdrShdw ">
             <form action="/admin/add_product" method="POST" enctype="multipart/form-data">
                 <p>Add &nbsp;<span><b><u>Products</u></b></span> </p>
-                <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="name" required>
-                <br>
-                <input type="number" class="form-control" id="inputAddress" name="price" placeholder="price" required>
-                <br>
-                <input type="text" class="form-control" id="inputAddress" placeholder="Size" name="size" required>
-                <br>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="name" required>
+                    <label for="floatingInput">Name</label>
+                    
+                </div>
+                <div class="form-floating">
+                    <input type="number" class="form-control" id="inputAddress" name="price" placeholder="price"
+                        required>
+                    
+                    <label for="floatingInput">Price</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="inputAddress" placeholder="Size" name="size" required>
+                    <label for="floatingInput">Size</label>
+                </div>
                 {{!-- add Categories from collection --}}
 
                 <select class="form-select" aria-label="Default select example" name="category">
@@ -27,17 +36,21 @@
                     <option value="{{this._id}}">{{this.name}}</option>
                     {{/each}}
                 </select><br>
-
-                <input type="number" class="form-control" id="inputAddress" placeholder="Qauantity" min="1" step="1" name="qty" required>
-                <br>
-
-                <input type="text" class="form-control" id="inputCity" placeholder="Description" name="description"
-                    required>
-                <br>
-                <label for="inputCity" class="form-label">Image</label>
-                <input class="form-control btn btn-outline-success" type="file" id="img" name="img"  multiple>
+                <div class="form-floating">
+                    <input type="number" class="form-control" id="inputAddress" placeholder="Qauantity" min="1" step="1"
+                        name="qty" required>
+                <label for="floatingInput">Quantity</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="inputCity" placeholder="Description" name="description"
+                        required>
+                    <label for="floatingInput">Description</label>
+                </div>
+                <label for="" class="form-label">Image</label>
+                <input class="form-control btn btn-outline-success" type="file" id="img" name="img" multiple>
                 <div class="ms-auto">
-                <button type="submit" class="btn btn-outline-success"> <i class="fa-solid fa-cloud-arrow-up"></i>Save</button>
+                    <button type="submit" class="btn btn-outline-success"> <i
+                            class="fa-solid fa-cloud-arrow-up"></i>Save</button>
                 </div>
 
 

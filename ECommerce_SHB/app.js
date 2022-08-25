@@ -12,7 +12,7 @@ let usersRouter = require('./routes/users');
 let adminRouter = require('./routes/admin');
 
 let app = express();
-
+const oneday=1000*60*60*24
 //  let fileUpload=require('express-fileupload');
 // const upload = multer({ dest: "public/files" });
 
@@ -38,7 +38,7 @@ db.connect((err)=>{
   console.log("Database connection successfully")
 })
 
-app.use(session({secret:"key", resave:true, saveUninitialized:true,cookie:{maxAge:60000000}}))
+app.use(session({secret:"key", resave:true, saveUninitialized:true,cookie:{maxAge:oneday}}))
 
 app.use(function (req,res,next) {
   res.header('Cache-Control','no-store')

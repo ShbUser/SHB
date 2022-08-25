@@ -1,7 +1,7 @@
 <div class="container">
     <header>
-        <div class="row  text-center">
-            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="row  text-center ">
+            <div class="col-12 col-md-12 col-lg-12 col-xl-12 ">
                 <h4><span class="text-success">SHB</span> online hub Administrator</h4>
             </div>
         </div>
@@ -10,7 +10,7 @@
     <hr>
 
     <section>
-        <div class="d-flex justify-content-center bdrShdw">
+        <div class="d-flex justify-content-center editColor">
             <form action="/admin/update_product/{{product._id}}" method="POST" enctype="multipart/form-data">
                 <p>Update &nbsp;<span><b><u>Products</u></b></span> </p>
 
@@ -24,7 +24,7 @@
                     value="{{product.size}}" required>
                 <br>
 
-                <select class="form-select" aria-label="Default select example" name="category">
+                <select class="form-select" aria-label="Default select example" name="category" style="border-color: blue;">
                     <option selected>{{category.name}}</option>
                     {{#each categories}}
                     <option value="{{this._id}}">{{this.name}}</option>
@@ -32,7 +32,7 @@
                 </select>
 
 
-                <br><br>
+                <br>
 
                 <input type="text" class="form-control" id="inputAddress" placeholder="Qauantity" name="qty"
                     value="{{product.qty}}" required>
@@ -42,7 +42,7 @@
                     value="{{product.description}}" required>
                 <br>
                 <label for="inputCity" class="form-label">Image</label>
-                <img src="/{{product.myimg.[0]}}" style="width: 100px; height: 70px;" id="preview"
+                <img src="/product-images/{{product.myimg.[0]}}" style="width: 100px; height: 70px;" id="preview"
                     class="rounded-circle">
 
                 <input class="form-control" type="file" id="img" name="img" multiple onchange="previewFile(event)">

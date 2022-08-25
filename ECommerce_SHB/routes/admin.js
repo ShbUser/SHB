@@ -14,12 +14,12 @@ const verifyLogin = (req, res, next) => {
 }
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'public')
+        cb(null, 'public/product-images')
     },
     filename: function (req, file, cb) {
         const ext= file.mimetype.split("/")[1]
 
-        cb(null, `product-images/images-${file.fieldname}-${Date.now()}.${ext}`)
+        cb(null, `images-${file.fieldname}-${Date.now()}.${ext}`)
     },
    
 })

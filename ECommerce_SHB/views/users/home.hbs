@@ -102,11 +102,11 @@
 		 <div class="col-md-3 col-xl-2 mt-3">
             <div class="card " style="width: 180px; height: 300px;">
                 <a href="/single_product/{{this._id}}">
-				<img src="/product-images/{{this._id}}.jpg" class="card-img-top" style="width: 180px; height: 150px;" alt="...">
+				<img src="/product-images/{{this.myimg.[0]}}" class="card-img-top" style="width: 180px; height: 180px;" alt="...">
 				</a>
                 <div class="card-body">
                     <h5 class="card-title" style="font-weight: bold; font-size: medium;">{{this.name}}</h5>
-                    <h5 class="card-title" style="font-weight: lighter; font-size: medium;">{{this.category}}</h5>
+                    <h5 class="card-title" style="font-weight: lighter; font-size: medium;">{{this.[0].name}}</h5>
                     <h5 class="card-title" style="font-weight:normal; font-size: medium;">RS: {{this.price}}</h5>
                     {{!-- <p class="card-text" style="font-weight: lighter; font-size: medium;">{{this.description}}</p>     --}}                   
 					 <button class="btn btn-outline-light" onclick="wishlist('{{this._id}}') ">

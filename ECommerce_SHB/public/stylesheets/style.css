@@ -63,3 +63,16 @@ body{
     width: 12em; */
     
 }
+.loginAdm{
+    background-color: rgb(255, 255, 255);
+    
+    box-shadow: 5px 1px 15px rgb(0, 0, 0);
+    border-radius: 2em;
+
+}
+.lognAdmMdfy{
+ background-image: url("/assets/img/bckgr_squares_031.jpg");
+    margin-top:7rem;
+     background-size: cover;
+    font-size: smaller;
+}

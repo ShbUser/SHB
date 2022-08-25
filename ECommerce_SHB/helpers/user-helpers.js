@@ -6,7 +6,7 @@ let objectID = require('mongodb').ObjectId
 
 // ...............for OTP......................
 const accountSid = "AC22e3681b7937cf0418c521f272ad6259"
- const authToken = "ASDeer2432434324fsfwr34ad45errew454"
+const authToken = "ASDeer2432434324fsfwr34ad45errew454"
 const serviceSid = "VA6cad9fa25705ba1d0ba9711ca5a77237"
 
 const client = require('twilio')(accountSid, authToken);
@@ -27,7 +27,7 @@ module.exports = {
 
         let response = {}
         return new Promise(async (resolve, reject) => {
-            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ email: userData.email,isBlock:false  })
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ email: userData.email, isBlock: false })
             // console.log(user);
             if (user) {
 
@@ -48,7 +48,7 @@ module.exports = {
 
         })
     },
-    
+
 
     userCheck: (userData) => {
         return new Promise(async (resolve, reject) => {
@@ -64,8 +64,8 @@ module.exports = {
         });
     },
     sendOtp: (mobile) => {
-        return new Promise((resolve, reject) => {           
-            client.verify.v2.services(serviceSid).verifications.create({ to: '+91' + mobile, channel: 'sms' }).then((verification => {               
+        return new Promise((resolve, reject) => {
+            client.verify.v2.services(serviceSid).verifications.create({ to: '+91' + mobile, channel: 'sms' }).then((verification => {
                 resolve(verification)
             }))
         })
@@ -79,7 +79,7 @@ module.exports = {
     },
 
     //....................................................................................................................
-    
+
 
     getUserCart: (prod, userID) => {
         let proObj = {
@@ -160,7 +160,7 @@ module.exports = {
                 }
 
             ]).toArray()
-            //console.log(cartItems)
+            console.log(cartItems)
             if (cartItems.length) {
                 resolve(cartItems)
             } else resolve(cartItems = 0)
@@ -171,47 +171,54 @@ module.exports = {
 
     getTotalAmount: (userID) => {
         return new Promise(async (resolve, reject) => {
+            let user = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectID(userID) })
+            if (user) {
+                // console.log(user.product[0])
+                if (user.product[0]) {
+                    let total = await db.get().collection(collection.CART_COLLECTION).aggregate([
 
-            let total = await db.get().collection(collection.CART_COLLECTION).aggregate([
+                        {
+                            $match: { user: objectID(userID) }
+                        },
+                        {
+                            $unwind: '$product'
 
-                {
-                    $match: { user: objectID(userID) }
-                },
-                {
-                    $unwind: '$product'
+                        },
+                        {
+                            $project: {
+                                item: '$product.item',
+                                quantity: '$product.quantity'
+                            }
+                        },
+                        {
+                            $lookup: {
+                                from: collection.PRODUCT_COLLECTION,
+                                localField: 'item',
+                                foreignField: '_id',
+                                as: 'product'
 
-                },
-                {
-                    $project: {
-                        item: '$product.item',
-                        quantity: '$product.quantity'
-                    }
-                },
-                {
-                    $lookup: {
-                        from: collection.PRODUCT_COLLECTION,
-                        localField: 'item',
-                        foreignField: '_id',
-                        as: 'product'
+                            }
+                        },
+                        {
+                            $project: {
+                                item: 1, quantity: 1, product: { $arrayElemAt: ['$product', 0] }
+                            }
+                        },
+                        {
+                            $group:
+                            {
+                                _id: null,
+                                total: { $sum: { $multiply: [{ $toInt: '$quantity' }, { $toInt: '$product.price' }] } }
+                            }
+                        }
+                    ]).toArray()
 
-                    }
-                },
-                {
-                    $project: {
-                        item: 1, quantity: 1, product: { $arrayElemAt: ['$product', 0] }
-                    }
-                },
-                {
-                    $group:
-                    {
-                        _id: null,
-                        total: { $sum: { $multiply: [{ $toInt: '$quantity' }, { $toInt: '$product.price' }] } }
-                    }
-                }
-            ]).toArray()
-            //console.log(total[0].total);
-            resolve((total[0].total))
+                    //console.log(total[0].total);
+                    resolve(total[0].total)
+                } else resolve(0)
+            }
         })
+
 
     },
 
