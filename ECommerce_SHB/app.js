@@ -10,9 +10,11 @@ let hbs=require('express-handlebars')
 
 let usersRouter = require('./routes/users');
 let adminRouter = require('./routes/admin');
+const { handlebars } = require('hbs');
 
 let app = express();
 const oneday=1000*60*60*24
+
 //  let fileUpload=require('express-fileupload');
 // const upload = multer({ dest: "public/files" });
 
@@ -20,7 +22,18 @@ const oneday=1000*60*60*24
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-app.engine('hbs',hbs.engine({extname:'hbs',defaultLayout:'layout',layoutsDir:__dirname+'/views/layout/',partialsDir:__dirname+'/views/partials/'}));
+// hhbshelpers = hbs.create({})
+// hhbshelpers.handlebars.registerHelper('ifCond', function(v1, v2, options) {
+//   if(v1 === v2) {
+//      return options.fn(this);
+//   }
+//    return options.inverse(this);
+// });
+
+app.engine('hbs',hbs.engine({extname:'hbs',defaultLayout:'layout',layoutsDir:__dirname+'/views/layout/',partialsDir:__dirname+'/views/partials/'
+  // ,helpers:{
+  //   neq:function(v1,v2) {return v1 != v2}  }
+}));
 app.use(logger('dev'));
 
 app.use(express.json());

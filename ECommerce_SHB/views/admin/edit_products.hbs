@@ -11,23 +11,27 @@
 
     <section>
         <div class="d-flex justify-content-center editColor">
-            <form action="/admin/update_product/{{product._id}}" method="POST" enctype="multipart/form-data">
+            <form action="/admin/update_product/{{product._id}}" method="post" enctype="multipart/form-data">
                 <p>Update &nbsp;<span><b><u>Products</u></b></span> </p>
 
-                <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="name"
+                <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="Name"
                     value="{{product.name}}" required>
                 <br>
-                <input type="text" class="form-control" id="inputAddress" name="price" placeholder="price"
+                <input type="text" class="form-control" id="inputAddress" name="price" placeholder="Price"
                     value="{{product.price}}" required>
                 <br>
                 <input type="text" class="form-control" id="inputAddress" placeholder="Size" name="size"
                     value="{{product.size}}" required>
                 <br>
-
-                <select class="form-select" aria-label="Default select example" name="category" style="border-color: blue;">
-                    <option selected>{{category.name}}</option>
+                <select class="form-select" aria-label="Default select example" name="category"
+                    style="border-color: blue;">
+                    
+                    <option value="{{category._id}}" selected hidden>{{category.name}}</option>
                     {{#each categories}}
+                    {{!-- {{#if (neq categories._id category._id)}} --}}
                     <option value="{{this._id}}">{{this.name}}</option>
+                    {{!-- {{/if}} --}}
+                    
                     {{/each}}
                 </select>
 
@@ -42,15 +46,16 @@
                     value="{{product.description}}" required>
                 <br>
                 <label for="inputCity" class="form-label">Image</label>
-                <img src="/product-images/{{product.myimg.[0]}}" style="width: 100px; height: 70px;" id="preview"
+               
+                <img src="/product-images/{{product.myimg.[0]}}" style="width: 100px; height: 70px;" id="preview" 
                     class="rounded-circle">
-
+                
+                
+                
                 <input class="form-control" type="file" id="img" name="img" multiple onchange="previewFile(event)">
 
                 <div><button type="submit" class="btn btn-outline-success mt-2"><i
                             class="fa-solid fa-cloud-arrow-up"></i>Update</button></div>
-
-
             </form>
         </div>
 

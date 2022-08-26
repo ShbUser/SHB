@@ -78,14 +78,14 @@ module.exports = {
     
     setUpdateProduct: (products, proID) => {
         return new Promise(async (resolve, reject) => {
-           
+            
             await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectID(proID)},           
                 {                     
                     $set: {
                         name: products.name,
                         price: products.price,
                         size: products.size,                        
-                        category: products.category,
+                        category:products.category,
                         qty: products.qty,
                         description: products.description,
                         myimg:products.myimg

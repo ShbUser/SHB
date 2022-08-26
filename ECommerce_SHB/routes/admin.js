@@ -5,6 +5,7 @@ let productHelper = require('../helpers/product-helpers');
 const adminHelper = require('../helpers/admin-helpers');
 const multer = require('multer')
 
+// let imgArr={}
 const verifyLogin = (req, res, next) => {
     if (req.session.adminLoggedIn) {
         next()
@@ -88,7 +89,7 @@ router.get('/delete_products/:id', verifyLogin, (req, res) => {
 router.get('/edit_products/:id', verifyLogin, (req, res) => {
 
     productHelper.getCategory().then((categories) => {
-        productHelper.getUpdateProduct(req.params.id).then((product) => {
+        productHelper.getUpdateProduct(req.params.id).then((product) => {           
             productHelper.getUpdateCategory(product.category).then((category)=>{
                  res.render('admin/edit_products', { admin: true, categories,product,category })
             })
@@ -173,10 +174,20 @@ router.post('/update-categories/:id', verifyLogin, (req, res) => {
     })
 })
 
-router.post('/update_product/:id', verifyLogin, (req, res) => {
-    console.log(req.body,"ssssssssssssssssssssssssssssssssssssss")
+
+router.post('/update_product/:id', verifyLogin,upload.array('img', 3), (req, res) => {
+    if (req.files) {
+    const images = req.files
+    let array = []
+    array = images.map((value) => value.filename)
+    console.log(array);
+    req.body.myimg = array
+     }//else {
+    //     req.body.myimg=imgArr
+    // }
+    // console.log(req.body,"222222222222222222222222222222222");
     productHelper.setUpdateProduct(req.body, req.params.id).then((response) => {
-        
+       
         res.redirect('/admin/view_products')
         // if (req.files.image) {
         //     let image = req.files.image

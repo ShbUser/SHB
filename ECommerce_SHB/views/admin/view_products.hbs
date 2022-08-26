@@ -23,7 +23,7 @@
             <div class="col-7 col-md-7 col-lg-9 col-xl-9 ">
                 
                 <table class="table-responsive" style="width: 68em;" id="productsJS" >
-                    <thead class="bg-success">
+                    <thead class="bg-success text-center">
                         <tr>
 
                             <th scope="col">Name</th>
@@ -36,7 +36,7 @@
                             <th>Options</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-center">
                         {{#each products}}
                         <tr>
 
@@ -47,7 +47,7 @@
                             <td>{{this.qty}}</td>
                             <td>{{this.description}}</td>
                             <td>{{this.category.[0].name}}</td>
-                            <td><img style="width: 50px; height: 50px;" src="/product-images/{{this.myimg.[0]}}" class="rounded-circle" alt="">
+                            <td><img style="width: 50px; height: 50px;" src="/product-images/{{this.myimg.[0]}}" class="rounded-circle" alt="image">
                             </td>
                             <td>
                                 <a href="/admin/edit_products/{{this._id}}" class="btn btn-outline-success">Edit <i
