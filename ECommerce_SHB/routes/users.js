@@ -66,23 +66,22 @@ router.get('/add-to-cart/:id', verifyLogin, (req, res) => {
 
 router.get('/cart', verifyLogin, async (req, res) => {
   let user = req.session.user
-  let cartCount = 0
-  if (user) {
-    let totalValue=0
-    let cartCount = await productHelper.getCountCart(req.session.user._id)
+  let cartCount = 0, totalValue=0
+  if (user) {    
+   cartCount = await productHelper.getCountCart(req.session.user._id)
+  }
     let products = await userHelper.getCartProducts(req.session.user._id)
+    if (products.length) {
     totalValue = await userHelper.getTotalAmount(req.session.user._id)
     res.render('users/cart', { user_head: true, products, user, cartCount, totalValue })
-    //  }
-    // else res.redirect('/')
-  }
+     }
+    else res.redirect('/')
+  
 })
 
 router.get('/del-cart-item/:id', verifyLogin, (req, res) => {
-  //console.log("OK");
   userHelper.deleteCartItem(req.session.user._id, req.params.id).then(async (response) => {
     response.total = await userHelper.getTotalAmount(req.session.user._id)
-    //console.log(response.total)
     res.json({ status: true, total: response.total })
   })
 })
@@ -169,12 +168,11 @@ router.post('/signUpOtpVerify', (req, res) => {
   })
 })
 
-router.post('/set-quantity', (req, res, next) => {
+router.post('/set-quantity',verifyLogin, (req, res, next) => {
 
   userHelper.setProQuantity(req.session.user._id, req.body).then(async (response) => {
 
     response.total = await userHelper.getTotalAmount(req.session.user._id)
-    //console.log(response.total)
     res.json({ status: true, total: response.total })
   })
 

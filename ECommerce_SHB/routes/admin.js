@@ -118,13 +118,13 @@ router.get('/signout', (req, res) => {
     res.redirect('/admin')
 })
 
-router.get('/block-user/:id', (req, res) => {
+router.get('/block-user/:id',verifyLogin, (req, res) => {
     adminHelper.doBlockUser(req.params.id).then((response) => {
         res.redirect('/admin/view_users')
     })
 
 })
-router.get('/unblock-user/:id', (req, res) => {
+router.get('/unblock-user/:id', verifyLogin, (req, res) => {
     adminHelper.doUnBlockUser(req.params.id).then((response) => {
         res.redirect('/admin/view_users')
     })
@@ -159,7 +159,7 @@ router.post('/log_in_ad', (req, res) => {
 
 
 
-router.post('/add_product', verifyLogin, upload.array('img', 3), (req, res) => {
+router.post('/add_product', verifyLogin, upload.array('img', 5), (req, res) => {
     const images = req.files
     console.log(images,"testeeeeeeeeeeeeeeeeeeeeeeee");
     let array = []
