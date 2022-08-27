@@ -50,9 +50,9 @@
                             <td><img style="width: 50px; height: 50px;" src="/product-images/{{this.myimg.[0]}}" class="rounded-circle" alt="image">
                             </td>
                             <td>
-                                <a href="/admin/edit_products/{{this._id}}" class="btn btn-outline-success">Edit <i
+                                <a href="/admin/edit_products/{{this._id}}" class="btn btn-outline-success border-0">Edit <i
                                         class="fa-solid fa-file-pen"></i></a>
-                                <a href="/admin/delete_products/{{this._id}}" class="btn btn-outline-danger"
+                                <a href="/admin/delete_products/{{this._id}}/{{this.myimg}}" class="btn btn-outline-danger border-0"
                                     onclick="return confirm('Are u want to delete {{this.Name}} ?')">Delete<i
                                         class="fa-solid fa-trash"></i></a>
                             </td>

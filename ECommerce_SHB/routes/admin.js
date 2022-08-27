@@ -4,8 +4,9 @@ var router = express.Router();
 let productHelper = require('../helpers/product-helpers');
 const adminHelper = require('../helpers/admin-helpers');
 const multer = require('multer')
+let fs=require('fs')
 
-// let imgArr={}
+let imgArr = []
 const verifyLogin = (req, res, next) => {
     if (req.session.adminLoggedIn) {
         next()
@@ -18,11 +19,11 @@ const storage = multer.diskStorage({
         cb(null, 'public/product-images')
     },
     filename: function (req, file, cb) {
-        const ext= file.mimetype.split("/")[1]
+        const ext = file.mimetype.split("/")[1]
 
         cb(null, `images-${file.fieldname}-${Date.now()}.${ext}`)
     },
-   
+
 })
 const upload = multer({ storage: storage })
 // ................................. GET methods................................................
@@ -50,14 +51,14 @@ router.get('/add_categories', verifyLogin, (req, res) => {
 
 router.get('/view_products', verifyLogin, (req, res) => {
     productHelper.getAllProducts().then((products) => {
-    //    productHelper.getUpdateCategory(products[0].category).then((category)=>{
+        //    productHelper.getUpdateCategory(products[0].category).then((category)=>{
         // if(category!=undefined){
         // products[0].categoryName=category.name
         // }
-        res.render('admin/view_products', { admin: true, products});
-       })
-        
+        res.render('admin/view_products', { admin: true, products });
     })
+
+})
 // })
 
 router.get('/view_users', verifyLogin, (req, res) => {
@@ -80,20 +81,34 @@ router.get('/delete_category/:id', verifyLogin, (req, res) => {
     })
 })
 
-router.get('/delete_products/:id', verifyLogin, (req, res) => {
+router.get('/delete_products/:id/:imgs', verifyLogin, (req, res) => {    
+   
+    console.log(imgArr,"delttttttttttttttttttttttttttttt");
     productHelper.deleteProduct(req.params.id).then((id) => {
+        
+        imgArr=req.params.imgs.split(",")
+        imgArr.forEach(element => {
+            fs.unlink("./public/product-images/"+element,(err)=>{
+                if(err){
+                    throw err;
+                }
+            })
+        });
         res.redirect('/admin/view_products')
-    })
+     })
 })
 
 router.get('/edit_products/:id', verifyLogin, (req, res) => {
 
     productHelper.getCategory().then((categories) => {
-        productHelper.getUpdateProduct(req.params.id).then((product) => {           
-            productHelper.getUpdateCategory(product.category).then((category)=>{
-                 res.render('admin/edit_products', { admin: true, categories,product,category })
+        productHelper.getUpdateProduct(req.params.id).then((product) => {
+
+ //..................Storing edit images to imgArr[]......................
+            imgArr = product.myimg
+            productHelper.getUpdateCategory(product.category).then((category) => {
+                res.render('admin/edit_products', { admin: true, categories, product, category })
             })
-           
+
         })
 
     })
@@ -144,23 +159,23 @@ router.post('/log_in_ad', (req, res) => {
 
 
 
-router.post('/add_product',verifyLogin,upload.array('img', 3) , (req, res) => {
-        const images = req.files
-        let array = []
-        array = images.map((value) => value.filename)
-        console.log(array);
-        req.body.myimg = array
+router.post('/add_product', verifyLogin, upload.array('img', 3), (req, res) => {
+    const images = req.files
+    console.log(images,"testeeeeeeeeeeeeeeeeeeeeeeee");
+    let array = []
+    array = images.map((value) => value.filename)
+    req.body.myimg = array
 
-        productHelper.addProduct(req.body).then((id) => {
-            // let image = req.files.img
-            // image.mv('./public/product-images/' + id + '.jpg', (err, done) => {
-            //     if (!err)
-             res.redirect('/admin/view_products')
-            //     else console.log(err)
-            // })
+    productHelper.addProduct(req.body).then((id) => {
+        // let image = req.files.img
+        // image.mv('./public/product-images/' + id + '.jpg', (err, done) => {
+        //     if (!err)
+        res.redirect('/admin/view_products')
+        //     else console.log(err)
+        // })
 
-        })
     })
+})
 
 router.post('/add-categories', verifyLogin, (req, res) => {
     productHelper.addCategory(req.body).then((response) => {
@@ -175,19 +190,19 @@ router.post('/update-categories/:id', verifyLogin, (req, res) => {
 })
 
 
-router.post('/update_product/:id', verifyLogin,upload.array('img', 3), (req, res) => {
-    if (req.files) {
-    const images = req.files
-    let array = []
-    array = images.map((value) => value.filename)
-    console.log(array);
-    req.body.myimg = array
-     }//else {
-    //     req.body.myimg=imgArr
-    // }
-    // console.log(req.body,"222222222222222222222222222222222");
+router.post('/update_product/:id', verifyLogin, upload.array('img', 3), (req, res) => {
+    if (req.files == "") {
+        req.body.myimg = imgArr
+    }
+    else {
+        const images = req.files
+        let array = []
+        array = images.map((value) => value.filename)
+        req.body.myimg = array
+
+     }
     productHelper.setUpdateProduct(req.body, req.params.id).then((response) => {
-       
+        imgArr=""
         res.redirect('/admin/view_products')
         // if (req.files.image) {
         //     let image = req.files.image

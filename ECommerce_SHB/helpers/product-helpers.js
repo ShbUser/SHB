@@ -100,6 +100,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             await db.get().collection(collection.PRODUCT_COLLECTION).deleteOne({ _id: objectID(proId) }).then((response) => {
                 resolve(response)
+               
             })
         })
 

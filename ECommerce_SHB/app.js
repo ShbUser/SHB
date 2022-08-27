@@ -53,10 +53,10 @@ db.connect((err)=>{
 
 app.use(session({secret:"key", resave:true, saveUninitialized:true,cookie:{maxAge:oneday}}))
 
-app.use(function (req,res,next) {
-  res.header('Cache-Control','no-store')
-  next()
-})
+// app.use(function (req,res,next) {
+//   res.header('Cache-Control','no-store')
+//   next()
+// })
 
 app.use('/', usersRouter);
 app.use('/admin', adminRouter);
