@@ -1,0 +1,47 @@
+
+<section>
+    
+    <div class="container">        
+        <h4>Your Order Details...</h4><br>
+        <table class="table mt-3 text-center bg-success" id="productJS">
+            <thead>
+                <tr>
+
+                    <th scope="col">Date</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Pin Code</th>
+                    <th scope="col">Mobile</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Payment</th>
+                    <th scope="col">Status</th>
+                    <th scope="col"> View Product </th>
+                    
+                </tr>
+            </thead>
+            <tbody class="text-center align-middle">
+               
+                {{#each order}}
+                <tr> 
+                   
+                    <td>{{this.deliveryDetails.date}}</td>
+                    <td>{{this.deliveryDetails.address}}</td>
+                    <td>{{this.deliveryDetails.pin}}</td>
+                    <td>{{this.deliveryDetails.mobile}}</td> 
+                    <td>{{this.deliveryDetails.totalAmount}}</td> 
+                    <td>{{this.deliveryDetails.paymentMethod}}</td>                                        
+                    <td>{{this.deliveryDetails.status}}</td>
+                    <td><a href="/view_order_products/{{this._id}}" class="btn btn-outline-success border-0">
+                    <i class="fa-solid fa-eye"></i> <i class="fa-solid fa-eye"></i></a></td>
+                    
+                </tr>
+                {{/each}}
+                
+            </tbody>
+        </table>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $('#productJS').DataTable();
+    });
+</script>

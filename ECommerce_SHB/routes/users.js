@@ -1,5 +1,5 @@
 let express = require('express');
-const { resolve } = require('promise');
+const { resolve, nodeify } = require('promise');
 let router = express.Router();
 let userHelper = require('../helpers/user-helpers')
 let productHelper = require('../helpers/product-helpers');
@@ -78,7 +78,7 @@ router.get('/cart', verifyLogin, async (req, res) => {
    cartCount = await productHelper.getCountCart(req.session.user._id)
   }
     let products = await userHelper.getCartProducts(req.session.user._id)
-    console.log(products);
+    // console.log(products);
     if (products.length) {
     totalValue = await userHelper.getTotalAmount(req.session.user._id)
     res.render('users/cart', { user_head: true, products, user, cartCount, totalValue })
@@ -99,12 +99,17 @@ router.get('/place_order', verifyLogin, async (req, res) => {
   res.render('users/place_order', { user_head:true, total, user })
 })
 
-router.get('/order_placed',verifyLogin,(req,res)=>{
-    res.render('users/order_placed',{user_head:true})
+
+router.get('/order',verifyLogin, async (req, res) => {
+  let order = await userHelper.getOrder(req.session.user._id)
+  //console.log(order)
+  res.render('users/order', {user_head:true, user, order })
 })
 
-
-
+router.get('/view_order_products/:id',verifyLogin, async (req, res) => {
+  let products = await userHelper.getrOrderProducts(req.params.id)
+  res.render('users/view_order_products', {user_head:true, user, products })
+})
 // ................................post methods.................................................
 
 router.post('/signup', (req, res) => {
@@ -192,11 +197,34 @@ router.post('/set-quantity',verifyLogin, (req, res, next) => {
 
 })
 
+router.post('/checkout', async (req, res) => {
+  let totalPrice=0, products=0
+  products = await userHelper.getCartProductList(req.body.userId)
+   totalPrice = await userHelper.getTotalAmount(req.body.userId)
+   console.log(req.body,products,totalPrice, "..........................................................");
+  userHelper.placeOrder(req.body, products,totalPrice).then((orderID) => {
+    if(req.body['payment-method']==='COD'){
+      // res.json({ codSuccess: true })
+      res.redirect('/order')
+    }
+    // else{
+      
+    //   userHelper.generateRazorPay(orderID,totalPrice).then((response)=>{
+       
+    //     res.json(response)
+    //   })
+      
+    // }
+  })
+})
+
 
 router.get('/logout', (req, res) => {
   req.session.destroy()
   user = null
   res.redirect('/')
 })
+
+
 
 module.exports = router;

@@ -160,13 +160,13 @@ module.exports = {
                 }
 
             ]).toArray()
-            
-           let category=await db.get().collection(collection.CATEGORY_COLLECTION).findOne({_id:objectID(cartItems[0].product.category)})
-            if(category)
-            {
-                cartItems[0].product.getCategoryName=category.name
+            if (cartItems!="") {
+                let category = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ _id: objectID(cartItems[0].product.category) })
+                if (category) {
+                    cartItems[0].product.getCategoryName = category.name
+                }
             }
-            console.log(cartItems)
+            // console.log(cartItems)
             if (cartItems.length) {
                 resolve(cartItems)
             } else resolve(cartItems = 0)
@@ -254,7 +254,109 @@ module.exports = {
                 resolve(response)
             })
         })
+    },
+
+    //............................Place order................................
+    getCartProductList: (userID) => {
+        return new Promise(async (resolve, reject) => {
+            let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectID(userID) })
+            resolve(cart.product)
+        })
+    },
+    placeOrder: (order, products, total) => {
+        return new Promise((resolve, reject) => {
+            //console.log(order,products,total);
+            let status = order['payment-method'] === 'COD' ? 'Placed' : 'Pending'
+            let orderObj = {
+
+                deliveryDetails: {
+
+                    address: order.address,
+                    pin: order.pin,
+                    mobile: order.mobile,
+                    status: status,
+                    totalAmount: total,
+                    date: new Date().toDateString().slice(0, 15),
+                    // var todayDate = new Date(),
+                    paymentMethod: order['payment-method']
+                },
+
+                userID: objectID(order.userId),
+
+
+                products: products,
+
+            }
+
+            db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
+                db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectID(order.userId) })
+                resolve(response.insertedId)
+                // console.log("Inserted ID  :  : " + response.insertedId);
+            })
+
+        })
+    },
+    getOrder: (userID) => {
+        return new Promise(async (resolve, reject) => {
+            let order = await db.get().collection(collection.ORDER_COLLECTION).find({ userID: objectID(userID) }).toArray()
+            resolve(order)
+        })
+    },
+    getrOrderProducts: (orderID) => {
+        return new Promise(async (resolve, reject) => {
+
+            let orderItems = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+
+                {
+                    $match: { _id: objectID(orderID) }
+                },
+                {
+                    $unwind: '$products'
+
+                },
+                {
+                    $project: {
+                        item: '$products.item',
+                        quantity: '$products.quantity'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: collection.PRODUCT_COLLECTION,
+                        localField: 'item',
+                        foreignField: '_id',
+                        as: 'product'
+
+                    }
+                },
+                {
+                    $project: {
+                        item: 1, quantity: 1, product: { $arrayElemAt: ['$product', 0] }
+                    }
+                }
+
+            ]).toArray() 
+            if (orderItems!="") {
+                let category = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ _id: objectID(orderItems[0].product.category) })
+                if (category) {
+                    orderItems[0].product.getCategoryName = category.name
+                }
+            }
+
+            console.log(orderItems)
+            if (orderItems.length) {
+                resolve(orderItems)
+            } else resolve(orderItems = 0)
+
+        })
     }
-
-
 }
+
+// function formatDate(date) {
+//     var d = new Date(date),
+//         month = '' + d.getMonth(),
+//         day = '' + d.getDate(),
+//         year = d.getFullYear();
+//         dt= month+"/"+day+"/"+year
+//     return dt
+// }

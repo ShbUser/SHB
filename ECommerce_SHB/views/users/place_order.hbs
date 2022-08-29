@@ -1,23 +1,23 @@
 <div class="container mt-5 ">
-    <h2 class="text-success">Enter Delivery Details</h2><br>
-    <form action="" id="checkout-form">
+    
+    <form action="/checkout" method="post" id="checkout-form" >
         <div class="row ">
             <div class="col-xl-4 bg-white  checkout">
+                <br>
+                <h2 class="text-success">Enter Delivery Details</h2><br>
+                <input type="text" class="form-control border-primary" name="name" placeholder="Name"><br>
 
-                <label for="" class="col-sm-2 col-form-label">Name</label>
-                <input type="text" class="form-control border-primary" name="name">
+                
+                <input type="text" class="form-control border-primary" name="mobile" placeholder="Mobile"><br>
 
-                <label for="" class="col-sm-2 col-form-label">Mobile</label>
-                <input type="text" class="form-control border-primary" name="mobile">
+                
+                <input type="text" class="form-control border-primary" name="city" placeholder="City"><br>
 
-                <label for="" class="col-sm-2 col-form-label">City</label>
-                <input type="text" class="form-control border-primary" name="city">
+                
+                <input type="number" class="form-control border-primary" name="pin" placeholder="Pincode"><br>
 
-                <label for="" class="col-sm-2 col-form-label">Pincode</label>
-                <input type="" class="form-control border-primary" name="Pin">
-
-                <label for="" class="col-sm-2 col-form-label">Address</label>
-                <input type="text" class="form-control border-primary" name="address">
+                
+                <input type="text" class="form-control border-primary" name="address" placeholder="Address"><br>
 
                 <input type="text" value="{{user._id}}" name="userId" hidden>
 
@@ -54,10 +54,6 @@
                             class="fa-solid fa-thumbs-up"></i></button>
 
 
-
-
-                    {{!--
-                </div> --}}
             </div>
 
         </div>
@@ -67,6 +63,9 @@
 
 <script>
 
+ 
+
+//................validation..................
     $(document).ready(function () {
         $("#checkout-form").validate({
             rules: {
@@ -82,11 +81,11 @@
                     required: true
                 },
                 pin: {
-                    required: true      
+                    required: true,   
                     digits: true
-                }
+                },
                 address: {
-                    required: true,
+                    required: true
                 }
             }
         })

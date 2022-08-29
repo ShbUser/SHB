@@ -53,7 +53,15 @@ body{
     writing-mode: vertical-rl;
  }
 
- 
+ .zoom {
+    
+    transition: transform .2s;
+    height: 7em;
+  }
+  
+  .zoom:hover {
+    transform: scale(2); 
+  }
 
 /* ...........................admin................................ */
 
