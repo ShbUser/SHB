@@ -12,6 +12,7 @@ const { redirect } = require('express/lib/response');
 let user
 const verifyLogin = (req, res, next) => {
   if (req.session.userLoggedIn) {
+    user=req.session.user
     next()
   } else {
     res.redirect('/login')
@@ -50,9 +51,9 @@ router.get('/signup', (req, res) => {
   res.render('users/signup', { emailErr: "" })
 })
 
-router.get('/single_product/:id', (req, res) => {
+router.get('/view_product1/:id', (req, res) => {
   productHelper.getSingleProduct(req.params.id).then((product) => {
-    res.render('users/single_product', { user_head: true, product })
+    res.render('users/view_product', { user_head: true , user, product})
   })
 
 })
@@ -65,12 +66,13 @@ router.get('/add-to-cart/:id', verifyLogin, (req, res) => {
 
 
 router.get('/cart', verifyLogin, async (req, res) => {
-  let user = req.session.user
+  // let user = req.session.user
   let cartCount = 0, totalValue=0
   if (user) {    
    cartCount = await productHelper.getCountCart(req.session.user._id)
   }
     let products = await userHelper.getCartProducts(req.session.user._id)
+    console.log(products);
     if (products.length) {
     totalValue = await userHelper.getTotalAmount(req.session.user._id)
     res.render('users/cart', { user_head: true, products, user, cartCount, totalValue })
@@ -88,7 +90,11 @@ router.get('/del-cart-item/:id', verifyLogin, (req, res) => {
 
 router.get('/place_order', verifyLogin, async (req, res) => {
   let total = await userHelper.getTotalAmount(req.session.user._id)
-  res.render('users/place_order', { user_head:true, total, user: req.session.user })
+  res.render('users/place_order', { user_head:true, total, user })
+})
+
+router.get('/order_placed',verifyLogin,(req,res)=>{
+    res.render('users/order_placed',{user_head:true})
 })
 
 // ................................post methods.................................................

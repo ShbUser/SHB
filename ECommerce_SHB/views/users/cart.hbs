@@ -3,69 +3,91 @@
     <div class="container">
         <h1>My Bag<i class="fa-solid fa-bag-shopping"></i></h1>
         <hr>
-        <div class="row">
-            <div class="col-xl-5">
-                <img src="/assets/img/cart.jpg" alt="">
+        {{!-- {{#each products}}
+        <div class="card mb-3" >
+            <div class="row g-0">
+                <div class="col-xl-2">
+                    <img src="/product-images/{{this.product.myimg.[0]}}" width="150px" alt="...">
+                </div>
+                <div class="col-xl-6">
+                    <div class="card-body">
+                        <h5 class="card-title">{{this.product.name}}</h5>
+                        <p class="card-text">Rs: {{this.product.price}}</p>
+                        <p class="card-text">Category: {{this.product.[0].name}}</p>
+                        <p class="card-text">Size: {{this.product.size}}</p>
+                        <div>Quantity: <input class="border-0" type="number" aria-readonly="true" min="1" step="1"
+                                data-bind="value:replyNumber" style="width: 50px;" value="{{this.quantity}}"
+                                id="{{this.product._id}}" name="input">
+                            <button class="btn btn-outline-success border-0"
+                                onclick="setToCount('{{this.product._id}}')"> <i
+                                    class="fa-solid fa-file-pen"></i></button>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-xl-2 b-5">
+                            <button class="btn btn-outline-danger border-0"
+                            onclick="deleteItem('{{this.product._id}}',this)"><i
+                                class="fa-solid fa-trash-can"></i></button>
+
+                </div>
+                {{/each}}
             </div>
-            <div class="col-md-4 col-xl-7">
-                <table class="table mt-3" style="width: 50rem;">
+        </div> --}}
+        <table class="table mt-3 text-center align-middle" style="width: 50rem; border: none;">
 
-                    <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col">Item</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Size</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
 
-                    <tbody>
+            <tbody>
 
-                        {{#each products}}
-                        <tr>
+                {{#each products}}
+                <tr>
 
-                            <th scope="row"></th>
+                    <th scope="row"></th>
 
-                            <td><img class="rounded-circle" style="width: 50px; height: 50px;"
-                                    src="/product-images/{{this.product.myimg.[0]}}" alt="">
-                            </td>
-                            <td>{{this.product.name}}</td>
-                            <td>Rs: {{this.product.price}}</td>
-                            <td>{{this.product.size}}</td>
-                            <td>{{this.product.[0].name}}</td>
+                    <td><img class="rounded-circle" width="80px"
+                            src="/product-images/{{this.product.myimg.[0]}}"  alt="">
+                    </td>
+                    <td >{{this.product.name}}</td>
+                    <td>Rs: {{this.product.price}}</td>
+                    <td>{{this.product.size}}</td>
+                    <td>{{this.product.getCategoryName}}</td>
 
-                            <td>
-                                <input class="border-0" type="number" aria-readonly="true" min="1" step="1"
-                                    data-bind="value:replyNumber" style="width: 50px;" value="{{this.quantity}}"
-                                    id="{{this.product._id}}" name="input">
-                                <button class="btn btn-outline-success border-0"
-                                    onclick="setToCount('{{this.product._id}}')"> <i
-                                        class="fa-solid fa-file-pen"></i></button>
-                            </td>
-                            <td><button class="btn btn-outline-danger border-0"
-                                    onclick="deleteItem('{{this.product._id}}',this)"><i
-                                        class="fa-solid fa-trash-can"></i></button>
-                            </td>
+                    <td>
+                        <input class="border-0" type="number" aria-readonly="true" min="1" step="1"
+                            data-bind="value:replyNumber" style="width: 50px;" value="{{this.quantity}}"
+                            id="{{this.product._id}}" name="input">
+                        <button class="btn btn-outline-success border-0" onclick="setToCount('{{this.product._id}}')">
+                            <i class="fa-solid fa-file-pen"></i></button>
+                    </td>
+                    <td><button class="btn btn-outline-danger border-0"
+                            onclick="deleteItem('{{this.product._id}}',this)"><i
+                                class="fa-solid fa-trash-can"></i></button>
+                    </td>
 
-                        </tr>
+                </tr>
 
-                        {{/each}}
-                    </tbody>
+                {{/each}}
+            </tbody>
 
-                </table>
-                <hr style="width: 50rem;">
-                <h2 class="ml-4">Total: Rs. <span class="text-success" id="total-price">{{totalValue}}</span></h2>
-                <a href="/place_order" class="btn btn-outline-success float-right pr-5">Place Order<i
-                        class="fa-solid fa-cloud-arrow-down"></i></a>
+        </table>
+        <hr style="width: 50rem;">
+        <h2 class="ml-4">Total: Rs. <span class="text-success" id="total-price">{{totalValue}}</span></h2>
+        <a href="/place_order" class="btn btn-outline-success float-right pr-5">Place Order<i
+                class="fa-solid fa-cloud-arrow-down"></i></a>
 
-            </div>
-            
-        </div>
-    </div>
+   
 </section>
 
 <script>

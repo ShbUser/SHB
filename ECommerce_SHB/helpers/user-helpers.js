@@ -160,6 +160,12 @@ module.exports = {
                 }
 
             ]).toArray()
+            
+           let category=await db.get().collection(collection.CATEGORY_COLLECTION).findOne({_id:objectID(cartItems[0].product.category)})
+            if(category)
+            {
+                cartItems[0].product.getCategoryName=category.name
+            }
             console.log(cartItems)
             if (cartItems.length) {
                 resolve(cartItems)

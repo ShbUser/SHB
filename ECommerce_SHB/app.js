@@ -13,7 +13,7 @@ let adminRouter = require('./routes/admin');
 const { handlebars } = require('hbs');
 
 let app = express();
-const oneday=1000*60*60*24
+
 
 //  let fileUpload=require('express-fileupload');
 // const upload = multer({ dest: "public/files" });
@@ -51,7 +51,7 @@ db.connect((err)=>{
   console.log("Database connection successfully")
 })
 
-app.use(session({secret:"key", resave:true, saveUninitialized:true,cookie:{maxAge:oneday}}))
+app.use(session({secret:"key", resave:true, saveUninitialized:true,cookie:{maxAge:360000}}))
 
 // app.use(function (req,res,next) {
 //   res.header('Cache-Control','no-store')
