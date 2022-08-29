@@ -51,12 +51,18 @@ router.get('/signup', (req, res) => {
   res.render('users/signup', { emailErr: "" })
 })
 
-router.get('/view_product1/:id', (req, res) => {
+router.get('/view_product/:id', (req, res) => {
   productHelper.getSingleProduct(req.params.id).then((product) => {
     res.render('users/view_product', { user_head: true , user, product})
   })
 
 })
+router.get('/shop',(req,res)=>{
+    productHelper.getAllProducts().then((products) => {
+         res.render('users/shop',{user_head:true, user, products})
+    })
+})
+
 
 router.get('/add-to-cart/:id', verifyLogin, (req, res) => {
   userHelper.getUserCart(req.params.id, req.session.user._id).then((cartItems) => {
@@ -96,6 +102,8 @@ router.get('/place_order', verifyLogin, async (req, res) => {
 router.get('/order_placed',verifyLogin,(req,res)=>{
     res.render('users/order_placed',{user_head:true})
 })
+
+
 
 // ................................post methods.................................................
 
