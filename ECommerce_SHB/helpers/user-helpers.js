@@ -2,6 +2,7 @@ let db = require('../config/Connection')
 let collection = require('../config/collections')
 let bcrypt = require('bcrypt')
 const { response } = require('express')
+const { reject } = require('promise')
 let objectID = require('mongodb').ObjectId
 
 // ...............for OTP......................
@@ -15,18 +16,22 @@ const client = require('twilio')(accountSid, authToken);
 module.exports = {
     doSignUp: async (userData) => {
         return new Promise(async (resolve, reject) => {
+            try{
             userData.password = await bcrypt.hash(userData.password, 10)
             db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data) => {
                 resolve(userData)
-
+                
             })
-
+        }catch(error){
+            reject(error)
+        }
         })
     },
     doLogin: async (userData) => {
 
         let response = {}
         return new Promise(async (resolve, reject) => {
+            try{
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ email: userData.email, isBlock: false })
             // console.log(user);
             if (user) {
@@ -45,13 +50,16 @@ module.exports = {
                 resolve({ status: false })
                 console.log("failed");
             }
-
+        }catch(error){
+            reject(error)
+        }
         })
     },
 
 
     userCheck: (userData) => {
         return new Promise(async (resolve, reject) => {
+            try{
             let response = {};
             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ email: userData.email });
             if (user) {
@@ -60,21 +68,33 @@ module.exports = {
             } else {
                 response.exist = false;
                 resolve(response);
-            }
-        });
+            } 
+        }catch(error){
+            reject(error)
+        }
+        })
+   
     },
     sendOtp: (mobile) => {
         return new Promise((resolve, reject) => {
+            try{
             client.verify.v2.services(serviceSid).verifications.create({ to: '+91' + mobile, channel: 'sms' }).then((verification => {
                 resolve(verification)
             }))
+        }catch(error){
+            reject(error)
+        }
         })
     },
     verifyOtp: (otp, mobile) => {
         return new Promise((resolve, reject) => {
+            try{
             client.verify.v2.services(serviceSid).verificationChecks.create({ to: '+91' + mobile, code: otp.otp }).then((verification_check) => {
                 resolve(verification_check.status)
             })
+        }catch(error){
+            reject(error)
+        }
         })
     },
 
@@ -82,12 +102,13 @@ module.exports = {
 
 
     getUserCart: (prod, userID) => {
+        
         let proObj = {
             item: objectID(prod),
             quantity: 1
         }
         return new Promise(async (resolve, reject) => {
-
+            try{
             let user = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectID(userID) })
 
             if (user) {
@@ -119,8 +140,12 @@ module.exports = {
                     resolve()
                 })
             }
+        } catch(error){
+            reject(error)
+        }
 
         })
+    
     },
 
     //........................... cart..................
@@ -128,7 +153,7 @@ module.exports = {
     getCartProducts: (userID) => {
 
         return new Promise(async (resolve, reject) => {
-
+            try{
             let cartItems = await db.get().collection(collection.CART_COLLECTION).aggregate([
 
                 {
@@ -157,26 +182,50 @@ module.exports = {
                     $project: {
                         item: 1, quantity: 1, product: { $arrayElemAt: ['$product', 0] }
                     }
+                },
+                {
+                    $set: {'category': {  '$toObjectId': '$category'   }
+                    }
+                  },
+                  {
+                    $lookup: {
+                        from: collection.CATEGORY_COLLECTION,
+                        localField: 'category',
+                        foreignField: '_id',
+                        as: 'category'
+                    }
+                },
+                {
+                    $project: {
+                        item: 1, quantity: 1, product: { $arrayElemAt: ['$product', 0] },category:{ $arrayElemAt: ['$category',0] }
+                    }
                 }
 
+
             ]).toArray()
-            if (cartItems!="") {
-                let category = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ _id: objectID(cartItems[0].product.category) })
-                if (category) {
-                    cartItems[0].product.getCategoryName = category.name
-                }
-            }
+            // if (cartItems!="") {
+            //     console.log(cartItems,"caartttttttttttttttttttttttttt");
+            //     let category = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ _id: objectID(cartItems[0].product.category) })
+            //     if (category) {
+            //         cartItems[0].product.getCategoryName = category.name
+            //         console.log(cartItems[0].product.getCategoryName,"check...............................");
+            //     }
+            // }
             // console.log(cartItems)
             if (cartItems.length) {
                 resolve(cartItems)
             } else resolve(cartItems = 0)
-
+        }catch(error){
+            reject(error)
+        }
         })
 
     },
 
     getTotalAmount: (userID) => {
+       
         return new Promise(async (resolve, reject) => {
+            try{
             let user = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectID(userID) })
             if (user) {
                 // console.log(user.product[0])
@@ -223,14 +272,18 @@ module.exports = {
                     resolve(total[0].total)
                 } else resolve(0)
             }
+        }catch(error){
+            reject(error)
+        }
         })
-
+    
 
     },
 
     setProQuantity: (userID, details) => {
+        
         return new Promise(async (resolve, reject) => {
-
+            try{
             let user = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectID(userID) })
             if (user) {
                 let prodExist = user.product.findIndex(produc => produc.item == details.prod)
@@ -246,7 +299,11 @@ module.exports = {
                     })
                 }
             }
+        }catch(error){
+            reject(error)
+        }
         })
+   
     },
     deleteCartItem: (userID, prodID) => {
         return new Promise((resolve, reject) => {
@@ -258,13 +315,20 @@ module.exports = {
 
     //............................Place order................................
     getCartProductList: (userID) => {
+       
         return new Promise(async (resolve, reject) => {
+            try{
             let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectID(userID) })
             resolve(cart.product)
+        }catch(error){
+            reject(error)
+        }
         })
+   
     },
-    placeOrder: (order, products, total) => {
+    placeOrder: (order, products, total) => {        
         return new Promise((resolve, reject) => {
+            try{
             //console.log(order,products,total);
             let status = order['payment-method'] === 'COD' ? 'Placed' : 'Pending'
             let orderObj = {
@@ -293,8 +357,12 @@ module.exports = {
                 resolve(response.insertedId)
                 // console.log("Inserted ID  :  : " + response.insertedId);
             })
+        }catch(error){
+            reject(error)
+        }
 
         })
+   
     },
     getOrder: (userID) => {
         return new Promise(async (resolve, reject) => {
@@ -303,8 +371,9 @@ module.exports = {
         })
     },
     getrOrderProducts: (orderID) => {
+        
         return new Promise(async (resolve, reject) => {
-
+        try{
             let orderItems = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
 
                 {
@@ -347,9 +416,11 @@ module.exports = {
             if (orderItems.length) {
                 resolve(orderItems)
             } else resolve(orderItems = 0)
-
+        }catch(error){
+            reject(error)
+        }
         })
-    }
+}
 }
 
 // function formatDate(date) {

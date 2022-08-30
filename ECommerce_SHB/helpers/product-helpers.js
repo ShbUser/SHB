@@ -158,7 +158,7 @@ module.exports = {
 
     getCountCart:(userID)=>{
         return new Promise(async(resolve,reject)=>{
-            
+            try{
             let cart =await db.get().collection(collection.CART_COLLECTION).findOne({user:objectID(userID)})
             if(cart!=null){
             cart=cart.product.length
@@ -167,7 +167,9 @@ module.exports = {
             }else {
                 resolve(0)
             }
-           
+        }catch(error){
+                reject(error)
+            }
         })
         
     }
