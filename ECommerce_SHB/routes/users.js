@@ -108,6 +108,13 @@ router.get('/del-cart-item/:id', verifyLogin, (req, res) => {
   })
 })
 
+router.get('/del-order-item/:id', verifyLogin, (req, res) => {
+  userHelper.deleteOrderItem(req.params.id).then(async (response) => {
+    res.json({ status: true, total: response.total })
+  })
+})
+
+
 router.get('/place_order', verifyLogin, async (req, res) => {
   let total = await userHelper.getTotalAmount(req.session.user._id)
   res.render('users/place_order', { user_head: true, total, user })
@@ -238,6 +245,7 @@ router.post('/checkout', async (req, res, next) => {
   userHelper.placeOrder(req.body, products, totalPrice).then((orderID) => {
     if (req.body['payment-method'] === 'COD') {
       // res.json({ codSuccess: true })
+      
       res.redirect('/order')
     }
     // else{

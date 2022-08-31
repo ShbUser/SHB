@@ -3,7 +3,7 @@ async function otpVerify() {
 
     this.document.getElementById('wrong').value = "Please Wait..."
     let otp = document.getElementById('otpID').value
-    alert(":vrfy")
+   
     await axios.post('/signUpOtpVerify', { otp: otp }) 
         .then((e) => {
             if (e.data.status) {
@@ -18,7 +18,8 @@ async function addToCart(proID) {
   await axios.get('/add-to-cart/'+proID).then((e)=>{
                 if (e.data.status)
                  {
-                alert("Item added to cart")
+                // alert("Item added to cart")
+                swal("Item Added to your cart","", "success");
                 if(isNaN(document.getElementById('cart-count').value)){ document.getElementById('cart-count').innerHTML=0 }
                 let count = document.getElementById('cart-count').innerHTML
                 count = parseInt(count) + 1                
@@ -36,7 +37,7 @@ async function setToCount(proid) {
     qty = document.getElementById(proid).value    
     await axios.post('/set-quantity', { prod: proid,  qt: qty }).then((e)=>{
             if(e.data.status){       
-                 alert("Quantity updated")      
+                 swal("Quantity updated", "", "success");     
                 document.getElementById('total-price').innerHTML=e.data.total               
             }
     })    
@@ -45,7 +46,18 @@ async function setToCount(proid) {
 async function delCartItem(prodID) {
     await axios.get('/del-cart-item/'+prodID).then((e)=>{
         if (e.data.status) {
-            alert("Item deleted")
+            
+            swal("Item deleted", "", "success");
+            document.getElementById('total-price').innerHTML=e.data.total
+        }
+    })  
+
+}     
+ async function delOrderItems(prodID) {
+    await axios.get('/del-order-item/'+prodID).then((e)=>{
+        if (e.data.status) {
+            
+            swal("Order Cancelled", "", "success");
             document.getElementById('total-price').innerHTML=e.data.total
         }
     })    

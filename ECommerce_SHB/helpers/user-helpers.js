@@ -151,11 +151,9 @@ module.exports = {
     //........................... cart..................
 
     getCartProducts: (userID) => {
-
         return new Promise(async (resolve, reject) => {
             try{
             let cartItems = await db.get().collection(collection.CART_COLLECTION).aggregate([
-
                 {
                     $match: { user: objectID(userID) }
                 },
@@ -175,43 +173,32 @@ module.exports = {
                         localField: 'item',
                         foreignField: '_id',
                         as: 'product'
-
                     }
                 },
                 {
                     $project: {
                         item: 1, quantity: 1, product: { $arrayElemAt: ['$product', 0] }
                     }
-                },
-                {
-                    $set: {'category': {  '$toObjectId': '$category'   }
-                    }
+                }
+                ,
+                 {                    
+                    $set: {'categorySet': {  '$toObjectId': '$product.category' } }                    
                   },
                   {
                     $lookup: {
                         from: collection.CATEGORY_COLLECTION,
-                        localField: 'category',
+                        localField: 'categorySet',
                         foreignField: '_id',
                         as: 'category'
                     }
-                },
+                 },
                 {
                     $project: {
-                        item: 1, quantity: 1, product: { $arrayElemAt: ['$product', 0] },category:{ $arrayElemAt: ['$category',0] }
+                        item: 1, quantity: 1, product:1, category:{ $arrayElemAt:['$category', 0] }
                     }
                 }
 
-
             ]).toArray()
-            // if (cartItems!="") {
-            //     console.log(cartItems,"caartttttttttttttttttttttttttt");
-            //     let category = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ _id: objectID(cartItems[0].product.category) })
-            //     if (category) {
-            //         cartItems[0].product.getCategoryName = category.name
-            //         console.log(cartItems[0].product.getCategoryName,"check...............................");
-            //     }
-            // }
-            // console.log(cartItems)
             if (cartItems.length) {
                 resolve(cartItems)
             } else resolve(cartItems = 0)
@@ -312,7 +299,7 @@ module.exports = {
             })
         })
     },
-
+    
     //............................Place order................................
     getCartProductList: (userID) => {
        
@@ -366,7 +353,7 @@ module.exports = {
     },
     getOrder: (userID) => {
         return new Promise(async (resolve, reject) => {
-            let order = await db.get().collection(collection.ORDER_COLLECTION).find({ userID: objectID(userID) }).toArray()
+            let order = await db.get().collection(collection.ORDER_COLLECTION).find({ userID: objectID(userID) }).sort({date:-1}).toArray()
             resolve(order)
         })
     },
@@ -402,15 +389,26 @@ module.exports = {
                     $project: {
                         item: 1, quantity: 1, product: { $arrayElemAt: ['$product', 0] }
                     }
+                },
+                 {                    
+                    $set: {'categorySet': {  '$toObjectId': '$product.category' } }                    
+                  },
+                  {
+                    $lookup: {
+                        from: collection.CATEGORY_COLLECTION,
+                        localField: 'categorySet',
+                        foreignField: '_id',
+                        as: 'category'
+                    }
+                 },
+                {
+                    $project: {
+                        item: 1, quantity: 1, product:1, category:{ $arrayElemAt:['$category', 0] }
+                    }
                 }
+                
 
             ]).toArray() 
-            if (orderItems!="") {
-                let category = await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ _id: objectID(orderItems[0].product.category) })
-                if (category) {
-                    orderItems[0].product.getCategoryName = category.name
-                }
-            }
 
             console.log(orderItems)
             if (orderItems.length) {
@@ -420,6 +418,15 @@ module.exports = {
             reject(error)
         }
         })
+},
+deleteOrderItem: (orderId) => {
+    return new Promise(async (resolve, reject) => {
+        await db.get().collection(collection.ORDER_COLLECTION).deleteOne({ _id: objectID(orderId) }).then((response) => {
+            resolve(response)
+           
+        })
+    })
+
 }
 }
 
