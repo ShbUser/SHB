@@ -1,10 +1,11 @@
 
 <section>
     
-    <div class="container">        
-        <h4>Your Order Details...</h4><br>
+    <div class="container">      
+        <div class="mt-5 bg-light text-center" >
+        <h4> Your Order Details...</h4></div>
         <table class="table mt-3 text-center bg-success" id="productJS">
-            <thead>
+            <thead class="">
                 <tr>
                     <th scope="col">Products</th>
                     <th scope="col">Address</th>
@@ -13,7 +14,8 @@
                     <th scope="col">Amount</th>
                     <th scope="col">Payment</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Date</th>                    
+                    <th scope="col">Date</th>  
+                    <th scope="col">Action</th>                  
                 </tr>
             </thead>
             <tbody class="text-center align-middle">
@@ -29,7 +31,7 @@
                     <td>{{this.deliveryDetails.totalAmount}}</td> 
                     <td>{{this.deliveryDetails.paymentMethod}}</td>                                        
                     <td style="color:rgb(255, 166, 1);">{{this.deliveryDetails.status}}</td>
-                    <td>{{this.deliveryDetails.date}}</td>
+                    <td>{{format this.deliveryDetails.date}}</td>
                      <td><button class="btn btn-outline-danger border-0"
                             onclick="deleteOrder('{{this._id}}',this)"><img src="/assets/img/download.png" width="35px" alt="..."> Cancel</button>
                     </td>

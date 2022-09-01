@@ -30,9 +30,15 @@ app.set('view engine', 'hbs');
 //    return options.inverse(this);
 // });
 
-app.engine('hbs',hbs.engine({extname:'hbs',defaultLayout:'layout',layoutsDir:__dirname+'/views/layout/',partialsDir:__dirname+'/views/partials/'
-  // ,helpers:{
-  //   neq:function(v1,v2) {return v1 != v2}  }
+app.engine('hbs',hbs.engine({extname:'hbs',defaultLayout:'layout',layoutsDir:__dirname+'/views/layout/',partialsDir:__dirname+'/views/partials/',
+  helpers:{
+    format:function(date){
+       let newdate= date.toDateString()
+      return newdate.slice(3,15)
+    }
+
+  //   neq:function(v1,v2) {return v1 != v2}
+  }
 }));
 app.use(logger('dev'));
 

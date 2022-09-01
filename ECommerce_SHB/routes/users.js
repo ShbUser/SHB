@@ -71,6 +71,13 @@ router.get('/add-to-cart/:id', verifyLogin, (req, res, next) => {
     next(err)
   })
 })
+router.get('/add_to_wishlist/:id', verifyLogin, (req, res, next) => {
+  userHelper.addToWishlist(req.params.id, req.session.user._id).then((wishItem) => {
+    res.json({ status: true })
+  }).catch((err) => {
+    next(err)
+  })
+})
 
 
 router.get('/cart', verifyLogin, async (req, res, next) => {
@@ -121,10 +128,14 @@ router.get('/place_order', verifyLogin, async (req, res) => {
 })
 
 
-router.get('/order', verifyLogin, async (req, res) => {
-  let order = await userHelper.getOrder(req.session.user._id)
+router.get('/order', verifyLogin, async (req, res,next) => {
+  await userHelper.getOrder(req.session.user._id).then((order)=>{
+    res.render('users/order', { user_head: true, user, order })
+  }).catch((err)=>{
+    next(err)
+  })
   //console.log(order)
-  res.render('users/order', { user_head: true, user, order })
+  
 })
 
 router.get('/view_order_products/:id', verifyLogin, async (req, res, next) => {

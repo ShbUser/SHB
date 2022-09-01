@@ -33,6 +33,17 @@ async function addToCart(proID) {
     })
 }
 
+async function addToWishlist(proID) {
+    await axios.get('/add_to_wishlist/'+proID).then((e)=>{
+                  if (e.data.status)
+                   {                  
+                    swal("Item Added to your wishlist","", "success");
+               }else{
+                location.href='/login'
+             }
+      })
+  }
+
 async function setToCount(proid) {    
     qty = document.getElementById(proid).value    
     await axios.post('/set-quantity', { prod: proid,  qt: qty }).then((e)=>{
