@@ -35,12 +35,12 @@ async function addToCart(proID) {
 
 async function addToWishlist(proID) {
     await axios.get('/add_to_wishlist/'+proID).then((e)=>{
-                 if (e.data.status)
-                   {             
-                    alert(e.data.status)     
-                    swal("Item Added to your wishlist","", "success");
-               }else{
-               location.href('/login')
+        if (e.data.status)
+            {                 
+               swal("Item Added to your wishlist","", "success");
+            }else{
+                swal("Item Exist","", "success");
+            //    location.href('/login')  
              }
       })
   }

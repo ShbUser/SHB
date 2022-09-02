@@ -5,20 +5,22 @@
             <div class="col-xl-4 bg-white  checkout">
                 <br>
                 <h2 class="text-success">Enter Delivery Details</h2><br>
-                <input type="text" class="form-control border-primary" name="name" placeholder="Name"><br>
+                {{#each address}}
+                <input type="text" class="form-control border-primary" name="name" value="{{this.deliveryDetails.name}}" placeholder="Name"><br>
 
                 
-                <input type="text" class="form-control border-primary" name="mobile" placeholder="Mobile"><br>
+                <input type="text" class="form-control border-primary" name="mobile" value="{{this.deliveryDetails.mobile}}" placeholder="Mobile"><br>
 
                 
-                <input type="text" class="form-control border-primary" name="city" placeholder="City"><br>
+                <input type="text" class="form-control border-primary" name="city" value="{{this.deliveryDetails.city}}" placeholder="City"><br>
 
                 
-                <input type="number" class="form-control border-primary" name="pin" placeholder="Pincode"><br>
+                <input type="number" class="form-control border-primary" name="pin" value="{{this.deliveryDetails.pin}}" placeholder="Pincode"><br>
 
                 
-                <input type="text" class="form-control border-primary" name="address" placeholder="Address"><br>
+                <input type="text" class="form-control border-primary" name="address" value="{{this.deliveryDetails.address}}" placeholder="Address"><br>
 
+                    {{/each}}
                 <input type="text" value="{{user._id}}" name="userId" hidden>
 
             </div>

@@ -81,8 +81,12 @@ router.get('/wishlist',verifyLogin,(req,res,next)=>{
 })
 
 router.get('/add_to_wishlist/:id', verifyLogin, (req, res, next) => {
-  userHelper.addToWishlist(req.params.id, req.session.user._id).then((wishItem) => {
-     res.json({ status: true })
+  userHelper.addToWishlist(req.params.id, req.session.user._id).then((wishItem) => {    
+    if(wishItem == -1){
+        res.json({ status: true })
+    }else{
+      res.json({ status: false })
+    }
         
   }).catch((err) => {
     next(err)
@@ -133,8 +137,17 @@ router.get('/del-order-item/:id', verifyLogin, (req, res) => {
 
 
 router.get('/place_order', verifyLogin, async (req, res) => {
-  let total = await userHelper.getTotalAmount(req.session.user._id)
-  res.render('users/place_order', { user_head: true, total, user })
+  await userHelper.getTotalAmount(req.session.user._id).then(async(total)=>{
+      await userHelper.getAddressFromOrderList(user._id).then((address)=>{
+        res.render('users/place_order', { user_head: true, total, user,address })
+
+      }).catch((err)=>{
+          next(err)
+      })
+       
+  }).catch((err)=>{
+    next(err)
+})
 })
 
 

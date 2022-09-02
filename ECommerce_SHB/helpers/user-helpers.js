@@ -118,8 +118,9 @@ module.exports = {
 
                             }
                         )
-                        resolve(response)
+                        
                     }
+                    resolve(prodExist)
                 }
             } catch (error) {
                 reject(error)
@@ -388,11 +389,13 @@ module.exports = {
                 let status = order['payment-method'] === 'COD' ? 'Placed' : 'Pending'
                 let orderObj = {
 
-                    deliveryDetails: {
-
-                        address: order.address,
-                        pin: order.pin,
+                    deliveryDetails: {                        
+                       
+                        name:order.name,
                         mobile: order.mobile,
+                        city:order.city,
+                        pin: order.pin,
+                        address: order.address,
                         status: status,
                         totalAmount: total,
                         date: new Date(),
@@ -505,7 +508,21 @@ module.exports = {
             })
         })
 
-    }
+    },
+    getAddressFromOrderList: (userID) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+
+                let address = await db.get().collection(collection.ORDER_COLLECTION).find({ userID: objectID(userID) },
+                {name:1,mobile:1,city:1,pin:1,address:1}).sort({ 'deliveryDetails.date': -1 }).limit(1).toArray()
+                resolve(address)
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
+
+
 }
 
 // function formatDate(date) {
