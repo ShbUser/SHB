@@ -32,7 +32,7 @@ app.set('view engine', 'hbs');
 
 app.engine('hbs',hbs.engine({extname:'hbs',defaultLayout:'layout',layoutsDir:__dirname+'/views/layout/',partialsDir:__dirname+'/views/partials/',
   helpers:{
-    format:function(date){
+    formatDate:function(date){
        let newdate= date.toDateString()
       return newdate.slice(3,15)
     }

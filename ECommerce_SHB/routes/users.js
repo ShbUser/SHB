@@ -72,9 +72,9 @@ router.get('/add-to-cart/:id', verifyLogin, (req, res, next) => {
   })
 })
 router.get('/wishlist',verifyLogin,(req,res,next)=>{
-    userHelper.getWishlist(user._id).then((products)=>{
+    userHelper.getWishlist(user._id).then((products)=>{     
       res.render('users/wishlist',{user_head:true,user,products})
-    }).catch((err)=>{
+        }).catch((err)=>{
       next(err)
     })
    
@@ -82,7 +82,8 @@ router.get('/wishlist',verifyLogin,(req,res,next)=>{
 
 router.get('/add_to_wishlist/:id', verifyLogin, (req, res, next) => {
   userHelper.addToWishlist(req.params.id, req.session.user._id).then((wishItem) => {
-    res.json({ status: true })
+     res.json({ status: true })
+        
   }).catch((err) => {
     next(err)
   })
@@ -246,7 +247,7 @@ router.post('/signUpOtpVerify', (req, res, next) => {
 })
 
 router.post('/set-quantity', verifyLogin, (req, res, next) => {
-
+  
   userHelper.setProQuantity(req.session.user._id, req.body).then(async (response) => {
 
     response.total = await userHelper.getTotalAmount(req.session.user._id)

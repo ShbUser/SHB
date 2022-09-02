@@ -333,7 +333,7 @@ module.exports = {
     },
 
     setProQuantity: (userID, details) => {
-
+            
         return new Promise(async (resolve, reject) => {
             try {
                 let user = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectID(userID) })
@@ -342,7 +342,8 @@ module.exports = {
                     //console.log(prodExist)
                     if (prodExist != -1) {
                         db.get().collection(collection.CART_COLLECTION).updateOne({ user: objectID(userID), 'product.item': objectID(details.prod) }, {
-                            $set: { 'product.$.quantity': details.qt }
+                             
+                            $set: { 'product.$.quantity':parseInt(details.qt) }
 
                         }
                         ).then((response) => {

@@ -31,7 +31,7 @@
                     <td>{{this.deliveryDetails.totalAmount}}</td> 
                     <td>{{this.deliveryDetails.paymentMethod}}</td>                                        
                     <td style="color:rgb(255, 166, 1);">{{this.deliveryDetails.status}}</td>
-                    <td>{{format this.deliveryDetails.date}}</td>
+                    <td>{{formatDate this.deliveryDetails.date}}</td>
                      <td><button class="btn btn-outline-danger border-0"
                             onclick="deleteOrder('{{this._id}}',this)"><img src="/assets/img/download.png" width="35px" alt="..."> Cancel</button>
                     </td>
