@@ -105,16 +105,15 @@ module.exports = {
             try {
                 let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectID(userID) })
                 if (user) {
-                    console.log(prodID,"okkkkkkkkkkkkkkkk")
                     let prodExist = user.wishlist.findIndex(produc => produc == prodID)
-                    console.log(prodExist)
+                    // console.log(prodExist)
                     if (prodExist == -1) {
 
                         db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectID(userID) },
                             {
                                 $push:
                                 {
-                                    wishlist: prodID
+                                    wishlist: objectID(prodID)
                                 }
 
                             }
@@ -127,6 +126,44 @@ module.exports = {
             }
         })
 
+    },
+
+    getWishlist: (userID) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                // let wishlist = await db.get().collection(collection.USER_COLLECTION).find({ _id: objectID(userID) }).toArray()
+                
+                // resolve(wishlist)
+                let wishItems = await db.get().collection(collection.USER_COLLECTION).aggregate([
+                    {
+                        $match: { _id: objectID(userID) }
+                    },
+                    {
+                        $unwind: '$wishlist'
+
+                    },
+                    {
+                        $project:{item:"$wishlist" }
+                    },
+                    {
+                        $lookup: {
+                            from: collection.PRODUCT_COLLECTION,
+                            localField: 'item',
+                            foreignField: '_id',
+                            as: 'wishlist'
+                        }
+                    },
+                    {
+                        $project: {
+                            _id:0, wishlist: { $arrayElemAt: ['$wishlist', 0] }
+                        }
+                    }
+                ]).toArray()
+                    resolve(wishItems)
+            } catch (error) {
+                reject(error)
+            }
+        })
     },
 
     getUserCart: (prod, userID) => {

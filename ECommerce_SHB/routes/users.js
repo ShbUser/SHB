@@ -71,6 +71,15 @@ router.get('/add-to-cart/:id', verifyLogin, (req, res, next) => {
     next(err)
   })
 })
+router.get('/wishlist',verifyLogin,(req,res,next)=>{
+    userHelper.getWishlist(user._id).then((products)=>{
+      res.render('users/wishlist',{user_head:true,user,products})
+    }).catch((err)=>{
+      next(err)
+    })
+   
+})
+
 router.get('/add_to_wishlist/:id', verifyLogin, (req, res, next) => {
   userHelper.addToWishlist(req.params.id, req.session.user._id).then((wishItem) => {
     res.json({ status: true })
