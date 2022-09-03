@@ -1,0 +1,46 @@
+<div class="container">
+    <header>
+        <div class="row  text-center">
+            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                <h4><span class="text-success">SHB</span> online hub Administrator</h4>
+            </div>
+        </div>
+
+    </header>
+
+    <hr>
+
+
+    <section>
+
+
+        <div class="row mt-5">
+            <div class="col-md-1 col-lg-1 col-xl-1">
+
+            </div>
+
+            {{#each products}}
+            <div class="col-12 col-md-4 col-lg-3 col-xl-3">
+                <div class="card" style="width: 200px; height: 350px;">
+                    <img src="/product-images/{{this.product.myimg.[0]}}" class="card-img-top"
+                        style="width: 200px; height: 200px;" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title" style="font-weight: bold; font-size: medium;">{{this.product.name}}</h5>
+                        <h5 class="card-title" style="font-weight: lighter; font-size: medium;">{{this.category.name}}
+                        </h5>
+                        <h5 class="card-title" style="font-weight:normal; font-size: medium;">RS: {{this.product.price}}
+                        </h5>
+                        <p class="card-text" style="font-weight: lighter; font-size: medium;">Quantity:
+                            {{this.quantity}}</p>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            {{/each}}
+        </div>
+    </section>
+</div>

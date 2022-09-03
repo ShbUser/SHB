@@ -65,6 +65,29 @@ async function delCartItem(prodID) {
     })  
 
 }     
+async function statusShipped(orderID) {
+    alert("ok")
+    await axios.get('/StatusShipped/'+orderID).then((e)=>{
+        if (e.data.status) {
+            
+            swal("Item shipped", "", "success");
+            // document.getElementById('status').innerHTML="Shipped"
+        }
+    })    
+}
+
+async function statusDelivered(orderID) {
+    
+    await axios.get('/StatusDelivered/'+orderID).then((e)=>{
+        if (e.data.status) {
+            
+            swal("Item Delivered", "", "success");
+            // document.getElementById('status').innerHTML="Delivered"
+        }
+    })    
+}
+
+
  async function delOrderItems(prodID) {
     await axios.get('/del-order-item/'+prodID).then((e)=>{
         if (e.data.status) {

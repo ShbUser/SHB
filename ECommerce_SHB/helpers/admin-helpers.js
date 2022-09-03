@@ -38,27 +38,63 @@ module.exports = {
     //     })
     // }
 
-    doBlockUser:(userID)=>{
-        return new Promise((resolve,reject)=>{
-            db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectID(userID)},
-            {
-                $set:{ isBlock: true  }
-            }).then(()=>{
-                resolve()
-            })
+    doBlockUser: (userID) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectID(userID) },
+                {
+                    $set: { isBlock: true }
+                }).then(() => {
+                    resolve()
+                })
 
         })
     },
-    
-    doUnBlockUser:(userID)=>{
-        return new Promise((resolve,reject)=>{
-            db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectID(userID)},
-            {
-                $set:{ isBlock: false  }
-            }).then(()=>{
-                resolve()
-            })
+
+
+    doUnBlockUser: (userID) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectID(userID) },
+                {
+                    $set: { isBlock: false }
+                }).then(() => {
+                    resolve()
+                })
 
         })
+    },
+
+    getAllOrderList: () => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let orders = await db.get().collection(collection.ORDER_COLLECTION).find().sort({ 'deliveryDetails.date': -1 }).toArray()
+                console.log(orders);
+                resolve(orders)
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
+
+    updateStatusShipped: (orderID) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                console.log("................");
+                await db.get().collection(collection.ORDER_COLLECTION).update({ _id: objectID(orderID) }, { $set: { "deliveryDetails.status": "Shipped" } })
+                resolve(response)
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
+    updateStatusDelivered: (orderID) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await db.get().collection(collection.ORDER_COLLECTION).update({ _id: objectID(orderID) }, { $set: { "deliveryDetails.status": "Delivered" } })
+                resolve(response)
+            } catch (error) {
+                reject(error)
+            }
+        })
     }
+    
 }

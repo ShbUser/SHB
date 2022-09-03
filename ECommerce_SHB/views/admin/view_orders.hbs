@@ -1,0 +1,103 @@
+<div class="container">
+    <header>
+        <div class="row  text-center">
+            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
+                <h4><span class="text-success">SHB</span> online hub Administrator</h4>
+            </div>
+        </div>
+
+    </header>
+
+    <hr>
+
+
+    <section>
+
+        {{!-- <div class="row d-flex justify-content-center bdrShdw"> --}}
+            <div class="row ">
+                <div class="col-12 col-md-12 col-xl-12 text-center">
+                    <h3>Order Details...</h3>
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-12 col-xl-12 offset-1 align-middle">
+                <table class="table mt-3 text-center bg-success" id="productJS">
+                    <thead class="">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Products</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Pin Code</th>
+                            <th scope="col">Mobile</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Payment</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center align-middle">
+
+                        {{#each orders}}
+                        <tr>
+                            <td><a href="/admin/admin_view_order_products/{{this._id}}"
+                                    class="btn btn-outline-success border-0">
+                                    <i class="fa-solid fa-eye"></i> </a></td>
+
+                            <td>{{this.deliveryDetails.name}}</td>
+                            <td>{{this.deliveryDetails.address}}</td>
+                            <td>{{this.deliveryDetails.pin}}</td>
+                            <td>{{this.deliveryDetails.mobile}}</td>
+                            <td>{{this.deliveryDetails.totalAmount}}</td>
+                            <td>{{this.deliveryDetails.paymentMethod}}</td>
+                            <td style="color:rgb(255, 166, 1);" id="status">{{this.deliveryDetails.status}}</td>
+                            <td>{{formatDate this.deliveryDetails.date}}</td>
+                            <td>
+                                {{#if (eq this.deliveryDetails.status "Placed")}}
+                                <a class="btn btn-outline-success border-0" onclick="statusShipped('{{this._id}}')"
+                                    id="ship">
+                                    <img src="/assets/img/ship-icon.webp" width="25" alt="">
+                                </a>
+                                {{/if}}
+
+                                {{#if (eq this.deliveryDetails.status "Shipped")}}
+                                <a class="btn btn-outline-success border-0" onclick="statusDelivered('{{this._id}}')"
+                                    id="deliver">
+                                    <i class="fa-solid fa-truck-fast"></i>
+                                </a>
+                                {{/if}}
+                                {{#if (eq this.deliveryDetails.status "Shipped")}}
+                            
+                                    <i class="fa-sharp fa-solid fa-badge-check"></i>
+                                </a>
+                                {{/if}}
+
+                            </td>
+                            <td><button class="btn btn-outline-danger border-0"
+                                    onclick="deleteOrder('{{this._id}}',this)">Cancel</button>
+                            </td>
+                        </tr>
+                        {{/each}}
+
+                    </tbody>
+                </table>
+            </div>
+            {{!--
+        </div> --}}
+    </section>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#productJS').DataTable();
+
+
+    });
+
+
+    function deleteOrder(id, obj) {
+        if (confirm("Do you want cancel this order")) {
+            delOrderItems(id),
+                $(obj).closest('tr').remove()
+        }
+    }
+
+</script>

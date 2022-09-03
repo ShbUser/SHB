@@ -35,9 +35,10 @@ app.engine('hbs',hbs.engine({extname:'hbs',defaultLayout:'layout',layoutsDir:__d
     formatDate:function(date){
        let newdate= date.toDateString()
       return newdate.slice(3,15)
+    },
+     eq:function(v1,v2) {
+      return v1 == v2
     }
-
-  //   neq:function(v1,v2) {return v1 != v2}
   }
 }));
 app.use(logger('dev'));
