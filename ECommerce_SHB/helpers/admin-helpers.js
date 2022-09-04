@@ -67,7 +67,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
                 let orders = await db.get().collection(collection.ORDER_COLLECTION).find().sort({ 'deliveryDetails.date': -1 }).toArray()
-                console.log(orders);
+               
                 resolve(orders)
             } catch (error) {
                 reject(error)
@@ -78,8 +78,7 @@ module.exports = {
     updateStatusShipped: (orderID) => {
         return new Promise(async (resolve, reject) => {
             try {
-                console.log("................");
-                await db.get().collection(collection.ORDER_COLLECTION).update({ _id: objectID(orderID) }, { $set: { "deliveryDetails.status": "Shipped" } })
+                await db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: objectID(orderID) }, { $set: { "deliveryDetails.status": "Shipped" } })
                 resolve(response)
             } catch (error) {
                 reject(error)
@@ -89,7 +88,7 @@ module.exports = {
     updateStatusDelivered: (orderID) => {
         return new Promise(async (resolve, reject) => {
             try {
-                await db.get().collection(collection.ORDER_COLLECTION).update({ _id: objectID(orderID) }, { $set: { "deliveryDetails.status": "Delivered" } })
+                await db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: objectID(orderID) }, { $set: { "deliveryDetails.status": "Delivered" } })
                 resolve(response)
             } catch (error) {
                 reject(error)

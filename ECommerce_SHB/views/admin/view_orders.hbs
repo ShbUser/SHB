@@ -32,7 +32,9 @@
                             <th scope="col">Payment</th>
                             <th scope="col">Status</th>
                             <th scope="col">Date</th>
+                            <th scope="col">Track</th>
                             <th scope="col">Action</th>
+
                         </tr>
                     </thead>
                     <tbody class="text-center align-middle">
@@ -49,30 +51,44 @@
                             <td>{{this.deliveryDetails.mobile}}</td>
                             <td>{{this.deliveryDetails.totalAmount}}</td>
                             <td>{{this.deliveryDetails.paymentMethod}}</td>
-                            <td style="color:rgb(255, 166, 1);" id="status">{{this.deliveryDetails.status}}</td>
+
+                            {{#if (eq this.deliveryDetails.status "Placed")}}
+                            <td style="color:rgb(255, 166, 1);  font-weight: bolder;" id="status">
+                                {{this.deliveryDetails.status}}</td>
+                            {{/if}}
+                            {{#if (eq this.deliveryDetails.status "Shipped")}}
+                            <td style="color:blue;  font-weight: bolder" id="status">{{this.deliveryDetails.status}}
+                            </td>
+                            {{/if}}
+
+                            {{#if (eq this.deliveryDetails.status "Delivered")}}
+                            <td style="color:green; font-weight: bolder;" id="status">{{this.deliveryDetails.status}}
+                            </td>
+                            {{/if}}
+
                             <td>{{formatDate this.deliveryDetails.date}}</td>
                             <td>
                                 {{#if (eq this.deliveryDetails.status "Placed")}}
-                                <a class="btn btn-outline-success border-0" onclick="statusShipped('{{this._id}}')"
+                                <a class="btn btn-outline-success border-0" onclick="statusShipped('{{this._id}}',this)"
                                     id="ship">
                                     <img src="/assets/img/ship-icon.webp" width="25" alt="">
                                 </a>
                                 {{/if}}
 
                                 {{#if (eq this.deliveryDetails.status "Shipped")}}
-                                <a class="btn btn-outline-success border-0" onclick="statusDelivered('{{this._id}}')"
-                                    id="deliver">
+                                <a class="btn btn-outline-success border-0"
+                                    onclick="statusDelivered('{{this._id}}',this)" id="deliver">
                                     <i class="fa-solid fa-truck-fast"></i>
                                 </a>
                                 {{/if}}
-                                {{#if (eq this.deliveryDetails.status "Shipped")}}
-                            
-                                    <i class="fa-sharp fa-solid fa-badge-check"></i>
+                                {{#if (eq this.deliveryDetails.status "Delivered")}}
+                                {{!-- <img src="/assets/img/delvr.jpg" width="60"> --}}
+                                <i class="fa-solid fa-check text-success"></i>
                                 </a>
                                 {{/if}}
-
                             </td>
-                            <td><button class="btn btn-outline-danger border-0"
+                            <td>
+                                <button class="btn btn-outline-danger border-0"
                                     onclick="deleteOrder('{{this._id}}',this)">Cancel</button>
                             </td>
                         </tr>

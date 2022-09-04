@@ -62,23 +62,22 @@ router.get('/view_products', verifyLogin, (req, res) => {
 
 })
 
-router.get('/StatusShipped/:id',verifyLogin, async(req, res, next) => {
-    console.log("dddddddddd");
+router.get('/status_Shipped/:id',verifyLogin, async(req, res, next) => {
     await adminHelper.updateStatusShipped(req.params.id).then((response) => {
-        res.json({status:true})
-    }).catch((err) => {
-        next(err)
-    })
-})
-router.get('/StatusDelivered/:id',verifyLogin, async(req, res, next) => {
-   await adminHelper.updateStatusDelivered(req.params.id).then((response) => {
+        // res.redirect('/admin/view_orders')
         res.json({status:true})
     }).catch((err) => {
         next(err)
     })
 })
 
-// })
+router.get('/status_Delivered/:id',verifyLogin, async(req, res, next) => {
+   await adminHelper.updateStatusDelivered(req.params.id).then((response) => {
+        res.json({status:true})
+    }).catch((err) => {
+        next(err)
+    })
+})
 
 router.get('/view_orders', verifyLogin, (req, res, next) => {
     adminHelper.getAllOrderList().then((orders) => {

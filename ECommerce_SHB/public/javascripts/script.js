@@ -64,25 +64,28 @@ async function delCartItem(prodID) {
         }
     })  
 
-}     
-async function statusShipped(orderID) {
-    alert("ok")
-    await axios.get('/StatusShipped/'+orderID).then((e)=>{
-        if (e.data.status) {
-            
-            swal("Item shipped", "", "success");
+}   
+
+async function statusShipped(orderID,obj) {
+    await axios.get('/admin/status_Shipped/'+orderID).then((e)=>{
+        if (e.data.status) {            
+            swal("Item shipped","", "success");
+            location.href='/admin/view_orders'
             // document.getElementById('status').innerHTML="Shipped"
+            // $(obj).getElementById('status').innerHTML="Shipped"
         }
     })    
 }
 
-async function statusDelivered(orderID) {
-    
-    await axios.get('/StatusDelivered/'+orderID).then((e)=>{
+async function statusDelivered(orderID,obj) {
+    await axios.get('/admin/status_Delivered/'+orderID).then((e)=>{
         if (e.data.status) {
             
             swal("Item Delivered", "", "success");
+            location.href='/admin/view_orders'
             // document.getElementById('status').innerHTML="Delivered"
+            // $(obj).getElementById('status').innerHTML="Delivered"
+            
         }
     })    
 }
