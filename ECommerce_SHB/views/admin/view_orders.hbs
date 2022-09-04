@@ -51,11 +51,15 @@
                             <td>{{this.deliveryDetails.mobile}}</td>
                             <td>{{this.deliveryDetails.totalAmount}}</td>
                             <td>{{this.deliveryDetails.paymentMethod}}</td>
-
+                            {{#if (eq this.deliveryDetails.status "Pending")}}
+                            <td style="color:red; font-weight: bolder;" id="status">
+                                {{this.deliveryDetails.status}}...</td>
+                            {{/if}}
                             {{#if (eq this.deliveryDetails.status "Placed")}}
-                            <td style="color:rgb(255, 166, 1);  font-weight: bolder;" id="status">
+                            <td class="text-warning" style=" font-weight: bolder;" id="status">
                                 {{this.deliveryDetails.status}}</td>
                             {{/if}}
+
                             {{#if (eq this.deliveryDetails.status "Shipped")}}
                             <td style="color:blue;  font-weight: bolder" id="status">{{this.deliveryDetails.status}}
                             </td>
@@ -71,14 +75,14 @@
                                 {{#if (eq this.deliveryDetails.status "Placed")}}
                                 <a class="btn btn-outline-success border-0" onclick="statusShipped('{{this._id}}',this)"
                                     id="ship">
-                                    <img src="/assets/img/ship-icon.webp" width="25" alt="">
+                                    <i class="fa-solid fa-ship text-warning"></i>
                                 </a>
                                 {{/if}}
 
                                 {{#if (eq this.deliveryDetails.status "Shipped")}}
                                 <a class="btn btn-outline-success border-0"
                                     onclick="statusDelivered('{{this._id}}',this)" id="deliver">
-                                    <i class="fa-solid fa-truck-fast"></i>
+                                    <i class="fa-solid fa-truck-fast text-primary"></i>
                                 </a>
                                 {{/if}}
                                 {{#if (eq this.deliveryDetails.status "Delivered")}}

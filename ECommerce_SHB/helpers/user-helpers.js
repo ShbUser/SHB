@@ -12,6 +12,9 @@ const serviceSid = "VA6cad9fa25705ba1d0ba9711ca5a77237"
 
 const client = require('twilio')(accountSid, authToken);
 
+const Razorpay = require('razorpay');
+
+
 
 module.exports = {
     doSignUp: async (userData) => {
@@ -118,7 +121,7 @@ module.exports = {
 
                             }
                         )
-                        
+
                     }
                     resolve(prodExist)
                 }
@@ -133,7 +136,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
                 // let wishlist = await db.get().collection(collection.USER_COLLECTION).find({ _id: objectID(userID) }).toArray()
-                
+
                 // resolve(wishlist)
                 let wishItems = await db.get().collection(collection.USER_COLLECTION).aggregate([
                     {
@@ -144,7 +147,7 @@ module.exports = {
 
                     },
                     {
-                        $project:{item:"$wishlist" }
+                        $project: { item: "$wishlist" }
                     },
                     {
                         $lookup: {
@@ -156,11 +159,11 @@ module.exports = {
                     },
                     {
                         $project: {
-                            _id:0, wishlist: { $arrayElemAt: ['$wishlist', 0] }
+                            _id: 0, wishlist: { $arrayElemAt: ['$wishlist', 0] }
                         }
                     }
                 ]).toArray()
-                    resolve(wishItems)
+                resolve(wishItems)
             } catch (error) {
                 reject(error)
             }
@@ -334,7 +337,7 @@ module.exports = {
     },
 
     setProQuantity: (userID, details) => {
-            
+
         return new Promise(async (resolve, reject) => {
             try {
                 let user = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectID(userID) })
@@ -343,8 +346,8 @@ module.exports = {
                     //console.log(prodExist)
                     if (prodExist != -1) {
                         db.get().collection(collection.CART_COLLECTION).updateOne({ user: objectID(userID), 'product.item': objectID(details.prod) }, {
-                             
-                            $set: { 'product.$.quantity':parseInt(details.qt) }
+
+                            $set: { 'product.$.quantity': parseInt(details.qt) }
 
                         }
                         ).then((response) => {
@@ -389,11 +392,11 @@ module.exports = {
                 let status = order['payment-method'] === 'COD' ? 'Placed' : 'Pending'
                 let orderObj = {
 
-                    deliveryDetails: {                        
-                       
-                        name:order.name,
+                    deliveryDetails: {
+
+                        name: order.name,
                         mobile: order.mobile,
-                        city:order.city,
+                        city: order.city,
                         pin: order.pin,
                         address: order.address,
                         status: status,
@@ -401,12 +404,8 @@ module.exports = {
                         date: new Date(),
                         paymentMethod: order['payment-method']
                     },
-
                     userID: objectID(order.userId),
-
-
                     products: products,
-
                 }
 
                 db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
@@ -514,14 +513,17 @@ module.exports = {
             try {
 
                 let address = await db.get().collection(collection.ORDER_COLLECTION).find({ userID: objectID(userID) },
-                {name:1,mobile:1,city:1,pin:1,address:1}).sort({ 'deliveryDetails.date': -1 }).limit(1).toArray()
+                    { name: 1, mobile: 1, city: 1, pin: 1, address: 1 }).sort({ 'deliveryDetails.date': -1 }).limit(1).toArray()
                 resolve(address)
             } catch (error) {
                 reject(error)
             }
         })
-    },
+    }
 
+    //................................Razor pay.........................................
+
+    
 
 }
 

@@ -8,6 +8,7 @@ const { response } = require('express');
 const { restart } = require('nodemon');
 const { redirect } = require('express/lib/response');
 
+
 /* GET users listing. */
 let user
 const verifyLogin = (req, res, next) => {
@@ -271,31 +272,50 @@ router.post('/set-quantity', verifyLogin, (req, res, next) => {
 
 })
 
+//....................................COD or ONLINE payment.........................................
+
 router.post('/checkout', async (req, res, next) => {
   let totalPrice = 0, products = 0
   products = await userHelper.getCartProductList(req.body.userId)
   totalPrice = await userHelper.getTotalAmount(req.body.userId)
-  //  console.log(req.body,products,totalPrice, "..........................................................");
   userHelper.placeOrder(req.body, products, totalPrice).then((orderID) => {
     if (req.body['payment-method'] === 'COD') {
-      // res.json({ codSuccess: true })
-      
-      res.redirect('/order')
+      res.json({ codSuccess: true })      
+      // res.redirect('/order')
     }
-    // else{
+    else{
 
-    //   userHelper.generateRazorPay(orderID,totalPrice).then((response)=>{
+      userHelper.generateRazorPay(orderID,totalPrice).then((response)=>{
+        res.json(response)
+      }).catch((err)=>{
+        next(err)
+      })
 
-    //     res.json(response)
-    //   })
-
-    // }
+    } 
   }).catch((err) => {
     next(err)
   })
 })
 
 
+router.post('/verify-payment',(req,res)=>{
+  console.log(req.body)
+  userHelper.verifyPayment(req.body).then(()=>{
+    
+    userHelper.changePaymentStatus(req.body['order[receipt]']).then(()=>{
+      console.log("Payment successfull");
+      res.json({status:true})
+
+    }).catch((err)=>{
+      next(err)
+      res.json({status:false,errMsg:''})
+    })
+
+  }).catch((err)=>{
+    next(err)
+  })
+})
+//.....................................................................................
 router.get('/logout', (req, res) => {
   req.session.destroy()
   user = null

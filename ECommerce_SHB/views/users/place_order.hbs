@@ -1,8 +1,9 @@
-<div class="container mt-5 ">
-    
+ <img src="/assets/img/Checkout-Banner-2.jpg" width="100%">
+<div class="container p-5 mt-5">
+   
     <form action="/checkout" method="post" id="checkout-form" >
         <div class="row ">
-            <div class="col-xl-4 bg-white  checkout">
+            <div class="col-xl-4 bg-light  checkout">
                 <br>
                 <h2 class="text-success">Enter Delivery Details</h2><br>
                 {{#each address}}
@@ -30,7 +31,7 @@
                 </marquee> --}}
             </div>
 
-            <div class="col-xl-6 checkout">
+            <div class="col-xl-6 ">
                 {{!-- <div class="row "> --}}
                     <div class="mt-2 ">
                         <img src="/assets/img/payment-gateway-integration.jpg" alt="img" width="430px">
@@ -65,6 +66,24 @@
 
 <script>
 
+  $("#checkout-form").submit((e) => {
+        e.preventDefault(),
+
+            $.ajax({
+                url: '/checkout',
+                method: 'post',
+                data: $('#checkout-form').serialize(),
+                success: (response) => {
+                    if (response.codSuccess) {
+                        location.href = '/order'
+                    }
+                    else {
+                        razorPayPayment(response)
+                    }
+                }
+            })
+    })
+ 
  
 
 //................validation..................

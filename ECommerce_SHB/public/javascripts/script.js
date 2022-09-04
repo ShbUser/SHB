@@ -68,7 +68,7 @@ async function delCartItem(prodID) {
 
 async function statusShipped(orderID,obj) {
     await axios.get('/admin/status_Shipped/'+orderID).then((e)=>{
-        if (e.data.status) {            
+        if (e.data.status) {           
             swal("Item shipped","", "success");
             location.href='/admin/view_orders'
             // document.getElementById('status').innerHTML="Shipped"
