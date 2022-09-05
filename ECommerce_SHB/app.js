@@ -58,7 +58,7 @@ db.connect((err)=>{
   console.log("Database connection successfully")
 })
 
-app.use(session({secret:"key", resave:true, saveUninitialized:true,cookie:{maxAge:360000}}))
+app.use(session({secret:"key", resave:true, saveUninitialized:true,cookie:{maxAge:36000000}}))
 
 // app.use(function (req,res,next) {
 //   res.header('Cache-Control','no-store')

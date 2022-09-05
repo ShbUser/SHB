@@ -51,8 +51,8 @@
                     {{/if}}
 
                     <td>{{formatDate this.deliveryDetails.date}}</td>
-                    <td><button class="btn btn-outline-danger border-0" onclick="deleteOrder('{{this._id}}',this)"><img
-                                src="/assets/img/download.png" width="35px" alt="..."> Cancel</button>
+                    <td><button class="btn btn-outline-danger border-0" onclick="delOrderItems('{{this._id}}',this)">
+                        <img src="/assets/img/download.png" width="35px" alt="..."> Cancel</button>
                     </td>
                 </tr>
                 {{/each}}
@@ -66,12 +66,14 @@
         $('#productJS').DataTable();
     });
 
+    
 
-    function deleteOrder(id, obj) {
-        if (confirm("Do you want cancel this order")) {
-            delOrderItems(id),
-                $(obj).closest('tr').remove()
-        }
-    }
+    //function deleteOrder(id, obj) {
+
+        //if (confirm("Do you want cancel this order")) {
+            //delOrderItems(id,obj),
+                //$(obj).closest('tr').remove()
+        //}
+    //}
 
 </script>

@@ -52,9 +52,11 @@ router.get('/signup', (req, res) => {
   res.render('users/signup', { emailErr: "" })
 })
 
-router.get('/view_product/:id', (req, res) => {
+router.get('/view_product/:id', (req, res, next) => {
   productHelper.getSingleProduct(req.params.id).then((product) => {
     res.render('users/view_product', { user_head: true, user, product })
+  }).catch((err) => {
+    next(err)
   })
 
 })
@@ -67,55 +69,58 @@ router.get('/shop', (req, res) => {
 
 router.get('/add-to-cart/:id', verifyLogin, (req, res, next) => {
   userHelper.getUserCart(req.params.id, req.session.user._id).then((cartItems) => {
-    res.json({ status: true })
+    res.json({ status: true,user })
   }).catch((err) => {
     next(err)
   })
 })
-router.get('/wishlist',verifyLogin,(req,res,next)=>{
-    userHelper.getWishlist(user._id).then((products)=>{     
-      res.render('users/wishlist',{user_head:true,user,products})
-        }).catch((err)=>{
-      next(err)
-    })
-   
+router.get('/wishlist', verifyLogin, (req, res, next) => {
+  userHelper.getWishlist(user._id).then((products) => {
+    res.render('users/wishlist', { user_head: true, user, products })
+  }).catch((err) => {
+    next(err)
+  })
+
 })
 
 router.get('/add_to_wishlist/:id', verifyLogin, (req, res, next) => {
-  userHelper.addToWishlist(req.params.id, req.session.user._id).then((wishItem) => {    
-    if(wishItem == -1){
-        res.json({ status: true })
-    }else{
+  userHelper.addToWishlist(req.params.id, req.session.user._id).then((wishItem) => {
+    if (wishItem == -1) {
+      res.json({ status: true })
+    } else {
       res.json({ status: false })
     }
-        
+
   }).catch((err) => {
     next(err)
   })
 })
 
+router.get('/user_profile', verifyLogin, (req, res) => {
+  res.render('users/user_profile', { user_head: true, user })
+})
 
 router.get('/cart', verifyLogin, async (req, res, next) => {
   // let user = req.session.user
-// let cartCount = 0, totalValue = 0
-  
+  // let cartCount = 0, totalValue = 0
+
   if (user) {
-    await productHelper.getCountCart(req.session.user._id).then(async(cartCount) => {
-      await userHelper.getCartProducts(req.session.user._id).then(async(products) => {
+    await productHelper.getCountCart(req.session.user._id).then(async (cartCount) => {
+      await userHelper.getCartProducts(req.session.user._id).then(async (products) => {
         if (products.length) {
           await userHelper.getTotalAmount(req.session.user._id).then((totalValue) => {
-           res.render('users/cart', { user_head: true, products, user, cartCount, totalValue })
-          }).catch((err)=>{
-              next(err)
+            res.render('users/cart', { user_head: true, products, user, cartCount, totalValue })
+          }).catch((err) => {
+            next(err)
           })
         }
         else res.redirect('/')
-      }).catch((err)=>{
+      }).catch((err) => {
         next(err)
-    })
-    }).catch((err)=>{
+      })
+    }).catch((err) => {
       next(err)
-  })
+    })
   }
 
   // console.log(products);
@@ -130,36 +135,43 @@ router.get('/del-cart-item/:id', verifyLogin, (req, res) => {
   })
 })
 
-router.get('/del-order-item/:id', verifyLogin, (req, res) => {
+router.get('/del-order-item/:id', verifyLogin, (req, res, next) => {
   userHelper.deleteOrderItem(req.params.id).then(async (response) => {
-    res.json({ status: true, total: response.total })
+    if (response.deletedCount != 0)
+      res.json({ status: true })
+    else
+      res.json({ status: false })
+
+  }).then((err) => {
+    next(err)
+
   })
 })
 
 
 router.get('/place_order', verifyLogin, async (req, res) => {
-  await userHelper.getTotalAmount(req.session.user._id).then(async(total)=>{
-      await userHelper.getAddressFromOrderList(user._id).then((address)=>{
-        res.render('users/place_order', { user_head: true, total, user,address })
+  await userHelper.getTotalAmount(req.session.user._id).then(async (total) => {
+    await userHelper.getAddressFromOrderList(user._id).then((address) => {
+      res.render('users/place_order', { user_head: true, total, user, address })
 
-      }).catch((err)=>{
-          next(err)
-      })
-       
-  }).catch((err)=>{
+    }).catch((err) => {
+      next(err)
+    })
+
+  }).catch((err) => {
     next(err)
-})
+  })
 })
 
 
-router.get('/order', verifyLogin, async (req, res,next) => {
-  await userHelper.getOrder(req.session.user._id).then((order)=>{
+router.get('/order', verifyLogin, async (req, res, next) => {
+  await userHelper.getOrder(req.session.user._id).then((order) => {
     res.render('users/order', { user_head: true, user, order })
-  }).catch((err)=>{
+  }).catch((err) => {
     next(err)
   })
   //console.log(order)
-  
+
 })
 
 router.get('/view_order_products/:id', verifyLogin, async (req, res, next) => {
@@ -261,7 +273,7 @@ router.post('/signUpOtpVerify', (req, res, next) => {
 })
 
 router.post('/set-quantity', verifyLogin, (req, res, next) => {
-  
+
   userHelper.setProQuantity(req.session.user._id, req.body).then(async (response) => {
 
     response.total = await userHelper.getTotalAmount(req.session.user._id)
@@ -280,38 +292,38 @@ router.post('/checkout', async (req, res, next) => {
   totalPrice = await userHelper.getTotalAmount(req.body.userId)
   userHelper.placeOrder(req.body, products, totalPrice).then((orderID) => {
     if (req.body['payment-method'] === 'COD') {
-      res.json({ codSuccess: true })      
+      res.json({ codSuccess: true })
       // res.redirect('/order')
     }
-    else{
+    else {
 
-      userHelper.generateRazorPay(orderID,totalPrice).then((response)=>{
+      userHelper.generateRazorPay(orderID, totalPrice).then((response) => {
         res.json(response)
-      }).catch((err)=>{
+      }).catch((err) => {
         next(err)
       })
 
-    } 
+    }
   }).catch((err) => {
     next(err)
   })
 })
 
 
-router.post('/verify-payment',(req,res)=>{
+router.post('/verify-payment', (req, res) => {
   console.log(req.body)
-  userHelper.verifyPayment(req.body).then(()=>{
-    
-    userHelper.changePaymentStatus(req.body['order[receipt]']).then(()=>{
-      console.log("Payment successfull");
-      res.json({status:true})
+  userHelper.verifyPayment(req.body).then(() => {
 
-    }).catch((err)=>{
+    userHelper.changePaymentStatus(req.body['order[receipt]']).then(() => {
+      console.log("Payment successfull");
+      res.json({ status: true })
+
+    }).catch((err) => {
       next(err)
-      res.json({status:false,errMsg:''})
+      res.json({ status: false, errMsg: '' })
     })
 
-  }).catch((err)=>{
+  }).catch((err) => {
     next(err)
   })
 })

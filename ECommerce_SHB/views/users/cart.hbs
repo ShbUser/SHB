@@ -72,7 +72,7 @@
                            <i class="fa-solid fa-floppy-disk"></i></button>
                     </td>
                     <td><button class="btn btn-outline-danger border-0"
-                            onclick="deleteItem('{{this.product._id}}',this)"><i
+                            onclick="delCartItem('{{this.product._id}}',this)"><i
                                 class="fa-solid fa-trash-can"></i></button>
                     </td>
 
@@ -91,12 +91,12 @@
 </section>
 
 <script>
-    function deleteItem(id, obj) {
-        if (confirm("Do you want delete this item")) {
-            delCartItem(id),
-                $(obj).closest('tr').remove()
-        }
-    }
+    //function deleteItem(id, obj) {
+       // if (confirm("Do you want delete this item")) {
+         //   delCartItem(id),
+           //     $(obj).closest('tr').remove()
+        //}
+    //}
 
     function changrValue() {
         document.getElementById('pro_qty').value = document.getElementById('pro_qty').text

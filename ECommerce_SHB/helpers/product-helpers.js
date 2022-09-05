@@ -22,10 +22,14 @@ module.exports = {
 
     },    
     getSingleProduct:(proID)=>{
-         return new Promise((resolve,reject)=>{         
+         return new Promise((resolve,reject)=>{   
+            try{      
              db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id:objectID(proID)}).then((product)=>{                 
-                 resolve(product) 
+                 resolve(product)             
              })
+            }catch(error){
+                reject(error)
+             }
          })
      },
 

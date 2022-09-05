@@ -16,6 +16,7 @@ async function otpVerify() {
 
 async function addToCart(proID) {
   await axios.get('/add-to-cart/'+proID).then((e)=>{
+   
                 if (e.data.status)
                  {
                 // alert("Item added to cart")
@@ -39,8 +40,10 @@ async function addToWishlist(proID) {
             {                 
                swal("Item Added to your wishlist","", "success");
             }else{
-                swal("Item Exist","", "success");
-            //    location.href('/login')  
+                swal("Item Exist","",  {
+                    icon: "warning",
+                  });
+                //location.href('/login')  
              }
       })
   }
@@ -52,17 +55,30 @@ async function setToCount(proid) {
                  swal("Quantity updated", "", "success");     
                 document.getElementById('total-price').innerHTML=e.data.total               
             }
-    })    
+    })
 }
 
-async function delCartItem(prodID) {
-    await axios.get('/del-cart-item/'+prodID).then((e)=>{
-        if (e.data.status) {
-            
-            swal("Item deleted", "", "success");
-            document.getElementById('total-price').innerHTML=e.data.total
+async function delCartItem(prodID,obj) {
+    swal({
+        title: "Are you sure?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then(async(willDelete) => {
+        if (willDelete) {
+            await axios.get('/del-cart-item/'+prodID).then((e)=>{
+                if (e.data.status) {
+                    
+                    swal("Item deleted", "", "success");
+                    document.getElementById('total-price').innerHTML=e.data.total
+                    $(obj).closest('tr').remove()
+                }
+            })  
+        } else {
+          swal("Your imaginary file is safe!");
         }
-    })  
+      })
 
 }   
 
@@ -91,14 +107,35 @@ async function statusDelivered(orderID,obj) {
 }
 
 
- async function delOrderItems(prodID) {
-    await axios.get('/del-order-item/'+prodID).then((e)=>{
-        if (e.data.status) {
-            
-            swal("Order Cancelled", "", "success");
-            document.getElementById('total-price').innerHTML=e.data.total
+  function delOrderItems(prodID,obj) {
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this imaginary file!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then(async(willDelete) => {
+        if (willDelete) {
+            await axios.get('/del-order-item/'+prodID).then((e)=>{
+                if (e.data.status) {
+                    
+                    swal("Order Cancelled", "", "success");
+                    $(obj).closest('tr').remove()
+                    // document.getElementById('total-price').innerHTML=e.data.total
+                }
+                else{
+                    swal("Can't delete Shipped order", "", "success");
+                    // location.href='/order'
+                }
+            })
+        } else {
+          swal("Your imaginary file is safe!");
         }
-    })    
+      });
+
+
+    
 }      
 
 

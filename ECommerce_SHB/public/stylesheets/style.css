@@ -13,6 +13,9 @@ body{
 .error{
     color: red;
 }
+.list-group{
+    width: 70%;
+}
 
 /* ........................user side................................. */
 .lognMdfy{
@@ -21,8 +24,9 @@ body{
     font-size: smaller;
 }
 
-.editColor input{
-    border-color: blue;
+.editColor input{    
+    border-bottom-color: blue;
+    /* border-color: blue; */
     background-color: white;
 }
 .signupPage{
@@ -37,6 +41,7 @@ body{
     margin-top: 20em;
     border-radius: 2em;
 }
+
 
 .bdrShdw{
     

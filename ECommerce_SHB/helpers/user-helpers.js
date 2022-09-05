@@ -14,8 +14,6 @@ const client = require('twilio')(accountSid, authToken);
 
 const Razorpay = require('razorpay');
 
-
-
 module.exports = {
     doSignUp: async (userData) => {
         return new Promise(async (resolve, reject) => {
@@ -171,13 +169,13 @@ module.exports = {
     },
 
     getUserCart: (prod, userID) => {
-
         let proObj = {
             item: objectID(prod),
             quantity: 1
         }
         return new Promise(async (resolve, reject) => {
-            try {
+            try {          
+            
                 let user = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectID(userID) })
 
                 if (user) {
@@ -498,13 +496,18 @@ module.exports = {
     },
     deleteOrderItem: (orderId) => {
         return new Promise(async (resolve, reject) => {
-            await db.get().collection(collection.ORDER_COLLECTION).deleteOne({ _id: objectID(orderId) }).then((response) => {
+            try{
+            await db.get().collection(collection.ORDER_COLLECTION).deleteOne({ _id: objectID(orderId),"deliveryDetails.status":"Placed" }).then((response) => {
                 resolve(response)
                 // db.get().collection(collection.CART_COLLECTION).updateOne({ user: objectID(userID), 'product.item': objectID(prod) }, {
                 //     $inc: { 'product.$.quantity': 1 }
                 // })
-
+           
             })
+        }catch(error)
+        {
+            reject(error)
+        }
         })
 
     },
@@ -519,10 +522,10 @@ module.exports = {
                 reject(error)
             }
         })
-    }
+    },
 
     //................................Razor pay.........................................
-
+    
     
 
 }
