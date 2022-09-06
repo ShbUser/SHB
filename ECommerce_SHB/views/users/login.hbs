@@ -1,8 +1,7 @@
 <section class="lognMdfy">
-    <div class="row ">
-        <div class="col-md-4 m-auto">
-
-            <div class="container ms-5" style="height: 650px;" >
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-5 m-auto">
                 <img src="/assets/img/login_image.png" alt="login">
                 {{!-- <h2 class="text-center">Login</h2> --}}
                 <form action="/login" method="post" class="editColor">
@@ -13,16 +12,23 @@
                     {{/if}}
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="" aria-describedby="emailHelp"
-                            name="email" required>
+                        <input type="email" class="form-control" id="" aria-describedby="emailHelp" name="email"
+                            required>
                         <div id="emailHelp" class="form-text ">We'll never share your email with anyone else.</div>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Password</label>
                         <input type="password" class="form-control" id="" name="password" required>
-                    </div>                    
+                    </div>
                     <button type="submit" class="btn btn-primary" style="float:right;">Login</button>
-                    <a  href="/signup">Create a new account ?</a>
+                    <br>
+                <h3>New customer...</h3>
+                <p class="text-muted">
+                    If you are not a member, you need to go to register page and create an account.
+                    By creating an account with our store, you will be able to move through
+                    the checkout process faster, store multiple shipping addresses, view and
+                    track your orders in your account and more.</p>
+                <a href="/signup">Create a new account ?</a>
                 </form>
             </div>
         </div>

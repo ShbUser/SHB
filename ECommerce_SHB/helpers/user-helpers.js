@@ -14,6 +14,7 @@ const client = require('twilio')(accountSid, authToken);
 
 const Razorpay = require('razorpay');
 
+
 module.exports = {
     doSignUp: async (userData) => {
         return new Promise(async (resolve, reject) => {
@@ -522,13 +523,11 @@ module.exports = {
                 reject(error)
             }
         })
-    },
+    }
+}
 
     //................................Razor pay.........................................
-    
-    
-
-}
+   
 
 // function formatDate(date) {
 //     let d = new Date(date),

@@ -1,15 +1,19 @@
 <div class="row text-center profile">
     <div class="col-12 col-md-12 col-lg-12 col-Xl-12">
-        <h2 class="text-success">Your Profile...</h2>
-        <img src="/assets/img/dotprof.jpg" width="100%" height="80">
-
+        {{!-- <h2 class="text-success">My Profile...</h2> --}}
+        {{!-- <img src="/assets/img/dotprof.jpg" width="100%" height="80"> --}}
+        <img src="/assets/img/prfilebanner.png" alt="" width="100%" height="200">
     </div>
 </div>
+
 <div class="container">
     <div class="row mt-3">
-        <div class="col-12 col-md-4 col-lg-4 col-Xl-4 p-5 bg-light" style="height: 200%;">
+        <div class="col-12 col-md-4 col-lg-4 col-Xl-4 text-center">
+
+        </div>
+
+        <div class="col-12 col-md-4 col-lg-4 col-Xl-5 p-4 bg-lightblue divtrans" style="height: 200%;margin-top: -5em;">
             <div class="text-center ">
-                <p>View profile...</p>
                 <div>
                     <img src="/assets/img/user.jpg" class="rounded-circle" alt="Image" width="175" height="170">
                 </div>
@@ -18,76 +22,207 @@
                     <p>Email: shshuaib99@gmail.com</p>
                     <p>Mobile: 456123</p>
                     <p>Location: ...</p>
+                    <div class=""><a class="btn btn-success">
+                            <i class="fa-solid fa-file-pen"></i> Change photo</a></div>
+                </div><br>
+                <div class="row">
+
+                    <div class="col"><a class="" href="/wishlist"> <i class="fa-solid fa-heart"></i></a></div>
+                    <div class="col"> <a class="" href="/order"> <i class="fa-solid fa-arrow-down-wide-short"></i></a>
+                        </li>
+                    </div>
+                    <div class="col"> <a class="" href="/cart">
+                            <i class="fa fa-fw fa-cart-arrow-down"></i></a></div>
+
                 </div>
-                <button class="btn btn-outline-success">
-                    <i class="fa-solid fa-file-pen"></i></button>
             </div>
         </div>
 
-        <div class="col-12 col-md-4 col-lg-4 col-Xl-4 editColor">
-            <h6><u> Edit profile </u></h6>
+
+        <div class="col-12 col-md-4 col-lg-4 col-Xl-4 p-4 editColor">
             <form action="" method="">
+                <p class="text-warning">Do you want to change your password?</p>
                 <div class="form-floating ">
-                    <input type="text" class="form-control " id="inputEmail4" name="name" placeholder="name" required>
-                    <label for="floatingInput">First name</label>
+                    <input type="text" class="form-control" id="inputEmail4" name="password" placeholder="name"
+                        required>
+                    <label for="floatingInput">Exist Password</label>
                 </div><br>
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="name" required>
-                    <label for="floatingInput">Last name</label>
-                </div><br>
-                <div class="form-floating">
-                    <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="name" required>
-                    <label for="floatingInput">Alternate mobile</label>
-                </div><br>
-                <div class="form-floating">
-                    <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="name" required>
-                    <label for="floatingInput">Age</label>
-                </div><br>
-                <label>Gender : 
-                    <input type="radio" name="payment-method" value="Male" checked>
+                    <input type="text" class="form-control" id="inputEmail4" name="newpassword" placeholder="name"
+                        required>
+                    <label for="floatingInput">New password</label>
+                </div>
+                <div class="text-end p-1">
+                    <button class="btn btn-outline-success"><i class="fa-solid fa-file-pen"></i>Update</button>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-12 col-md-3 col-lg-3 col-Xl-4 editColor text-muted">
+            <h6><u> Personal details </u></h6>
+            <form action="" method="" id="profileForm">
+                <label>First name</label>
+                <input type="text" class="form-control " id="" name="firstname" placeholder="">
+                <br>
+                <label>Last name</label>
+                <input type="text" class="form-control" id="" name="lastname" placeholder="">
+                <br>
+                <label>Age</label>
+                <input type="text" class="form-control" id="" name="age" placeholder="">
+                <br>
+                <label>Gender :
+                    <input type="radio" name="gender" value="Male" checked>
                     Male
                 </label>
 
                 <label>
-                    <input type="radio" name="payment-method" value="Female">
+                    <input type="radio" name="gender" value="Female">
                     Female
-                </label><br><br>
-                <div class="form-floating">
-                    <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="name" required>
-                    <label for="floatingInput">Address</label>
-                </div><br>
+                </label>
+                <br><br>
+                <label>Current Location</label>
+                <input type="text" class="form-control " id="" name="currentlocation" placeholder="">
+                <br>
+                <label>Description</label>
+                <input type="text" class="form-control " id="" name="description" placeholder="">
+                <br>
                 <label for="" class="form-label">Your photo</label>
                 <input class="form-control btn btn-outline-success" type="file" id="img" name="img">
                 <div class="text-end p-1">
-                    <button class="btn btn-outline-success">Submit</button>
+                    <button class="btn btn-outline-success"><i class="fa-solid fa-cloud-arrow-up"></i> Submit</button>
                 </div>
             </form>
         </div>
+        <div class="col">
 
-
-        <div class="col-12 col-md-4 col-lg-4 col-Xl-4 p-5 editColor">
-            <form action="" method="">
-                <p class="text-warning">Do you want to change your password?</p>
-                <div class="form-floating ">
-                    <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="name" required>
-                    <label for="floatingInput">Exist Password</label>
-                </div><br>
-                <div class="form-floating">
-                    <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="name" required>
-                    <label for="floatingInput">New password</label>
-                </div>
-                <div class="text-end p-1">
-                    <button class="btn btn-outline-success">Create</button>
-                </div>
-            </form>
         </div>
+        <div class="col-12 col-md-9 col-lg-8 col-xl-8 bg-light">
+            <div class="mt-5">
+                <h5>Shipping Address</h5>
+                <p class="text-muted"><i> you will be able to move through the checkout process faster, store multiple
+                        shipping addresses.</i><a href="" class="text-decoration-none"> My address list</a></p>
+                <form action="" method="" id="addressform">
+                    <div class="row text-muted">
 
+                        <div class="col-12 col-md-6 col-lg-6 col-xl-6 editColor">
 
-    </div>
+                            <label>Name</label>
+                            <input type="text" class="form-control " id="" name="name" placeholder="">
+                            <br>
+                            <label>Street address</label>
+                            <input type="text" class="form-control" id="" name="streetaddress" placeholder="">
+                            <br>
+                            <label>Alternate mobile</label>
+                            <input type="text" class="form-control" id="" name="altermobile" placeholder="">
+                            <br>
+                            <label>Pincode</label>
+                            <input type="text" class="form-control" id="" name="pincode" placeholder="">
+                            <br>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-6 col-xl-6 editColor">
+                            <label>Landmark</label>
+                            <input type="text" class="form-control " id="" name="landmark" placeholder="">
+                            <br>
+                            <label>City</label>
+                            <input type="text" class="form-control" id="" name="city" placeholder="">
+                            <br>
+                            <label>District</label>
+                            <input type="text" class="form-control " id="" name="district" placeholder="">
+                            <br>
+                            <label>State</label>
+                            <input type="text" class="form-control " id="" name="state" placeholder="">
+                            <br>
+                        </div>
+                        <div class="row mt-5">
+                            <button class="btn btn-success"><i class="fa-solid fa-cloud-arrow-up"></i> save</button>
+                        </div>
 
-    <div class="row">
-        <div class="col-12 col-md-12 col-lg-12 col-Xl-12">
-            2:2
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+
+    $(document).ready(function () {
+        $("#addressform").validate({
+            rules: {
+                name: {
+                    required: true,
+                    lettersonly: true
+
+                },
+                streetaddress: {
+                    required: true
+                },
+                altermobile: {
+                    required: true,
+                    number: true
+                },
+                pincode: {
+                    required: true,
+                    number: true
+                },
+
+                landmark: {
+                    required: true
+                },
+                city: {
+                    required: true
+                },
+                district: {
+                    required: true,
+                    lettersonly: true
+                },
+                state: {
+                    required: true,
+                    lettersonly: true
+                }
+            }
+        })
+
+    })
+
+
+    $(document).ready(function () {
+        $("#profileForm").validate({
+            rules: {
+                firstname: {
+                    required: true,
+                    lettersonly: true
+
+                },
+                lastname: {
+                    required: true,
+                    lettersonly: true
+
+                },
+                altermobile: {
+                    required: true,
+                    number: true
+                },
+                age: {
+                    required: true,
+                    number: true
+                },
+
+                address: {
+                    required: true
+                },
+                currentlocation: {
+                    required: true
+                },
+                description: {
+                    required: true
+                }
+            }
+        })
+
+    })
+</script>

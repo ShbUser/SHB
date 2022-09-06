@@ -20,7 +20,9 @@ body{
 /* ........................user side................................. */
 .lognMdfy{
     background-image: url("/assets/img/banner2.webp");
+    height: 54.7em;
     background-size: cover;
+   
     font-size: smaller;
 }
 
@@ -35,7 +37,7 @@ body{
     height: 37em;
 
 }
-.signupPageColtrans{
+.divtrans{
     background-color: white;
     opacity: .9;
     margin-top: 20em;

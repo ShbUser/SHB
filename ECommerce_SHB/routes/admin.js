@@ -195,7 +195,7 @@ router.post('/log_in_ad', (req, res) => {
 
 router.post('/add_product', verifyLogin, upload.array('img', 5), (req, res) => {
     const images = req.files
-    console.log(images, "testeeeeeeeeeeeeeeeeeeeeeeee");
+    // console.log(images, "testeeeeeeeeeeeeeeeeeeeeeeee");
     let array = []
     array = images.map((value) => value.filename)
     req.body.myimg = array
@@ -226,13 +226,21 @@ router.post('/update-categories/:id', verifyLogin, (req, res) => {
 
 router.post('/update_product/:id', verifyLogin, upload.array('img', 3), (req, res) => {
     if (req.files == "") {
-        req.body.myimg = imgArr
+        req.body.myimg = imgArr        
     }
     else {
         const images = req.files
         let array = []
         array = images.map((value) => value.filename)
         req.body.myimg = array
+
+        imgArr.forEach(element => {
+            fs.unlink("./public/product-images/" + element, (err) => {
+                if (err) {
+                    throw err;
+                }
+            })
+        });
 
     }
     productHelper.setUpdateProduct(req.body, req.params.id).then((response) => {
