@@ -13,6 +13,38 @@ async function otpVerify() {
             }
         })
 }
+async function editPassword(userID){
+    password=document.getElementById('password').value
+    newpassword=document.getElementById('newpassword').value
+    if(password!="" && newpassword!=""){
+    await axios.post('/edit_password/'+userID,{
+            password:password,
+            newpassword:newpassword
+    }).then((e)=>{
+        swal("ok")
+            if(e.data.status){
+                swal({
+                    title: "Password changed successfully...",
+                    text: "Please login again with your new password.",
+                    icon: "success",
+                    button: true,
+                    dangerMode: false,
+                  })
+                  .then(async(willDelete) => {
+                    if (willDelete) {
+                location.href='/login'
+                    }
+                })
+            }
+            else{
+                swal("Does not match password as you entered","",  {icon: "warning"});
+            }
+    })
+}
+else{
+    swal("Are you mad","Fill the columns and try again....",  {icon: "warning"});
+}
+}
 
 async function addToCart(proID) {
   await axios.get('/add-to-cart/'+proID).then((e)=>{

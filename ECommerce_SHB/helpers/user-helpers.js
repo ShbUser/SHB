@@ -50,7 +50,6 @@ module.exports = {
                     })
                 } else {
                     resolve({ status: false })
-                    console.log("failed");
                 }
             } catch (error) {
                 reject(error)

@@ -27,8 +27,9 @@
                         <p>" {{personalDet.personalDetails.description}} "</p>
                     </marquee>
 
-                    <button type="button" class="btn btn-outline-primary border-0 " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                    <i class="fa-solid fa-file-pen"></i>  Change photo
+                    <button type="button" class="btn btn-outline-primary border-0 " data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop">
+                        <i class="fa-solid fa-file-pen"></i> Change photo
                     </button>
                     {{!-- <div class="labelDesign"> --}}
                         {{!-- <button type="submit" class="" onclick="changeProfPic()">Change photo</button> --}}
@@ -48,27 +49,24 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-12 col-md-4 col-lg-4 col-Xl-4 p-4 editColor">
-            <form action="/edit_password/{{personalDet._id}}" method="post">
+            {{!-- <form id="pwdForm"> --}}
                 <p class="text-warning">Do you want to change your password?</p>
-                <div class="form-floating ">
-                    <input type="password" class="form-control" id="inputEmail4" name="password" placeholder="name"
-                        required>
-                    <label for="floatingInput">Exist Password</label>
-                </div><br>
-                <div class="form-floating">
-                    <input type="password" class="form-control" id="inputEmail4" name="newpassword" placeholder="name"
-                        required>
-                    <label for="floatingInput">New password</label>
-                </div>
+                <label>Exist Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="">
+                <br>
+                <label>New password</label>
+                <input type="password" class="form-control" id="newpassword" name="newpassword" placeholder="">
                 <div class="text-end p-1">
-                    <button type="submit" class="btn btn-outline-success"><i class="fa-solid fa-file-pen"></i>Update</button>
+                    <button onclick="editPassword('{{personalDet._id}}')" class="btn btn-outline-success"><i
+                            class="fa-solid fa-file-pen"></i>Update</button>
                 </div>
-            </form>
+                
+            {{!-- </form>  --}}
         </div>
-{{!-- file upload modal --}}
-    <form action="/updateProfilePic/{{personalDet._id}}" method="post" enctype="multipart/form-data">
+        {{!-- file upload modal --}}
+        <form action="/updateProfilePic/{{personalDet._id}}" method="post" enctype="multipart/form-data">
             <!-- Modal -->
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -92,7 +90,7 @@
         </form>
 
     </div>
-    
+
     <div class="row mt-3">
         <div class="col-12 col-md-3 col-lg-3 col-Xl-4 editColor text-muted">
             <h6><u> Personal details </u></h6>
@@ -169,7 +167,8 @@
                             <br>
                         </div>
                         <div class="row mt-5">
-                            <button type="submit" class="btn btn-success"><i class="fa-solid fa-cloud-arrow-up"></i> save</button>
+                            <button type="submit" class="btn btn-success"><i class="fa-solid fa-cloud-arrow-up"></i>
+                                save</button>
                         </div>
 
                     </div>
@@ -181,8 +180,6 @@
 </div>
 
 <script>
-
-
 
     $(document).ready(function () {
         $("#addressform").validate({

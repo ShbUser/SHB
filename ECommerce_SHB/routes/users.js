@@ -326,7 +326,15 @@ router.post('/add_shipping_address/:id',(req,res)=>{
 
 router.post('/edit_password/:id',(req,res)=>{
       userHelper.changePassword(req.body,req.params.id).then((response)=>{
-        res.redirect('/')
+        console.log(response);
+        if(response.status){
+          res.json({status:true})
+          req.session.destroy()
+          user = null
+        }
+        else{
+          res.json({status:false})
+        }
       }).catch((err)=>{
         next(err)
        })
