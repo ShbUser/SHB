@@ -195,7 +195,6 @@ router.post('/log_in_ad', (req, res) => {
 
 router.post('/add_product', verifyLogin, upload.array('img', 5), (req, res) => {
     const images = req.files
-    // console.log(images, "testeeeeeeeeeeeeeeeeeeeeeeee");
     let array = []
     array = images.map((value) => value.filename)
     req.body.myimg = array

@@ -70,6 +70,21 @@ body{
     transform: scale(2); 
   }
 
+  .labelDesign{
+    color:white;
+    border-radius: 1em;
+    height: 30px;
+    width: 200px;
+    background-color: rgb(12, 91, 12);
+    margin: auto;  
+    cursor: pointer;
+    
+  }
+  .labelDesign :hover{
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+
 /* ...........................admin................................ */
 
 .list-group a:hover{

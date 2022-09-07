@@ -83,13 +83,14 @@
                             Account
                             {{/if}}
                         </button>
-                        <ul class="dropdown-menu bg-success p-1 list-inline" style="line-height: 200%;border-color: black;"
-                            aria-labelledby="dropdownMenuButton1">
+                        <ul class="dropdown-menu bg-success p-1 list-inline"
+                            style="line-height: 200%;border-color: black;" aria-labelledby="dropdownMenuButton1">
                             {{#if user}}
 
-                            <a class="dropdown-item" href="/user_profile"><i class="fa fa-fw fa-user text-dark mr-3"></i>
+                            <a class="dropdown-item" href="/user_profile"><i
+                                    class="fa fa-fw fa-user text-dark mr-3"></i>
                                 Profile</a>
-                            <a class="dropdown-item" href="/wishlist"><i  class="fa-solid fa-heart"></i> Wish list</a>
+                            <a class="dropdown-item" href="/wishlist"><i class="fa-solid fa-heart"></i> Wish list</a>
                             <a class="dropdown-item " href="/order"> <i class="fa-solid fa-arrow-down-wide-short"></i>
                                 Orders</a></li>
                             <a class="dropdown-item" href="/logout"><i class="fa-solid fa-right-from-bracket"></i>
@@ -99,20 +100,21 @@
                             <a class="dropdown-item" href="/login"><i class="fa fa-fw fa-user text-dark mr-3"></i>
                                 Login</a>
 
-                            <a class="dropdown-item" href="/user_profile"><i class="fa fa-fw fa-user text-dark mr-3"></i>
+                            <a class="dropdown-item" href="/user_profile"><i
+                                    class="fa fa-fw fa-user text-dark mr-3"></i>
                                 Profile</a>
-
-
-
                             <a class="dropdown-item" href="/wishlist"> <i class="fa-solid fa-heart"></i> Wish list</a>
 
                             {{/if}}
                         </ul>
-
-
                     </div>
 
                 </div>
+                {{#if user}}
+                {{#if user.photo}}
+                <img src="/product-images/{{user.photo}}" class="rounded-circle" alt="image" width="50">
+                {{/if}}
+                {{/if}}
             </div>
 
         </div>

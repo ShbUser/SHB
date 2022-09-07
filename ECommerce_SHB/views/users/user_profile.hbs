@@ -15,15 +15,26 @@
         <div class="col-12 col-md-4 col-lg-4 col-Xl-5 p-4 bg-lightblue divtrans" style="height: 200%;margin-top: -5em;">
             <div class="text-center ">
                 <div>
-                    <img src="/assets/img/user.jpg" class="rounded-circle" alt="Image" width="175" height="170">
+                    <img src="/product-images/{{personalDet.photo}}" id="profImg" class="rounded-circle" alt="Image"
+                        width="175" height="170">
                 </div>
                 <div class="text-muted">
-                    <p>Name: Shuhaib</p>
-                    <p>Email: shshuaib99@gmail.com</p>
-                    <p>Mobile: 456123</p>
-                    <p>Location: ...</p>
-                    <div class=""><a class="btn btn-success">
-                            <i class="fa-solid fa-file-pen"></i> Change photo</a></div>
+                    <p>Name: {{personalDet.personalDetails.firstname}}</p>
+                    <p>Email: {{personalDet.email}}</p>
+                    <p>Mobile: {{personalDet.mobile}}</p>
+                    <p>Location: {{personalDet.personalDetails.currentlocation}}</p>
+                    <marquee>
+                        <p>" {{personalDet.personalDetails.description}} "</p>
+                    </marquee>
+
+                    <button type="button" class="btn btn-outline-primary border-0 " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <i class="fa-solid fa-file-pen"></i>  Change photo
+                    </button>
+                    {{!-- <div class="labelDesign"> --}}
+                        {{!-- <button type="submit" class="" onclick="changeProfPic()">Change photo</button> --}}
+                        {{!-- </div> --}}
+                    {{!-- <div class=""><button class="btn btn-success">
+                            <i class="fa-solid fa-file-pen"></i> Change photo</button></div> --}}
                 </div><br>
                 <div class="row">
 
@@ -37,34 +48,55 @@
                 </div>
             </div>
         </div>
-
-
+        
         <div class="col-12 col-md-4 col-lg-4 col-Xl-4 p-4 editColor">
-            <form action="" method="">
+            <form action="/edit_password/{{personalDet._id}}" method="post">
                 <p class="text-warning">Do you want to change your password?</p>
                 <div class="form-floating ">
-                    <input type="text" class="form-control" id="inputEmail4" name="password" placeholder="name"
+                    <input type="password" class="form-control" id="inputEmail4" name="password" placeholder="name"
                         required>
                     <label for="floatingInput">Exist Password</label>
                 </div><br>
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="inputEmail4" name="newpassword" placeholder="name"
+                    <input type="password" class="form-control" id="inputEmail4" name="newpassword" placeholder="name"
                         required>
                     <label for="floatingInput">New password</label>
                 </div>
                 <div class="text-end p-1">
-                    <button class="btn btn-outline-success"><i class="fa-solid fa-file-pen"></i>Update</button>
+                    <button type="submit" class="btn btn-outline-success"><i class="fa-solid fa-file-pen"></i>Update</button>
                 </div>
             </form>
         </div>
-
+{{!-- file upload modal --}}
+    <form action="/updateProfilePic/{{personalDet._id}}" method="post" enctype="multipart/form-data">
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Change my photo</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input class="form-control btn btn-outline-success" type="file" id="img" name="img">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i>
+                                Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
 
     </div>
-
+    
     <div class="row mt-3">
         <div class="col-12 col-md-3 col-lg-3 col-Xl-4 editColor text-muted">
             <h6><u> Personal details </u></h6>
-            <form action="" method="" id="profileForm">
+            <form action="/add_personalDet/{{personalDet._id}}" method="post" id="profileForm">
                 <label>First name</label>
                 <input type="text" class="form-control " id="" name="firstname" placeholder="">
                 <br>
@@ -90,10 +122,9 @@
                 <label>Description</label>
                 <input type="text" class="form-control " id="" name="description" placeholder="">
                 <br>
-                <label for="" class="form-label">Your photo</label>
-                <input class="form-control btn btn-outline-success" type="file" id="img" name="img">
                 <div class="text-end p-1">
-                    <button class="btn btn-outline-success"><i class="fa-solid fa-cloud-arrow-up"></i> Submit</button>
+                    <button type="submit" class="btn btn-outline-success">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Submit</button>
                 </div>
             </form>
         </div>
@@ -105,7 +136,7 @@
                 <h5>Shipping Address</h5>
                 <p class="text-muted"><i> you will be able to move through the checkout process faster, store multiple
                         shipping addresses.</i><a href="" class="text-decoration-none"> My address list</a></p>
-                <form action="" method="" id="addressform">
+                <form action="/add_shipping_address/{{personalDet._id}}" method="post" id="addressform">
                     <div class="row text-muted">
 
                         <div class="col-12 col-md-6 col-lg-6 col-xl-6 editColor">
@@ -138,7 +169,7 @@
                             <br>
                         </div>
                         <div class="row mt-5">
-                            <button class="btn btn-success"><i class="fa-solid fa-cloud-arrow-up"></i> save</button>
+                            <button type="submit" class="btn btn-success"><i class="fa-solid fa-cloud-arrow-up"></i> save</button>
                         </div>
 
                     </div>
@@ -146,9 +177,12 @@
             </div>
         </div>
     </div>
+
 </div>
 
 <script>
+
+
 
     $(document).ready(function () {
         $("#addressform").validate({

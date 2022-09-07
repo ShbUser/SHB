@@ -58,6 +58,36 @@ module.exports = {
         })
     },
 
+    changePassword:(userData,userID)=>{
+        return new Promise(async (resolve, reject) => {
+            try {
+                let user = await db.get().collection(collection.USER_COLLECTION).findOne({_id:objectID(userID)})
+                // console.log(user);
+                if (user) {
+                   
+                    bcrypt.compare(userData.password, user.password).then(async(status) => {
+                            // console.log("ok",".....................");
+                        if (status) {
+                            await db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectID(userID)},{
+                                $set:{
+                                    password:await bcrypt.hash(userData.newpassword, 10)
+                                }
+                            })
+                            response.status = true;
+                            resolve(response)
+                        } else {
+                            resolve({ status: false })
+                        }
+                    })
+                } else {
+                    resolve({ status: false })
+                    console.log("failed");
+                }
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
 
     userCheck: (userData) => {
         return new Promise(async (resolve, reject) => {
@@ -101,6 +131,85 @@ module.exports = {
     },
 
     //....................................................................................................................
+    addPersonalDetails: (personalDet,userID) => {
+       
+        return new Promise(async (resolve, reject) => {
+            try {
+                let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectID(userID) })
+                if (user) 
+                {
+                        db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectID(userID) },
+                            {
+                                $set:
+                                {
+                                    personalDetails: personalDet
+                                }
+
+                            })
+                }
+                    resolve(resolve)
+            } catch (error) {
+                reject(error)
+            }
+        })
+
+    },
+    setProfilepiC:(pic,userID)=>{
+        return new Promise(async (resolve, reject) => {
+            try {
+                let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectID(userID) })
+                if (user) 
+                {
+                        db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectID(userID) },
+                            {
+                                $set:
+                                {
+                                    photo: pic
+                                }
+
+                            })
+                }
+                    resolve(resolve)
+            } catch (error) {
+                reject(error)
+            }
+        })
+
+    },
+
+    getPersonalDetails:(userID)=>{
+            return new Promise(async(resolve,reject)=>{
+                try{
+                let personalDet=await db.get().collection(collection.USER_COLLECTION).findOne(
+                    {_id:objectID(userID)},{wishlist:0,isBlock:0,password:0})
+                    resolve(personalDet)
+                }catch(error){
+                    reject(error)
+                }
+            })
+
+    },
+    addShippingAddress:(address,userID)=>{
+        return new Promise(async (resolve, reject) => {
+            try {
+                let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectID(userID) })
+                if (user) 
+                {
+                        db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectID(userID) },
+                            {
+                                $push:
+                                {
+                                    address: address
+                                }
+
+                            })
+                }
+                    resolve(resolve)
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
 
     addToWishlist: (prodID, userID) => {
         return new Promise(async (resolve, reject) => {

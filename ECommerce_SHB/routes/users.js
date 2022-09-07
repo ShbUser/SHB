@@ -8,9 +8,25 @@ const { response } = require('express');
 const { restart } = require('nodemon');
 const { redirect } = require('express/lib/response');
 
+const multer = require('multer')
+let fs=require('fs');
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/product-images')
+    },
+    filename: function (req, file, cb) {
+        const ext = file.mimetype.split("/")[1]
+
+        cb(null, `images-${file.fieldname}-${Date.now()}.${ext}`)
+    },
+
+})
+const upload = multer({ storage: storage })
 
 /* GET users listing. */
-let user
+let user 
+let getImg
 const verifyLogin = (req, res, next) => {
   if (req.session.userLoggedIn) {
     user = req.session.user
@@ -19,7 +35,6 @@ const verifyLogin = (req, res, next) => {
     res.redirect('/login')
   }
 }
-
 router.get('/', function (req, res, next) {
   // res.render('users/place_order',{user_head:true})
 
@@ -28,7 +43,6 @@ router.get('/', function (req, res, next) {
   }
 
   productHelper.getAllProducts().then((products) => {
-
     res.render('users/home', { title: 'shb', user_head: true, user, products });
 
   })
@@ -69,7 +83,7 @@ router.get('/shop', (req, res) => {
 
 router.get('/add-to-cart/:id', verifyLogin, (req, res, next) => {
   userHelper.getUserCart(req.params.id, req.session.user._id).then((cartItems) => {
-    res.json({ status: true,user })
+    res.json({ status: true, user })
   }).catch((err) => {
     next(err)
   })
@@ -97,7 +111,13 @@ router.get('/add_to_wishlist/:id', verifyLogin, (req, res, next) => {
 })
 
 router.get('/user_profile', verifyLogin, (req, res) => {
-  res.render('users/user_profile', { user_head: true, user })
+  userHelper.getPersonalDetails(user._id).then((personalDet) => {
+    // console.log(personalDet);
+    getImg=personalDet.photo;
+    res.render('users/user_profile', { user_head: true, user, personalDet })
+  })
+
+
 })
 
 router.get('/cart', verifyLogin, async (req, res, next) => {
@@ -270,6 +290,47 @@ router.post('/signUpOtpVerify', (req, res, next) => {
   }).catch((err) => {
     next(err)
   })
+})
+router.post('/add_personalDet/:id', verifyLogin, (req, res, next) => {
+
+  userHelper.addPersonalDetails(req.body, req.params.id).then((response) => {
+    res.redirect('/user_profile')
+    // res.json({status:true})
+  }).catch((err) => {
+    next(err)
+  })
+})
+router.post('/updateProfilePic/:id',verifyLogin,upload.single('img'),(req,res,next)=>{     
+     userHelper.setProfilepiC(req.file.filename,user._id).then((response)=>{
+      if(getImg!=null){
+      fs.unlink("./public/product-images/" +getImg , (err) => {
+        if (err) {
+            throw err;
+        }
+      })
+    }
+        res.redirect('/user_profile')
+     }).catch((err)=>{
+      next(err)
+     })
+})
+
+router.post('/add_shipping_address/:id',(req,res)=>{
+  userHelper.addShippingAddress(req.body,req.params.id).then((response)=>{
+    res.redirect('/user_profile')
+  }).catch((err)=>{
+    next(err)
+   })
+ 
+})
+
+router.post('/edit_password/:id',(req,res)=>{
+      userHelper.changePassword(req.body,req.params.id).then((response)=>{
+        res.redirect('/')
+      }).catch((err)=>{
+        next(err)
+       })
+      
 })
 
 router.post('/set-quantity', verifyLogin, (req, res, next) => {

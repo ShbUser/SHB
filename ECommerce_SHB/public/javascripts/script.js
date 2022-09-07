@@ -16,7 +16,6 @@ async function otpVerify() {
 
 async function addToCart(proID) {
   await axios.get('/add-to-cart/'+proID).then((e)=>{
-   
                 if (e.data.status)
                  {
                 // alert("Item added to cart")
@@ -47,6 +46,17 @@ async function addToWishlist(proID) {
              }
       })
   }
+
+//   async function addPersonalDetails(userID) {
+//     await axios.get('/add_personalDet/'+userID,{
+
+//     }).then((e)=>{
+//         if (e.data.status)
+//             {                 
+//                swal("Saved your personal details","", "success");
+//             }
+//       })
+//   }
 
 async function setToCount(proid) {    
     qty = document.getElementById(proid).value    
