@@ -62,8 +62,9 @@
                     <button onclick="editPassword('{{personalDet._id}}')" class="btn btn-outline-success"><i
                             class="fa-solid fa-file-pen"></i>Update</button>
                 </div>
-                
-            {{!-- </form>  --}}
+
+                {{!--
+            </form> --}}
         </div>
         {{!-- file upload modal --}}
         <form action="/updateProfilePic/{{personalDet._id}}" method="post" enctype="multipart/form-data">
@@ -88,6 +89,94 @@
                 </div>
             </div>
         </form>
+        <form action="" method="post" enctype="multipart/form-data">
+            <!-- Modal -->
+            <div class="modal fade" id="shippingaddress" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Shipping address list</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {{!-- {{#each personalDet.address}}
+                            <div class="card" style="width: 18rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title"></h5>
+                                    <h6 class="card-subtitle mb-2 text-muted"></h6> --}}
+                                    <table class="table-responsive" style="width: 68em;" id="productsJS">
+                                        <thead class="bg-success text-center">
+                                            <tr>
+
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Street</th>
+                                                <th scope="col">Mobile</th>
+                                                <th scope="col">Pincode</th>
+                                                <th scope="col">Landmark</th>
+                                                <th scope="col">City</th>
+                                                <th scope="col">District</th>
+                                                <th scope="col">State</th>
+                                                <th>Options</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-center">
+                                            {{#each personalDet.address}}
+                                            <tr>
+                                                <td>{{this.name}}</td>
+                                                <td>{{this.streetaddress}}</td>
+                                                <td>{{this.altermobile}}</td>
+                                                <td> {{this.pincode}}</td>
+                                                <td>{{this.landmark}}</td>
+                                                <td>{{this.city}}</td>
+                                                <td>{{this.district}}</td>
+                                                <td>{{this.state}}</td>
+
+                                                <td>
+                                                    <a href="#" class="btn btn-outline-success border-0">
+                                                         <i class="fa-solid fa-file-pen"></i></a>
+                                                    <button class="btn btn-outline-danger border-0" 
+                                                    onclick="delShippAddress('{{this._id}}')"><i class="fa-solid fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+
+                                    {{!-- <div class="row">
+                                        <div class="col-md-6">
+                                            <p>Name: {{this.name}}</p>
+                                            <p>Street: {{this.streetaddress}}</p>
+                                            <p>Mobile: {{this.altermobile}}</p>
+                                            <p>Pincode: {{this.pincode}}</p>
+                                            <p>Landmark: {{this.landmark}}</p>
+                                            <p>City: {{this.city}}</p>
+                                            <p>District: {{this.district}}</p>
+                                            <p>State: {{this.state}}</p>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <a href="#"><i class="fa-solid fa-trash"></i></a>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <a href="#" class="card-link"> <i class="fa-solid fa-file-pen"></i></a>
+                                            </div>
+                                        </div>
+                                    </div> --}}
+                                    {{!--
+                                </div> --}}
+                                {{!--
+                            </div> --}}
+                            {{!-- {{/each}} --}}
+                        </div>
+                        <div class="modal-footer">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
 
     </div>
 
@@ -133,7 +222,9 @@
             <div class="mt-5">
                 <h5>Shipping Address</h5>
                 <p class="text-muted"><i> you will be able to move through the checkout process faster, store multiple
-                        shipping addresses.</i><a href="" class="text-decoration-none"> My address list</a></p>
+                        shipping addresses.</i><a href="" class="text-decoration-none" data-bs-toggle="modal"
+                        data-bs-target="#shippingaddress">
+                        My address list</a></p>
                 <form action="/add_shipping_address/{{personalDet._id}}" method="post" id="addressform">
                     <div class="row text-muted">
 
@@ -166,9 +257,18 @@
                             <input type="text" class="form-control " id="" name="state" placeholder="">
                             <br>
                         </div>
-                        <div class="row mt-5">
-                            <button type="submit" class="btn btn-success"><i class="fa-solid fa-cloud-arrow-up"></i>
-                                save</button>
+                        <div class="row m-auto">
+                            {{!-- <div class="col-md-6">
+                                <button onclick="showAddressList('{{personalDet._id}}'')" class="btn btn-success"> <i
+                                        class="fa-solid fa-eye"></i>
+                                    Address list</button>
+                            </div> --}}
+                            {{!-- <div class="col-md-6"> --}}
+                                <button type="submit" class="btn btn-outline-success"><i
+                                        class="fa-solid fa-cloud-arrow-up"></i>
+                                    save</button>
+                                {{!--
+                            </div> --}}
                         </div>
 
                     </div>

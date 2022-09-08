@@ -17,6 +17,10 @@
                     <p class="card-text" style="font-weight: lighter; font-size: medium;">{{this.wishlist.description}}</p>     				    
 					 <button class="btn btn-outline-light" onclick="addToCart('{{this.wishlist._id}}') ">
 					<i class="fa fa-fw fa-cart-arrow-down text-success"></i></button>      
+                    <button class="btn btn-outline-light" onclick="delWishlistItem('{{this.wishlist._id}}') ">
+					<i class="fa-regular fa-x text-success"></i></button>
+
+                    
 					
                 </div>
             </div>            

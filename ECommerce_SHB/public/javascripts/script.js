@@ -1,4 +1,8 @@
 
+async function isBlock(){
+    await swal("Your account blocked.","Cnontact customer service",{icon:"danger"})
+}
+
 async function otpVerify() {
 
     this.document.getElementById('wrong').value = "Please Wait..."
@@ -70,15 +74,38 @@ async function addToWishlist(proID) {
         if (e.data.status)
             {                 
                swal("Item Added to your wishlist","", "success");
-            }else{
+            }else  if(e.data.user){{
                 swal("Item Exist","",  {
                     icon: "warning",
                   });
                 //location.href('/login')  
              }
+            }else{
+                location.href='/login'
+            }
       })
   }
-
+async function delWishlistItem(wishID){
+    swal({
+        title: "Are you sure?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then(async(willDelete) => {
+        if (willDelete) {
+            await axios.get('/del-wish-item/'+wishID).then((e)=>{
+                if (e.data.status) {
+                    
+                    swal("Item deleted", "", "success");
+                    location.href='/wishlist'
+                }
+            })  
+        } else {
+          swal("Your imaginary file is safe!");
+        }
+      })
+}
 //   async function addPersonalDetails(userID) {
 //     await axios.get('/add_personalDet/'+userID,{
 
@@ -105,7 +132,7 @@ async function delCartItem(prodID,obj) {
         title: "Are you sure?",
         icon: "warning",
         buttons: true,
-        dangerMode: true,
+        dangerMode: true
       })
       .then(async(willDelete) => {
         if (willDelete) {
@@ -115,6 +142,27 @@ async function delCartItem(prodID,obj) {
                     swal("Item deleted", "", "success");
                     document.getElementById('total-price').innerHTML=e.data.total
                     $(obj).closest('tr').remove()
+                }
+            })  
+        } else {
+          swal("Your imaginary file is safe!");
+        }
+      })
+}   
+
+ async function delShippAddress(addressID) {    
+
+    swal({
+        title: "Are you sure?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(async(willDelete) => {
+        if (willDelete) {
+            await axios.get('/del-ship-address/'+addressID).then((e)=>{
+                if (e.data.status) {
+                    
+                    swal("Item deleted", "", "success")
                 }
             })  
         } else {
