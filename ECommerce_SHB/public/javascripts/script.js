@@ -150,8 +150,7 @@ async function delCartItem(prodID,obj) {
       })
 }   
 
- async function delShippAddress(addressID) {    
-
+function delShippAddress(addressID,obj) {    
     swal({
         title: "Are you sure?",
         icon: "warning",
@@ -161,7 +160,7 @@ async function delCartItem(prodID,obj) {
         if (willDelete) {
             await axios.get('/del-ship-address/'+addressID).then((e)=>{
                 if (e.data.status) {
-                    
+                    $(obj).closest('tr').remove()
                     swal("Item deleted", "", "success")
                 }
             })  

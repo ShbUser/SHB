@@ -6,22 +6,53 @@
             <div class="col-xl-4 bg-light  checkout">
                 <br>
                 <h2 class="text-success">Enter Delivery Details</h2><br>
+                <a href="">Click here</a><p> to show address list.</p>
+                {{#if (neq address "0")}}
                 {{#each address}}
+                
                 <input type="text" class="form-control border-primary" name="name" value="{{this.deliveryDetails.name}}" placeholder="Name"><br>
+
+                
+                <input type="text" class="form-control border-primary" name="street" value="{{this.deliveryDetails.street}}" placeholder="Street"><br>
 
                 
                 <input type="text" class="form-control border-primary" name="mobile" value="{{this.deliveryDetails.mobile}}" placeholder="Mobile"><br>
 
                 
-                <input type="text" class="form-control border-primary" name="city" value="{{this.deliveryDetails.city}}" placeholder="City"><br>
-
-                
                 <input type="number" class="form-control border-primary" name="pin" value="{{this.deliveryDetails.pin}}" placeholder="Pincode"><br>
 
                 
-                <input type="text" class="form-control border-primary" name="address" value="{{this.deliveryDetails.address}}" placeholder="Address"><br>
+                <input type="text" class="form-control border-primary" name="landmark" value="{{this.deliveryDetails.landmark}}" placeholder="Landmark"><br>
+
+                <input type="text" class="form-control border-primary" name="city" value="{{this.deliveryDetails.city}}" placeholder="City"><br>
+
+                <input type="text" class="form-control border-primary" name="district" value="{{this.deliveryDetails.district}}" placeholder="District"><br>
+
+                <input type="text" class="form-control border-primary" name="state" value="{{this.deliveryDetails.state}}" placeholder="State"><br>
 
                     {{/each}}
+                    {{else}}
+                    <input type="text" class="form-control border-primary" name="name" value="" placeholder="Name"><br>
+
+                
+                <input type="text" class="form-control border-primary" name="street" value="" placeholder="Street"><br>
+
+                
+                <input type="text" class="form-control border-primary" name="mobile" value="" placeholder="Mobile"><br>
+
+                
+                <input type="number" class="form-control border-primary" name="pin" value="" placeholder="Pincode"><br>
+
+                
+                <input type="text" class="form-control border-primary" name="landmark" value="" placeholder="Landmark"><br>
+
+                <input type="text" class="form-control border-primary" name="city" value="" placeholder="City"><br>
+
+                <input type="text" class="form-control border-primary" name="district" value="" placeholder="District"><br>
+
+                <input type="text" class="form-control border-primary" name="state" value="" placeholder="State"><br>
+
+                    {{/if}}
                 <input type="text" value="{{user._id}}" name="userId" hidden>
 
             </div>
@@ -66,6 +97,8 @@
 
 <script>
     
+
+
 
   $("#checkout-form").submit((e) => {
         e.preventDefault(),

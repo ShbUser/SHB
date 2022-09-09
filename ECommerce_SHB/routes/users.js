@@ -9,37 +9,37 @@ const { restart } = require('nodemon');
 const { redirect } = require('express/lib/response');
 
 const multer = require('multer')
-let fs=require('fs');
+let fs = require('fs');
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'public/product-images')
-    },
-    filename: function (req, file, cb) {
-        const ext = file.mimetype.split("/")[1]
+  destination: function (req, file, cb) {
+    cb(null, 'public/product-images')
+  },
+  filename: function (req, file, cb) {
+    const ext = file.mimetype.split("/")[1]
 
-        cb(null, `images-${file.fieldname}-${Date.now()}.${ext}`)
-    },
+    cb(null, `images-${file.fieldname}-${Date.now()}.${ext}`)
+  },
 
 })
 const upload = multer({ storage: storage })
 
 /* GET users listing. */
-let user 
+let user
 let getImg
 const verifyLogin = (req, res, next) => {
 
   if (req.session.userLoggedIn) {
-    userHelper.isBlock(user._id).then((response)=>{
-      if(response.status){
-          // scrpt.isBlock()          
-          res.render('users/user_blocked',{user_head:true,user})
-          req.session.destroy()
-          user=null
-          
-      }else { next() }
+    userHelper.isBlock(user._id).then((response) => {
+      if (response.status) {
+        // scrpt.isBlock()          
+        res.render('users/user_blocked', { user_head: true, user })
+        req.session.destroy()
+        user = null
+
+      } else { next() }
     })
-   
+
   } else {
     res.redirect('/login')
   }
@@ -52,7 +52,7 @@ router.get('/', function (req, res, next) {
   }
 
   productHelper.getAllProducts().then((products) => {
-    res.render('users/home', { title: 'shb', user_head: true, user, products });
+    res.render('users/home', { title: 'shb', user, user_head: true, products });
 
   })
 
@@ -111,7 +111,7 @@ router.get('/add_to_wishlist/:id', verifyLogin, (req, res, next) => {
     if (wishItem == -1) {
       res.json({ status: true })
     } else {
-      res.json({ status: false,user })
+      res.json({ status: false, user })
     }
 
   }).catch((err) => {
@@ -120,7 +120,7 @@ router.get('/add_to_wishlist/:id', verifyLogin, (req, res, next) => {
 })
 
 router.get('/del-wish-item/:id', verifyLogin, (req, res, next) => {
-  userHelper.deleteWishItem(req.params.id,user._id).then(async (response) => {
+  userHelper.deleteWishItem(req.params.id, user._id).then(async (response) => {
     if (response.deletedCount != 0)
       res.json({ status: true })
     else
@@ -133,18 +133,24 @@ router.get('/del-wish-item/:id', verifyLogin, (req, res, next) => {
 })
 
 
-router.get('/user_profile', verifyLogin, (req, res,next) => {
+router.get('/user_profile', verifyLogin, (req, res, next) => {
   userHelper.getPersonalDetails(user._id).then((personalDet) => {
     // console.log(personalDet);
-    getImg=personalDet.photo;
+    getImg = personalDet.photo;
     res.render('users/user_profile', { user_head: true, user, personalDet })
-  }).catch((err)=>{
+  }).catch((err) => {
     next(err)
   })
 })
 
+router.get('/edit_ship_address/:id', (req, res) => {
+    userHelper.getShipAddress(user._id,req.params.id).then((shipAddress) => {
+      console.log(shipAddress);
+  })
+})
+
 router.get('/del-ship-address/:id', verifyLogin, (req, res, next) => {
-  userHelper.deleteShipAddress(req.params.id,user._id).then((response) => {
+  userHelper.deleteShipAddress(req.params.id, user._id).then((response) => {
     if (response.deletedCount != 0)
       res.json({ status: true })
     else
@@ -184,11 +190,11 @@ router.get('/cart', verifyLogin, async (req, res, next) => {
 
 })
 
-router.get('/del-cart-item/:id', verifyLogin, (req, res,next) => {
+router.get('/del-cart-item/:id', verifyLogin, (req, res, next) => {
   userHelper.deleteCartItem(req.session.user._id, req.params.id).then(async (response) => {
     response.total = await userHelper.getTotalAmount(req.session.user._id)
     res.json({ status: true, total: response.total })
-  }).catch((err)=>{
+  }).catch((err) => {
     next(err)
   })
 })
@@ -211,7 +217,6 @@ router.get('/place_order', verifyLogin, async (req, res) => {
   await userHelper.getTotalAmount(req.session.user._id).then(async (total) => {
     await userHelper.getAddressFromOrderList(user._id).then((address) => {
       res.render('users/place_order', { user_head: true, total, user, address })
-
     }).catch((err) => {
       next(err)
     })
@@ -339,45 +344,47 @@ router.post('/add_personalDet/:id', verifyLogin, (req, res, next) => {
     next(err)
   })
 })
-router.post('/updateProfilePic/:id',verifyLogin,upload.single('img'),(req,res,next)=>{     
-     userHelper.setProfilepiC(req.file.filename,user._id).then((response)=>{
-      if(getImg!=null){
-      fs.unlink("./public/product-images/" +getImg , (err) => {
+router.post('/updateProfilePic/:id', verifyLogin, upload.single('img'), (req, res, next) => {
+  userHelper.setProfilepiC(req.file.filename, user._id).then((response) => {
+    req.session.user.photo = req.file.filename
+    user.photo = req.file.filename
+    if (getImg != null) {
+      fs.unlink("./public/product-images/" + getImg, (err) => {
         if (err) {
-            throw err;
+          throw err;
         }
       })
     }
-        res.redirect('/user_profile')
-     }).catch((err)=>{
-      next(err)
-     })
-})
-
-router.post('/add_shipping_address/:id',(req,res,next)=>{
-  userHelper.addShippingAddress(req.body,req.params.id).then((response)=>{
     res.redirect('/user_profile')
-  }).catch((err)=>{
+  }).catch((err) => {
     next(err)
-   })
- 
+  })
 })
 
-router.post('/edit_password/:id',(req,res)=>{
-      userHelper.changePassword(req.body,req.params.id).then((response)=>{
-        console.log(response);
-        if(response.status){
-          res.json({status:true})
-          req.session.destroy()
-          user = null
-        }
-        else{
-          res.json({status:false})
-        }
-      }).catch((err)=>{
-        next(err)
-       })
-      
+router.post('/add_shipping_address/:id', (req, res, next) => {
+  userHelper.addShippingAddress(req.body, req.params.id).then((response) => {
+    res.redirect('/user_profile')
+  }).catch((err) => {
+    next(err)
+  })
+
+})
+
+router.post('/edit_password/:id', (req, res) => {
+  userHelper.changePassword(req.body, req.params.id).then((response) => {
+    console.log(response);
+    if (response.status) {
+      res.json({ status: true })
+      req.session.destroy()
+      user = null
+    }
+    else {
+      res.json({ status: false })
+    }
+  }).catch((err) => {
+    next(err)
+  })
+
 })
 
 router.post('/set-quantity', verifyLogin, (req, res, next) => {

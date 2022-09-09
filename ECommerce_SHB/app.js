@@ -38,6 +38,9 @@ app.engine('hbs',hbs.engine({extname:'hbs',defaultLayout:'layout',layoutsDir:__d
     },
      eq:function(v1,v2) {
       return v1 == v2
+    },
+    neq:function(v1,v2){
+      return v1 != v2
     }
   }
 }));

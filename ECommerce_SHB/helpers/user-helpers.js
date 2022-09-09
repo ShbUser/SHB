@@ -13,7 +13,10 @@ const serviceSid = "VA6cad9fa25705ba1d0ba9711ca5a77237"
 const client = require('twilio')(accountSid, authToken);
 
 const Razorpay = require('razorpay');
-
+let instance = new Razorpay({
+    key_id: 'rzp_test_uEAmKKJZmehl2V',
+        key_secret: 'TKzrPw09Z54Hayj3gXWCmTrX',
+    })
 
 module.exports = {
     doSignUp: async (userData) => {
@@ -231,7 +234,7 @@ module.exports = {
     },
 
     deleteShipAddress: (addressID,userID) => {
-        console.log(addressID,userID,"///////////////");
+
         return new Promise((resolve, reject) => {
             try{
             db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectID(userID)},
@@ -245,6 +248,51 @@ module.exports = {
         }
         })
     },
+    getShipAddress:(userID,addressID)=>{
+        return new Promise(async (resolve, reject) => {
+            try
+             {
+                // let address = await db.get().collection(collection.USER_COLLECTION).find({'address._id': objectID(addressID)})
+                // let address = await db.get().collection(collection.USER_COLLECTION).find(
+                //     { _id: objectID(userID)}, 
+                //     {_id: 0, address: {$elemMatch: {_id:objectID(addressID)}}});
+
+                let address = await db.get().collection(collection.USER_COLLECTION).aggregate([
+                    {
+                        $match:{_id: objectID(userID)}
+                    },
+                    {
+                        //  address: { _id: objectID(addressID) } 
+                    $project: {
+                                  address: {
+                                    $filter: {
+                                       input: "$address",
+                                   as: "out",
+                                       cond: { $eq:["$$out._id",objectID(addressID)] }
+                                   }
+                                 }
+                             }
+                   }
+
+
+
+                    // {
+                    //     $group:{
+                    //         _id:null,
+                    //         $match:{'address._id':objectID(addressID)}
+                    // }
+
+                    // },
+                    // {
+                    //     $project:{ address: { $arrayElemAt: [address, 0] } }
+                    // }
+                       ]).toArray()
+                resolve(address[0])
+            }catch(error){
+                reject(error)
+            }
+        })
+    },  
 
     addToWishlist: (prodID, userID) => {
         return new Promise(async (resolve, reject) => {
@@ -571,10 +619,13 @@ module.exports = {
                     deliveryDetails: {
 
                         name: order.name,
+                        street:order.street,
                         mobile: order.mobile,
-                        city: order.city,
                         pin: order.pin,
-                        address: order.address,
+                        landmark:order.landmark,
+                        city: order.city,  
+                        district:order.district,                      
+                        state: order.state,
                         status: status,
                         totalAmount: total,
                         date: new Date(),
@@ -705,11 +756,11 @@ module.exports = {
             }
         })
     }
-}
+
 
     //................................Razor pay.........................................
-   
-
+    
+}
 // function formatDate(date) {
 //     let d = new Date(date),
 //         month = '' + d.getMonth(),
