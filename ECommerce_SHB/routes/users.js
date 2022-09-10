@@ -146,7 +146,7 @@ router.get('/user_profile', verifyLogin, (req, res, next) => {
 router.get('/edit_ship_address/:id', (req, res,next) => {
     userHelper.getShipAddress(user._id,req.params.id).then((shipAddress) => {
       res.json({status:true, shipAddress:shipAddress})
-      console.log(shipAddress);
+      // console.log(shipAddress);
   }).catch((err)=>{
     next(err)
   })
@@ -364,17 +364,17 @@ router.post('/updateProfilePic/:id', verifyLogin, upload.single('img'), (req, re
   })
 })
 
-router.post('/add_shipping_address/:id', (req, res, next) => {
-  userHelper.addShippingAddress(req.body, req.params.id).then((response) => {
-    res.redirect('/user_profile')
+router.post('/add_shipping_address', (req, res, next) => {
+  userHelper.addShippingAddress(req.body,user._id).then((response) => {
+   res.json({status:true})
   }).catch((err) => {
     next(err)
   })
 
 })
 router.post('/edit_shipping_address/:id', (req, res, next) => {
-  userHelper.editShippingAddress(req.body, req.params.id).then((response) => {
-    res.redirect('/user_profile')
+  userHelper.editShippingAddress(req.body, user._id,req.params.id).then((response) => {
+    res.json({status:true})
   }).catch((err) => {
     next(err)
   })

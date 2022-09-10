@@ -229,16 +229,25 @@ module.exports = {
             }
         })
     },
-    editShippingAddress: (address, userID) => {
+    editShippingAddress: (address, userID,addressID) => {
+        console.log(addressID,"//////////////////////////////////////////////////");
         return new Promise(async (resolve, reject) => {
             try {
                 let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectID(userID)})
                 if (user) {
-                    db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectID(userID),address: { _id: objectID(address.tempAddressID) }},
+                    db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectID(userID), 'address._id':objectID(addressID)},
                         {
                             $set:
-                            {
-                                address: address
+                            {                                
+                                // address:{_id:{$in:[address.tempAddressID]}}
+                                'address.$.name':address.name,
+                                'address.$.streetaddress':address.streetaddress,
+                                'address.$.altermobile':address.altermobile,
+                                'address.$.pincode':address.pincode,
+                                'address.$.landmark':address.landmark,
+                                'address.$.city':address.city,
+                                'address.$.district':address.district,
+                                'address.$.state':address.state
                             }
 
                         })

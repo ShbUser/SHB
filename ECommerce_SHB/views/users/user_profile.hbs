@@ -280,7 +280,7 @@
                         shipping addresses.</i><a href="" class="text-decoration-none" data-bs-toggle="modal"
                         data-bs-target="#shippingaddress">
                         My address list</a></p>
-                <form action="/edit_shipping_address/{{personalDet._id}}" method="post" id="addressform">
+                <form action="" method="" id="addressform">
                     <div class="row text-muted">
 
                         <div class="col-12 col-md-6 col-lg-6 col-xl-6 editColor">
@@ -311,10 +311,6 @@
                             <label>State</label>
                             <input type="text" class="form-control " id="state" name="state" placeholder="">
                             <br>
-                            
-                            <input type="text" class="form-control " id="tempAddressID" name="tempAddressID" value="" placeholder="">
-                            
-
                         </div>
                         <div class="row m-auto">
                             {{!-- <div class="col-md-6">
@@ -323,7 +319,7 @@
                                     Address list</button>
                             </div> --}}
                             {{!-- <div class="col-md-6"> --}}
-                                <button type="submit" class="btn btn-outline-success" id="btnShipAddress"><i
+                                <button onclick="addEditShipAddress()" class="btn btn-outline-success" id="btnShipAddress"><i
                                         class="fa-solid fa-cloud-arrow-up"></i>
                                     save</button>
                                 {{!--
@@ -335,7 +331,7 @@
             </div>
         </div>
     </div>
-
+<input type="text" class="form-control " id="tempAddressID" name="tempAddressID" value="" placeholder="" hidden>
 </div>
 
 <script>
