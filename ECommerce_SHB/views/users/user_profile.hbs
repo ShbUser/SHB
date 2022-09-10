@@ -130,9 +130,9 @@
                                             <td>{{this.district}}</td>
                                             <td>{{this.state}}</td>
                                             <td>
-                                                <a href="/edit_ship_address/{{this._id}}"
+                                                <button onclick="editShipAddress('{{this._id}}',this)"
                                                     class="btn btn-outline-success border-0">
-                                                    <i class="fa-solid fa-file-pen"></i></a>
+                                                    <i class="fa-solid fa-file-pen"></i></button>
                                                 <button class="btn btn-outline-danger border-0"
                                                     onclick="delShippAddress('{{this._id}}',this)"><i
                                                         class="fa-solid fa-trash"></i></button>
@@ -186,7 +186,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="/add_shipping_address/{{personalDet._id}}" method="post" id="addressform">
+                        <form action="" method="" id="">
                             <div class="row text-muted">
 
                                 <div class="col-12 col-md-6 col-lg-6 col-xl-6 editColor">
@@ -223,7 +223,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i>
+                        <button onclick="" id="editShipAddress" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i>
                             Save</button>
                     </div>
                 </div>
@@ -280,37 +280,40 @@
                         shipping addresses.</i><a href="" class="text-decoration-none" data-bs-toggle="modal"
                         data-bs-target="#shippingaddress">
                         My address list</a></p>
-                <form action="/add_shipping_address/{{personalDet._id}}" method="post" id="addressform">
+                <form action="/edit_shipping_address/{{personalDet._id}}" method="post" id="addressform">
                     <div class="row text-muted">
 
                         <div class="col-12 col-md-6 col-lg-6 col-xl-6 editColor">
 
                             <label>Name</label>
-                            <input type="text" class="form-control " id="" name="name" placeholder="">
+                            <input type="text" class="form-control " id="shipname" name="name" placeholder="">
                             <br>
                             <label>Street address</label>
-                            <input type="text" class="form-control" id="" name="streetaddress" placeholder="">
+                            <input type="text" class="form-control" id="streetaddress" name="streetaddress" placeholder="">
                             <br>
                             <label>Alternate mobile</label>
-                            <input type="text" class="form-control" id="" name="altermobile" placeholder="">
+                            <input type="text" class="form-control" id="altermobile" name="altermobile" placeholder="">
                             <br>
                             <label>Pincode</label>
-                            <input type="text" class="form-control" id="" name="pincode" placeholder="">
+                            <input type="text" class="form-control" id="pincode" name="pincode" placeholder="">
                             <br>
                         </div>
                         <div class="col-12 col-md-6 col-lg-6 col-xl-6 editColor">
                             <label>Landmark</label>
-                            <input type="text" class="form-control " id="" name="landmark" placeholder="">
+                            <input type="text" class="form-control " id="landmark" name="landmark" placeholder="">
                             <br>
                             <label>City</label>
-                            <input type="text" class="form-control" id="" name="city" placeholder="">
+                            <input type="text" class="form-control" id="city" name="city" placeholder="">
                             <br>
                             <label>District</label>
-                            <input type="text" class="form-control " id="" name="district" placeholder="">
+                            <input type="text" class="form-control " id="district" name="district" placeholder="">
                             <br>
                             <label>State</label>
-                            <input type="text" class="form-control " id="" name="state" placeholder="">
+                            <input type="text" class="form-control " id="state" name="state" placeholder="">
                             <br>
+                            
+                            <input type="text" class="form-control " id="tempAddressID" name="tempAddressID" value="" placeholder="">
+                            
 
                         </div>
                         <div class="row m-auto">
@@ -320,7 +323,7 @@
                                     Address list</button>
                             </div> --}}
                             {{!-- <div class="col-md-6"> --}}
-                                <button type="submit" class="btn btn-outline-success"><i
+                                <button type="submit" class="btn btn-outline-success" id="btnShipAddress"><i
                                         class="fa-solid fa-cloud-arrow-up"></i>
                                     save</button>
                                 {{!--
@@ -339,6 +342,7 @@
 
 
     $(document).ready(function () {
+        
         $("#addressform").validate({
             rules: {
                 name: {
@@ -377,6 +381,7 @@
 
     })
 
+     
 
     $(document).ready(function () {
         $("#profileForm").validate({

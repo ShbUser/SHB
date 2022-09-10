@@ -195,6 +195,29 @@ async function statusDelivered(orderID,obj) {
     })    
 }
 
+async function editShipAddress(addressId,obj){
+       await axios.get('/edit_ship_address/'+addressId).then((e)=>{
+                if (e.data.status) {
+                    let add = JSON.stringify(e.data.shipAddress.address[0]);
+                   
+                    $(obj).closest('#shippingaddress').modal('hide')
+                    
+                        document.getElementById('shipname').value=e.data.shipAddress.address[0].name   
+                        document.getElementById('streetaddress').value=e.data.shipAddress.address[0].streetaddress   
+                        document.getElementById('altermobile').value=e.data.shipAddress.address[0].altermobile
+                        document.getElementById('pincode').value=e.data.shipAddress.address[0].pincode   
+                        document.getElementById('landmark').value=e.data.shipAddress.address[0].landmark   
+                        document.getElementById('city').value=e.data.shipAddress.address[0].city   
+                        document.getElementById('district').value=e.data.shipAddress.address[0].district   
+                        document.getElementById('state').value=e.data.shipAddress.address[0].state
+                        document.getElementById('tempAddressID').value=e.data.shipAddress.address[0]._id                          
+                        document.getElementById('btnShipAddress').value=e.data.shipAddress.address[0]._id  
+                        
+
+                }
+       })
+    }
+
 
   function delOrderItems(prodID,obj) {
     swal({
