@@ -2,7 +2,7 @@ let db = require('../config/Connection')
 let collection = require('../config/collections')
 let bcrypt = require('bcrypt')
 const { response } = require('express')
-const { reject, resolve } = require('promise')
+const { reject, resolve, all } = require('promise')
 let objectID = require('mongodb').ObjectId
 
 // ...............for OTP......................
@@ -201,6 +201,19 @@ module.exports = {
                 let personalDet = await db.get().collection(collection.USER_COLLECTION).findOne(
                     { _id: objectID(userID) }, { wishlist: 0, isBlock: 0, password: 0 })
                 resolve(personalDet)
+            } catch (error) {
+                reject(error)
+            }
+        })
+
+    },
+    getAllShipAddress: (userID) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let allAddress = await db.get().collection(collection.USER_COLLECTION).findOne(
+                    { _id: objectID(userID) }, {address:1})
+                    console.log(allAddress);
+                resolve(allAddress)
             } catch (error) {
                 reject(error)
             }
@@ -628,9 +641,9 @@ module.exports = {
                     deliveryDetails: {
 
                         name: order.name,
-                        street: order.street,
-                        mobile: order.mobile,
-                        pin: order.pin,
+                        street: order.streetaddress,
+                        mobile: order.altermobile,
+                        pin: order.pincode,
                         landmark: order.landmark,
                         city: order.city,
                         district: order.district,
@@ -794,7 +807,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             try {
                 const crypto = require('crypto')
-                let hmac = crypto.createHmac('sha256', process.key_secret);
+                let hmac = crypto.createHmac('sha256', process.env.key_secret);
                 hmac.update(details['payment[razorpay_order_id]'] + '|' + details['payment[razorpay_payment_id]']);
                 hmac = hmac.digest('hex')
                 if (hmac == details['payment[razorpay_signature]']) {

@@ -1,68 +1,156 @@
- <img src="/assets/img/Checkout-Banner-2.jpg" width="100%">
+<img src="/assets/img/Checkout-Banner-2.jpg" width="100%">
 <div class="container p-5 mt-5">
-   
-    <form action="/checkout" method="post" id="checkout-form" >
+
+    <div class="modal fade" id="shippingaddress" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div>
+                        <img src="/assets/img/shp.jpg" width="100">
+                    </div>
+
+                    <h5 class="modal-title" id="staticBackdropLabel">Shipping Address List</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table-responsive" style="width: 68em;border-color: blue;" id="productsJS">
+                        <tbody class="table-bordered">
+
+                            {{#each shipAddressList.address}}
+                            <tr>
+                                <td>
+                                    <p>Name : </p>
+                                    <p>Mobile : </p>
+                                    <p class="text-primary">Street :</p>
+                                </td>
+                                <td>
+                                    <p>{{this.name}}</p>
+                                    <p>{{this.altermobile}}</p>
+                                    <p class="text-primary">{{this.streetaddress}}</p>
+                                </td>
+
+
+                                <td>
+                                    <p>PinCode : </p>
+                                    <p>City : </p>
+                                    <p class="text-primary">Landmark :</p>
+                                </td>
+                                <td>
+                                    <p>{{this.pincode}}</p>
+                                    <p>{{this.city}}</p>
+                                    <p class="text-primary">{{this.landmark}}</p>
+                                </td>
+
+                                <td>
+                                    <p>District :</p>
+                                    <p>State :</p>
+                                </td>
+                                <td>
+                                    <p>{{this.district}}</p>
+                                    <p>{{this.state}}</p>
+                                </td>
+                                <td>
+
+                                    <button onclick="editShipAddress('{{this._id}}',this,false)"
+                                        class="btn btn-success">
+                                        Select</button>
+                                    {{!-- <button class="btn btn-outline-danger border-0"
+                                        onclick="delShippAddress('{{this._id}}',this)"><i
+                                            class="fa-solid fa-trash"></i></button> --}}
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <form action="/checkout" method="post" id="checkout-form">
         <div class="row ">
-            <div class="col-xl-4 bg-light  checkout">
+            <div class="col-lg-6 col-xl-6  bg-light  checkout">
                 <br>
-                <h2 class="text-success">Enter Delivery Details</h2><br>
-                <a href="">Click here</a><p> to show address list.</p>
-                {{#if (neq address "0")}}
-                {{#each address}}
-                
-                <input type="text" class="form-control border-primary" name="name" value="{{this.deliveryDetails.name}}" placeholder="Name"><br>
+                <h5>Enter Delivery Details</h5><br>
+                <div>
+                    <a href="" data-bs-toggle="modal" data-bs-target="#shippingaddress">Click here</a>
+                    <p> to show address list.</p>
+                </div>
 
-                
-                <input type="text" class="form-control border-primary" name="street" value="{{this.deliveryDetails.street}}" placeholder="Street"><br>
+                <div class="editColor textMuted">
+                    <div class="row">
+                        <div class="col">
 
-                
-                <input type="text" class="form-control border-primary" name="mobile" value="{{this.deliveryDetails.mobile}}" placeholder="Mobile"><br>
 
-                
-                <input type="number" class="form-control border-primary" name="pin" value="{{this.deliveryDetails.pin}}" placeholder="Pincode"><br>
+                            {{#if (neq address "0")}}
+                            {{#each address}}
 
-                
-                <input type="text" class="form-control border-primary" name="landmark" value="{{this.deliveryDetails.landmark}}" placeholder="Landmark"><br>
+                            <label>Name</label>
+                            <input type="text" class="form-control " id="shipname" name="name"
+                                value="{{this.deliveryDetails.name}}" placeholder="Name"><br>
 
-                <input type="text" class="form-control border-primary" name="city" value="{{this.deliveryDetails.city}}" placeholder="City"><br>
+                            <label>Street</label>
+                            <input type="text" class="form-control" id="streetaddress" name="streetaddress"
+                                value="{{this.deliveryDetails.street}}" placeholder="Street"><br>
 
-                <input type="text" class="form-control border-primary" name="district" value="{{this.deliveryDetails.district}}" placeholder="District"><br>
+                            <label>Mobile</label>
+                            <input type="text" class="form-control " id="altermobile" name="altermobile"
+                                value="{{this.deliveryDetails.mobile}}" placeholder="Mobile"><br>
 
-                <input type="text" class="form-control border-primary" name="state" value="{{this.deliveryDetails.state}}" placeholder="State"><br>
+                            <label>Pincode</label>
+                            <input type="number" class="form-control" id="pincode" name="pincode"
+                                value="{{this.deliveryDetails.pin}}" placeholder="Pincode"><br>
+                        </div>
+                        <div class="col">
 
+                            <label>Landmark</label>
+                            <input type="text" class="form-control" name="landmark" id="landmark"
+                                value="{{this.deliveryDetails.landmark}}" placeholder="Landmark"><br>
+
+                            <label>City</label>
+                            <input type="text" class="form-control" id="city" name="city"
+                                value="{{this.deliveryDetails.city}}" placeholder="City"><br>
+
+                            <label>District</label>
+                            <input type="text" class="form-control" id="district" name="district"
+                                value="{{this.deliveryDetails.district}}" placeholder="District"><br>
+
+                            <label>State</label>
+                            <input type="text" class="form-control" name="state" id="state"
+                                value="{{this.deliveryDetails.state}}" placeholder="State"><br>
+                        </div>
+                    </div>
                     {{/each}}
                     {{else}}
-                    <input type="text" class="form-control border-primary" name="name" value="" placeholder="Name"><br>
+                    <input type="text" class="form-control border-primary" name="shipname" value=""
+                        placeholder="Name"><br>
 
-                
-                <input type="text" class="form-control border-primary" name="street" value="" placeholder="Street"><br>
 
-                
-                <input type="text" class="form-control border-primary" name="mobile" value="" placeholder="Mobile"><br>
+                    <input type="text" class="form-control" name="streetaddress" value="" placeholder="Street"><br>
 
-                
-                <input type="number" class="form-control border-primary" name="pin" value="" placeholder="Pincode"><br>
 
-                
-                <input type="text" class="form-control border-primary" name="landmark" value="" placeholder="Landmark"><br>
+                    <input type="text" class="form-control" name="altermobile" value="" placeholder="Mobile"><br>
 
-                <input type="text" class="form-control border-primary" name="city" value="" placeholder="City"><br>
 
-                <input type="text" class="form-control border-primary" name="district" value="" placeholder="District"><br>
+                    <input type="number" class="form-control" name="pincode" value="" placeholder="Pincode"><br>
 
-                <input type="text" class="form-control border-primary" name="state" value="" placeholder="State"><br>
+
+                    <input type="text" class="form-control" name="landmark" value="" placeholder="Landmark"><br>
+
+                    <input type="text" class="form-control" name="city" value="" placeholder="City"><br>
+
+                    <input type="text" class="form-control" name="district" value="" placeholder="District"><br>
+
+                    <input type="text" class="form-control" name="state" value="" placeholder="State"><br>
 
                     {{/if}}
+                </div>
                 <input type="text" value="{{user._id}}" name="userId" hidden>
 
             </div>
-            <div class="col-xl-2 ml-3">
-                {{!-- <marquee direction=right>
-                    <p class="checkoutAnthr"> ----------------------------- </p>
-                </marquee> --}}
-            </div>
 
-            <div class="col-xl-6 ">
+            <div class="col-lg-6 col-xl-6 p-5 ">
                 {{!-- <div class="row "> --}}
                     <div class="mt-2 ">
                         <img src="/assets/img/payment-gateway-integration.jpg" alt="img" width="430px">
@@ -88,19 +176,19 @@
                             class="fa-solid fa-thumbs-up"></i></button>
 
 
+                </div>
+
             </div>
-
         </div>
-
     </form>
 </div>
 
 <script>
-    
 
 
 
-  $("#checkout-form").submit((e) => {
+
+    $("#checkout-form").submit((e) => {
         e.preventDefault(),
 
             $.ajax({
@@ -117,11 +205,11 @@
                 }
             })
     })
- function razorPayPayment(order) {
-        
+    function razorPayPayment(order) {
+
         var options = {
             "key": "rzp_test_uEAmKKJZmehl2V", // Enter the Key ID generated from the Dashboard
-            "amount":order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
             //alert("**********************************"+order),
             "currency": "INR",
             "name": "SHB Online Hub",
@@ -160,21 +248,20 @@
                 order
             },
             method: 'post',
-            success:(response)=>{
-                if(response.status){
+            success: (response) => {
+                if (response.status) {
                     location.href = '/order'
                 }
-                else
-                {
+                else {
                     alert("Payment failed")
                 }
-                 
+
             }
 
         })
     }
- 
-//................validation..................
+
+    //................validation..................
     $(document).ready(function () {
         $("#checkout-form").validate({
             rules: {
@@ -190,7 +277,7 @@
                     required: true
                 },
                 pin: {
-                    required: true,   
+                    required: true,
                     digits: true
                 },
                 address: {

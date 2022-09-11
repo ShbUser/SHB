@@ -31,6 +31,9 @@ body{
     /* border-color: blue; */
     background-color: white;
 }
+.textMuted label{
+    color:lightgray;
+}
 .signupPage{
     background-image: url("/assets/img/banner2.webp");
     background-size: cover;

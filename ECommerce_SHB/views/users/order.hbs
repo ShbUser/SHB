@@ -8,9 +8,14 @@
             <thead class="">
                 <tr>
                     <th scope="col">Products</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">Pin Code</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Street</th>                    
                     <th scope="col">Mobile</th>
+                    <th scope="col">Pin</th>
+                    <th scope="col">Landmark</th>
+                    <th scope="col">City</th>
+                    <th scope="col">District</th>
+                    <th scope="col">State</th>
                     <th scope="col">Amount</th>
                     <th scope="col">Payment</th>
                     <th scope="col">Status</th>
@@ -25,9 +30,14 @@
                     <td><a href="/view_order_products/{{this._id}}" class="btn btn-outline-success border-0">
                             <i class="fa-solid fa-eye"></i> </a></td>
 
-                    <td>{{this.deliveryDetails.address}}</td>
-                    <td>{{this.deliveryDetails.pin}}</td>
+                    <td>{{this.deliveryDetails.name}}</td>
+                    <td>{{this.deliveryDetails.street}}</td>
                     <td>{{this.deliveryDetails.mobile}}</td>
+                    <td>{{this.deliveryDetails.pin}}</td>
+                    <td>{{this.deliveryDetails.landmark}}</td>
+                    <td>{{this.deliveryDetails.city}}</td>
+                    <td>{{this.deliveryDetails.district}}</td>
+                    <td>{{this.deliveryDetails.state}}</td>
                     <td>{{this.deliveryDetails.totalAmount}}</td>
                     <td>{{this.deliveryDetails.paymentMethod}}</td>
                     {{#if (eq this.deliveryDetails.status "Pending")}}

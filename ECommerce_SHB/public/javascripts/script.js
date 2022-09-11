@@ -231,7 +231,7 @@ async function addEditShipAddress(){
     
 }
 
-async function editShipAddress(addressId,obj){
+async function editShipAddress(addressId,obj,isPlaceorder){
        await axios.get('/edit_ship_address/'+addressId).then((e)=>{
                 if (e.data.status) {
                     let add = JSON.stringify(e.data.shipAddress.address[0]);
@@ -246,8 +246,10 @@ async function editShipAddress(addressId,obj){
                         document.getElementById('city').value=e.data.shipAddress.address[0].city   
                         document.getElementById('district').value=e.data.shipAddress.address[0].district   
                         document.getElementById('state').value=e.data.shipAddress.address[0].state
+                        if(isPlaceorder){
                         document.getElementById('tempAddressID').value=e.data.shipAddress.address[0]._id                          
                         document.getElementById('btnShipAddress').value=e.data.shipAddress.address[0]._id  
+                        }
                 }
        })
     }

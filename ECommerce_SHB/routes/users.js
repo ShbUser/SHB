@@ -143,11 +143,11 @@ router.get('/user_profile', verifyLogin, (req, res, next) => {
   })
 })
 
-router.get('/edit_ship_address/:id', (req, res,next) => {
-    userHelper.getShipAddress(user._id,req.params.id).then((shipAddress) => {
-      res.json({status:true, shipAddress:shipAddress})
-      // console.log(shipAddress);
-  }).catch((err)=>{
+router.get('/edit_ship_address/:id',verifyLogin, (req, res, next) => {
+  userHelper.getShipAddress(user._id, req.params.id).then((shipAddress) => {
+    res.json({ status: true, shipAddress: shipAddress })
+    // console.log(shipAddress);
+  }).catch((err) => {
     next(err)
   })
 })
@@ -218,13 +218,17 @@ router.get('/del-order-item/:id', verifyLogin, (req, res, next) => {
 
 router.get('/place_order', verifyLogin, async (req, res) => {
   await userHelper.getTotalAmount(req.session.user._id).then(async (total) => {
-    await userHelper.getAddressFromOrderList(user._id).then((address) => {
-      res.render('users/place_order', { user_head: true, total, user, address })
+    await userHelper.getAddressFromOrderList(user._id).then(async (address) => {
+      await userHelper.getAllShipAddress(user._id).then((shipAddressList) => {
+        res.render('users/place_order', { user_head: true,user, total, address ,shipAddressList})
+      }).catch((err) => {
+        next(err)
+      })
+
     }).catch((err) => {
       next(err)
     })
-
-  }).catch((err) => {
+  }).catch((err)=>{
     next(err)
   })
 })
@@ -365,16 +369,16 @@ router.post('/updateProfilePic/:id', verifyLogin, upload.single('img'), (req, re
 })
 
 router.post('/add_shipping_address', (req, res, next) => {
-  userHelper.addShippingAddress(req.body,user._id).then((response) => {
-   res.json({status:true})
+  userHelper.addShippingAddress(req.body, user._id).then((response) => {
+    res.json({ status: true })
   }).catch((err) => {
     next(err)
   })
 
 })
 router.post('/edit_shipping_address/:id', (req, res, next) => {
-  userHelper.editShippingAddress(req.body, user._id,req.params.id).then((response) => {
-    res.json({status:true})
+  userHelper.editShippingAddress(req.body, user._id, req.params.id).then((response) => {
+    res.json({ status: true })
   }).catch((err) => {
     next(err)
   })
@@ -419,7 +423,7 @@ router.post('/checkout', async (req, res, next) => {
   userHelper.placeOrder(req.body, products, totalPrice).then((orderID) => {
     if (req.body['payment-method'] === 'COD') {
       res.json({ codSuccess: true })
-      // res.redirect('/order')
+       res.redirect('/order')
     }
     else {
 
