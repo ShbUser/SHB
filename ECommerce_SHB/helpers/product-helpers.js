@@ -15,9 +15,13 @@ let objectID = require('mongodb').ObjectId
 module.exports = {
     addProduct: (Product) => {
         return new Promise((resolve, reject) => {
+            try{
             db.get().collection(collection.PRODUCT_COLLECTION).insertOne(Product).then((data) => {
                 resolve(data.insertedId)
             })
+        }catch(error){
+            reject(error)
+        }
         })
 
     },    

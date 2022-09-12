@@ -369,8 +369,9 @@ router.post('/updateProfilePic/:id', verifyLogin, upload.single('img'), (req, re
 })
 
 router.post('/add_shipping_address', (req, res, next) => {
-  userHelper.addShippingAddress(req.body, user._id).then((response) => {
-    res.json({ status: true })
+  userHelper.addEditShippingAddress(req.body, user._id).then((response) => {
+    // res.json({ status: true })
+    res.redirect('/user_profile')
   }).catch((err) => {
     next(err)
   })

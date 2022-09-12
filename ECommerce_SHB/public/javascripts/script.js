@@ -195,41 +195,40 @@ async function statusDelivered(orderID,obj) {
     })    
 }
 
-async function addEditShipAddress(){
-    editAddressID=document.getElementById('tempAddressID').value
-    if(editAddressID==""){
-        await axios.post('/add_shipping_address',{
-            name :document.getElementById('shipname').value,
-            streetaddress:document.getElementById('streetaddress').value,
-            altermobile:document.getElementById('altermobile').value,
-            pincode:document.getElementById('pincode').value,
-            landmark:document.getElementById('landmark').value,
-            city:document.getElementById('city').value,
-            district:document.getElementById('district').value,
-            state:document.getElementById('state').value
-        }).then((e)=>{
-                if(e.data.status){
-                    location.href='/user_profile'
-                }
-        })
-    }else {
-        await axios.post('/edit_shipping_address/'+editAddressID,{
-            name :document.getElementById('shipname').value,
-            streetaddress:document.getElementById('streetaddress').value,
-            altermobile:document.getElementById('altermobile').value,
-            pincode:document.getElementById('pincode').value,
-            landmark:document.getElementById('landmark').value,
-            city:document.getElementById('city').value,
-            district:document.getElementById('district').value,
-            state:document.getElementById('state').value
-        }).then((e)=>{
-                if(e.data.status){
-                    location.href='/user_profile'
-                }
-        })
-    }
-    
-}
+// async function addEditShipAddress(){
+//     editAddressID=document.getElementById('tempAddressID').value
+//     if(editAddressID==""){
+//         await axios.post('/add_shipping_address',{
+//             name :document.getElementById('shipname').value,
+//             streetaddress:document.getElementById('streetaddress').value,
+//             altermobile:document.getElementById('altermobile').value,
+//             pincode:document.getElementById('pincode').value,
+//             landmark:document.getElementById('landmark').value,
+//             city:document.getElementById('city').value,
+//             district:document.getElementById('district').value,
+//             state:document.getElementById('state').value
+//         }).then((e)=>{
+//                 if(e.data.status){
+//                     location.href='/user_profile'
+//                 }
+//         })
+//     }else {
+//         await axios.post('/edit_shipping_address/'+editAddressID,{
+//             name :document.getElementById('shipname').value,
+//             streetaddress:document.getElementById('streetaddress').value,
+//             altermobile:document.getElementById('altermobile').value,
+//             pincode:document.getElementById('pincode').value,
+//             landmark:document.getElementById('landmark').value,
+//             city:document.getElementById('city').value,
+//             district:document.getElementById('district').value,
+//             state:document.getElementById('state').value
+//         }).then((e)=>{
+//                 if(e.data.status){
+//                     location.href='/user_profile'
+//                 }
+//         })
+//     }
+// }
 
 async function editShipAddress(addressId,obj,isPlaceorder){
        await axios.get('/edit_ship_address/'+addressId).then((e)=>{

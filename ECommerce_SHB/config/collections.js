@@ -9,5 +9,9 @@ module.exports={
 
     CATEGORY_COLLECTION:'category',
 
-    ADMIN_COLLECTION:'admin'
+    ADMIN_COLLECTION:'admin',
+
+    BANNER_COLLECTION:'banner',
+
+    COUPEN_COLLECTION: 'coupen'
 }

@@ -1,0 +1,120 @@
+<div class="container">
+
+    <section>
+        <div class="row">
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+
+
+            </div>
+
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4 editColor">
+                <h3 class="text-center">Banner management</h3><br>
+                <form action="/admin/add_banner" method="post" enctype="multipart/form-data">
+                    <label>Name</label>
+                    <input type="text" class="form-control" id="bannername" name="bannername" placeholder=""
+                        required><br>
+                    <label>Header</label>
+                    <input type="text" class="form-control" id="header" name="header" placeholder="" required><br>
+                    <label>Content</label>
+                    <input type="text" class="form-control" id="header" name="content" placeholder="" required><br>
+                    <label>Image</label>
+                    <input class="form-control btn btn-outline-success" type="file" id="img" name="img"><br><br>
+                    <div class="row">
+                    <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i>
+                        Save</button>
+                        </div><br>
+                </form>
+            </div>
+
+            <br>
+
+            <div class="col-12 col-md-4 col-lg-4 col-xl-4">
+
+
+            </div>
+
+        </div>
+        {{!-- Edit banner modal --}}
+
+        <!-- Modal -->
+        <div class="modal fade" id="bannerEditModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Edit Banner</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="" enctype="multipart/form-data">
+                            <label>Name</label>
+                            <input type="text" class="form-control" id="bannername" name="bannername" placeholder=""
+                                required><br>
+                            <label>Header</label>
+                            <input type="text" class="form-control" id="header" name="header" placeholder=""
+                                required><br>
+                            <label>Content</label>
+                            <input type="text" class="form-control" id="header" name="header" placeholder=""
+                                required><br>
+                            <label>Image</label>
+                            <input class="form-control btn btn-outline-success" type="file" id="img" name="img"
+                                multiple><br>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i>
+                                    Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="row">
+
+            <div class="col-12 col-md-3 col-lg-3 col-xl-3">
+
+
+            </div>
+            <div class="col-12 col-md-9 col-lg-9 col-xl-9">
+                <table class="table mt-3" id="bannerJS">
+                    <thead class="bg-success ">
+                        <tr>
+                            <th scope="col">Banner name</th>
+                            <th scope="col">Header</th>
+                            <th scope="col">Content</th>
+                            <th scope="col">Image</th>
+                            <th>Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each banners}}
+                        <tr>
+                            <td>{{this.bannername}}</td>
+                            <td>{{this.header}}</td>
+                            <td>{{this.content}}</td>
+                            <td><img src="/banner-images/{{this.bannerImg}}" alt="img" width="60" height="60"> </td>
+                            <td>
+                                <a onclick="editBanner({{this._id}})" class="btn btn-outline-success" data-bs-toggle="modal"
+                                    data-bs-target="#bannerEditModal">Edit <i class="fa-solid fa-file-pen"></i></a>
+                                <button class="btn btn-outline-danger" onclick="delBanner({{this._id}})">Delete<i
+                                        class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+
+                        {{/each}}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#bannerJS').DataTable();
+    });
+</script>

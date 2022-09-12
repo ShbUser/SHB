@@ -21,8 +21,12 @@ module.exports = {
     },
     getAllUsers: () => {
         return new Promise(async (resolve, reject) => {
+            try{
             let users = await db.get().collection(collection.USER_COLLECTION).find().toArray()
             resolve(users)
+            }catch(error){
+                reject(error)
+            }
         })
     },
 
@@ -91,6 +95,29 @@ module.exports = {
                 await db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: objectID(orderID) }, { $set: { "deliveryDetails.status": "Delivered" } })
                 resolve(response)
             } catch (error) {
+                reject(error)
+            }
+        })
+    },
+
+    addBanner:(banner)=>{
+        return new Promise(async(resolve, reject) => {
+            try{
+            await db.get().collection(collection.BANNER_COLLECTION).insertOne(banner).then((data) => {
+                resolve(data.insertedId)
+            })
+        }catch(error){
+            reject(error)
+        }
+        })
+    },
+
+    getAllBanners:()=>{
+        return new Promise(async (resolve, reject) => {
+            try{
+            let banners = await db.get().collection(collection.BANNER_COLLECTION).find().toArray()
+            resolve(banners)
+            }catch(error){
                 reject(error)
             }
         })

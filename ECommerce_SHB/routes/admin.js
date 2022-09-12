@@ -6,9 +6,12 @@ let userHelper = require('../helpers/user-helpers')
 const adminHelper = require('../helpers/admin-helpers');
 
 const multer = require('multer')
-let fs = require('fs')
+let fs = require('fs');
+const { resolve } = require('path');
+const { reject } = require('promise');
 
 let imgArr = []
+let imgID
 const verifyLogin = (req, res, next) => {
     if (req.session.adminLoggedIn) {
         next()
@@ -27,7 +30,23 @@ const storage = multer.diskStorage({
     },
 
 })
+
+//test....
+const storage1 = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/banner-images')
+    },
+    filename: function (req, file, cb) {
+        const ext = file.mimetype.split("/")[1]
+
+        cb(null, `images-${file.fieldname}-${Date.now()}.${ext}`)
+    }
+
+})
+//end  .....
 const upload = multer({ storage: storage })
+let upload1 =multer({ storage: storage1 }).single('img')
+
 // ................................. GET methods................................................
 
 router.get('/', (req, res) => {
@@ -101,6 +120,13 @@ router.get('/view_users', verifyLogin, (req, res) => {
     })
 })
 
+router.get('/banner_manage',verifyLogin,(req,res,next)=>{
+        adminHelper.getAllBanners().then((banners)=>{
+            res.render('admin/banner_manage',{admin:true,banners})
+        }).catch((err)=>{
+            next(err)
+        })
+    })
 
 router.get('/edit_category/:id', verifyLogin, (req, res) => {
 
@@ -116,8 +142,6 @@ router.get('/delete_category/:id', verifyLogin, (req, res) => {
 })
 
 router.get('/delete_products/:id/:imgs', verifyLogin, (req, res) => {
-
-    // console.log(imgArr,"delttttttttttttttttttttttttttttt");
     productHelper.deleteProduct(req.params.id).then((id) => {
 
         imgArr = req.params.imgs.split(",")
@@ -165,6 +189,8 @@ router.get('/unblock-user/:id', verifyLogin, (req, res) => {
 
 })
 
+
+
 // .........................................Post methods..........................................................
 
 router.post('/log_in_ad', (req, res) => {
@@ -193,20 +219,16 @@ router.post('/log_in_ad', (req, res) => {
 
 
 
-router.post('/add_product', verifyLogin, upload.array('img', 5), (req, res) => {
+router.post('/add_product', verifyLogin, upload.array('img', 5), (req, res,next) => {
     const images = req.files
     let array = []
     array = images.map((value) => value.filename)
     req.body.myimg = array
 
     productHelper.addProduct(req.body).then((id) => {
-        // let image = req.files.img
-        // image.mv('./public/product-images/' + id + '.jpg', (err, done) => {
-        //     if (!err)
         res.redirect('/admin/view_products')
-        //     else console.log(err)
-        // })
-
+    }).catch((err)=>{
+        next(err)
     })
 })
 
@@ -252,5 +274,14 @@ router.post('/update_product/:id', verifyLogin, upload.array('img', 3), (req, re
     })
 })
 
+router.post('/add_banner',verifyLogin,upload1,(req,res,next)=>{
+    req.body.bannerImg=req.file.filename
+    adminHelper.addBanner(req.body).then((id)=>{
+        res.redirect('/admin/banner_manage')
+    }).catch((err)=>{
+        next(err)
+    })
+
+})
 
 module.exports = router;

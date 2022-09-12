@@ -1,15 +1,4 @@
 <div class="container">
-    <header>
-        <div class="row  text-center">
-            <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                <h4><span class="text-success">SHB</span> online hub Administrator</h4>
-            </div>
-        </div>
-
-    </header>
-
-    <hr>
-
 
     <section>
 
@@ -19,87 +8,100 @@
                     <h3>Order Details...</h3>
                 </div>
             </div>
-            <div class="col-12 col-md-12 col-lg-12 col-xl-12 offset-1 align-middle">
-                <table class="table mt-3 text-center bg-success" id="productJS">
-                    <thead class="">
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Products</th>
-                            <th scope="col">Address</th>
-                            <th scope="col">Pin Code</th>
-                            <th scope="col">Mobile</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Payment</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Track</th>
-                            <th scope="col">Action</th>
+            <div class="row">
+                <div class="col-2 col-md-2 col-lg-2 col-xl-2">
 
-                        </tr>
-                    </thead>
-                    <tbody class="text-center align-middle">
+                </div>
+                <div class="col-10 col-md-10 col-lg-10 col-xl-10  align-middle">
+                    <table class="table mt-3 text-center bg-success" id="productJS">
+                        <thead class="">
+                            <tr>
+                                <th scope="col">Item</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Street</th>
+                                <th scope="col">Ph:</th>
+                                <th scope="col">Pin</th>
+                                <th scope="col">Land</th>
+                                <th scope="col">City</th>
+                                <th scope="col">Dist</th>
+                                <th scope="col">State</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Pay</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Track</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center align-middle">
 
-                        {{#each orders}}
-                        <tr>
-                            <td><a href="/admin/admin_view_order_products/{{this._id}}"
-                                    class="btn btn-outline-success border-0">
-                                    <i class="fa-solid fa-eye"></i> </a></td>
+                            {{#each orders}}
+                            <tr>
+                                <td><a href="/admin/admin_view_order_products/{{this._id}}"
+                                        class="btn btn-outline-success border-0">
+                                        <i class="fa-solid fa-eye"></i> </a></td>
 
-                            <td>{{this.deliveryDetails.name}}</td>
-                            <td>{{this.deliveryDetails.address}}</td>
-                            <td>{{this.deliveryDetails.pin}}</td>
-                            <td>{{this.deliveryDetails.mobile}}</td>
-                            <td>{{this.deliveryDetails.totalAmount}}</td>
-                            <td>{{this.deliveryDetails.paymentMethod}}</td>
-                            {{#if (eq this.deliveryDetails.status "Pending")}}
-                            <td style="color:red; font-weight: bolder;" id="status">
-                                {{this.deliveryDetails.status}}...</td>
-                            {{/if}}
-                            {{#if (eq this.deliveryDetails.status "Placed")}}
-                            <td class="text-warning" style=" font-weight: bolder;" id="status">
-                                {{this.deliveryDetails.status}}</td>
-                            {{/if}}
-
-                            {{#if (eq this.deliveryDetails.status "Shipped")}}
-                            <td style="color:blue;  font-weight: bolder" id="status">{{this.deliveryDetails.status}}
-                            </td>
-                            {{/if}}
-
-                            {{#if (eq this.deliveryDetails.status "Delivered")}}
-                            <td style="color:green; font-weight: bolder;" id="status">{{this.deliveryDetails.status}}
-                            </td>
-                            {{/if}}
-
-                            <td>{{formatDate this.deliveryDetails.date}}</td>
-                            <td>
+                                <td>{{this.deliveryDetails.name}}</td>
+                                <td>{{this.deliveryDetails.street}}</td>
+                                <td>{{this.deliveryDetails.mobile}}</td>
+                                <td>{{this.deliveryDetails.pin}}</td>
+                                <td>{{this.deliveryDetails.landmark}}</td>
+                                <td>{{this.deliveryDetails.city}}</td>
+                                <td>{{this.deliveryDetails.district}}</td>
+                                <td>{{this.deliveryDetails.state}}</td>
+                                <td>{{this.deliveryDetails.totalAmount}}</td>
+                                <td>{{this.deliveryDetails.paymentMethod}}</td>
+                                {{#if (eq this.deliveryDetails.status "Pending")}}
+                                <td style="color:red; font-weight: bolder;" id="status">
+                                    {{this.deliveryDetails.status}}...</td>
+                                {{/if}}
                                 {{#if (eq this.deliveryDetails.status "Placed")}}
-                                <a class="btn btn-outline-success border-0" onclick="statusShipped('{{this._id}}',this)"
-                                    id="ship">
-                                    <i class="fa-solid fa-ship text-warning"></i>
-                                </a>
+                                <td class="text-warning" style=" font-weight: bolder;" id="status">
+                                    {{this.deliveryDetails.status}}</td>
                                 {{/if}}
 
                                 {{#if (eq this.deliveryDetails.status "Shipped")}}
-                                <a class="btn btn-outline-success border-0"
-                                    onclick="statusDelivered('{{this._id}}',this)" id="deliver">
-                                    <i class="fa-solid fa-truck-fast text-primary"></i>
-                                </a>
+                                <td style="color:blue;  font-weight: bolder" id="status">{{this.deliveryDetails.status}}
+                                </td>
                                 {{/if}}
-                                {{#if (eq this.deliveryDetails.status "Delivered")}}
-                                {{!-- <img src="/assets/img/delvr.jpg" width="60"> --}}
-                                <i class="fa-solid fa-check text-success"></i>
-                                </a>
-                                {{/if}}
-                            </td>
-                            <td>
-                                <button class="btn btn-outline-danger border-0"
-                                    onclick="deleteOrder('{{this._id}}',this)">Cancel</button>
-                            </td>
-                        </tr>
-                        {{/each}}
 
-                    </tbody>
-                </table>
+                                {{#if (eq this.deliveryDetails.status "Delivered")}}
+                                <td style="color:green; font-weight: bolder;" id="status">
+                                    {{this.deliveryDetails.status}}
+                                </td>
+                                {{/if}}
+
+                                <td>{{formatDate this.deliveryDetails.date}}</td>
+                                <td>
+                                    {{#if (eq this.deliveryDetails.status "Placed")}}
+                                    <a class="btn btn-outline-success border-0"
+                                        onclick="statusShipped('{{this._id}}',this)" id="ship">
+                                        <i class="fa-solid fa-ship text-warning"></i>
+                                    </a>
+                                    {{/if}}
+
+                                    {{#if (eq this.deliveryDetails.status "Shipped")}}
+                                    <a class="btn btn-outline-success border-0"
+                                        onclick="statusDelivered('{{this._id}}',this)" id="deliver">
+                                        <i class="fa-solid fa-truck-fast text-primary"></i>
+                                    </a>
+                                    {{/if}}
+                                    {{#if (eq this.deliveryDetails.status "Delivered")}}
+                                    {{!-- <img src="/assets/img/delvr.jpg" width="60"> --}}
+                                    <i class="fa-solid fa-check text-success"></i>
+                                    </a>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    <button class="btn btn-outline-danger border-0"
+                                        onclick="deleteOrder('{{this._id}}',this)">Cancel</button>
+                                </td>
+                            </tr>
+                            {{/each}}
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
             {{!--
         </div> --}}

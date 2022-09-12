@@ -221,34 +221,34 @@ module.exports = {
 
     },
 
-    addShippingAddress: (address, userID) => {
-        address._id = objectID()
-        return new Promise(async (resolve, reject) => {
-            try {
-                let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectID(userID)})
-                if (user) {
-                    db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectID(userID)},
-                        {
-                            $push:
-                            {
-                                address: address
-                            }
+    // addShippingAddress: (address, userID) => {
+    //     address._id = objectID()
+    //     return new Promise(async (resolve, reject) => {
+    //         try {
+    //             let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectID(userID)})
+    //             if (user) {
+    //                 db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectID(userID)},
+    //                     {
+    //                         $push:
+    //                         {
+    //                             address: address
+    //                         }
 
-                        })
-                }
-                resolve(resolve)
-            } catch (error) {
-                reject(error)
-            }
-        })
-    },
-    editShippingAddress: (address, userID,addressID) => {
-        console.log(addressID,"//////////////////////////////////////////////////");
+    //                     })
+    //             }
+    //             resolve(resolve)
+    //         } catch (error) {
+    //             reject(error)
+    //         }
+    //     })
+    // },
+    addEditShippingAddress: (address, userID) => {
         return new Promise(async (resolve, reject) => {
             try {
+                if(address.tempAddressID !=""){
                 let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectID(userID)})
                 if (user) {
-                    db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectID(userID), 'address._id':objectID(addressID)},
+                    db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectID(userID), 'address._id':objectID(address.tempAddressID)},
                         {
                             $set:
                             {                                
@@ -265,6 +265,21 @@ module.exports = {
 
                         })
                 }
+            }else{
+                address._id = objectID()
+                let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectID(userID)})
+                if (user) {
+                    db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectID(userID)},
+                        {
+                            $push:
+                            {
+                                address: address
+                            }
+
+                        })
+                }
+                
+            }
                 resolve(resolve)
             } catch (error) {
                 reject(error)
