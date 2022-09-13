@@ -5,57 +5,60 @@
 		<li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
 		<li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
 	</ol>
+	
 	<div class="carousel-inner">
-		{{#each banner}}
+		
 		<div class="carousel-item active">
 			<div class="container">
 				<div class="row p-5">
-					<div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-						<img class="img-fluid" src="/banner-images/{{this.bannerImg.[0]}}" alt="">
+					{{!-- class="mx-auto col-md-8 col-lg-6 order-lg-last" --}}
+					<div style="height: 10em; background-size: cover;">
+						<img class="img-fluid" src="/banner-images/{{banner.[0].bannerImg}}" alt="" width="100%">
 					</div>
-					<div class="col-lg-6 mb-0 d-flex align-items-center">
-						<div class="text-align-left align-self-center">
+					<div class="col-lg-6 mb-0 d-flex align-items-center" style="z-index: 1; position: absolute;">
+						<div class="text-align-left align-self-center text-white" >
 							<h1 class="h1 text-success"><b>SHB</b> eCommerce</h1>
-							<h2 class="h2">{{this.header}}</h2>
-							<h5 class="h5">{{this.content}}</h5>
+							<h2 class="h1">{{banner.[0].header}}</h2>
+							<h2 class="h1">{{banner.[0].content}}</h2>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		{{/each}}
-		{{!-- <div class="carousel-item">
+		
+		<div class="carousel-item">
 			<div class="container">
-				<div class="row p-5">
-					<div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-						<img class="img-fluid" src="./assets/img/banner_img_02.jpg" alt="">
+				<div class="row p-5" >
+					<div style="height: 10em; background-size: cover;">
+						<img class="img-fluid" src="/banner-images/{{banner.[1].bannerImg}}" alt="" width="100%">
 					</div>
-					<div class="col-lg-6 mb-0 d-flex align-items-center">
+					<div class="col-lg-6 mb-0 d-flex align-items-center" style="z-index: 1; position: absolute;">
 						<div class="text-align-left">
-							<h1 class="h1 text-success"><b>SHB</b> eCommerce</h1>
-							<h3 class="h2">New Outer Collection</h3>
+							<h1 class="h1 text-success">{{banner.[1].header}}</h1>
+							<h2 class="h1">{{banner.[1].content}}</h2>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div> --}}
-		{{!-- <div class="carousel-item">
+		</div>
+		
+		<div class="carousel-item">
 			<div class="container">
 				<div class="row p-5">
-					<div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-						<img class="img-fluid" src="./assets/img/banner_img_03.jpg" alt="">
+					<div style="height: 10em; background-size: cover;">
+						<img class="img-fluid" src="/banner-images/{{banner.[2].bannerImg}}" alt="" width="100%">
 					</div>
-					<div class="col-lg-6 mb-0 d-flex align-items-center">
+					<div class="col-lg-6 mb-0 d-flex align-items-center" style="z-index: 1; position: absolute;">
 						<div class="text-align-left">
-							<h1 class="h1">Most Welcome...</h1>
-							<h3 class="h2"> to SHB eCommerce</h3>
-
+							<h1 class="h1">{{banner.[2].header}}</h1>
+							<h2 class="h1">{{banner.[2].content}}</h2>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div> --}}
+		</div>
 	</div>
+	
 	<a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel"
 		role="button" data-bs-slide="prev">
 		<i class="fas fa-chevron-left"></i>

@@ -1,39 +1,10 @@
 <div class="container">
 
     <section>
-        <div class="row">
-            <div class="col-12 col-md-4 col-lg-4 col-xl-4">
-
-
-            </div>
-
-            <div class="col-12 col-md-4 col-lg-4 col-xl-4 editColor">
-                <h3 class="text-center">Banner management</h3><br>
-                <form action="/admin/add_banner" method="post" enctype="multipart/form-data">
-                    <label>Name</label>
-                    <input type="text" class="form-control" id="bannername" name="bannername" placeholder=""
-                        required><br>
-                    <label>Header</label>
-                    <input type="text" class="form-control" id="header" name="header" placeholder="" required><br>
-                    <label>Content</label>
-                    <input type="text" class="form-control" id="content" name="content" placeholder="" required><br>
-                    <label>Image</label>
-                    <input class="form-control btn btn-outline-success" type="file" id="img" name="img" multiple><br><br>
-                    <div class="row">
-                    <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk" ></i>
-                        Save</button>
-                        </div><br>
-                </form>
-            </div>
-
-            <br>
-
-            <div class="col-12 col-md-4 col-lg-4 col-xl-4">
-
-
-            </div>
-
-        </div>
+        <h3 class="text-center">Banner management</h3><br>
+        <p class="text-muted text-center">Don't add more than three banners. If you want to add after delete
+            <a href="" data-bs-toggle="modal" data-bs-target="#addBannerModal"> click here</a></a></p>
+       
         {{!-- Edit banner modal --}}
 
         <!-- Modal -->
@@ -70,13 +41,47 @@
         </div>
 
         <!-- Modal -->
+
+         {{!-- Add banner modal --}}
+
+        <!-- Modal -->
+        <div class="modal fade" id="addBannerModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Add Banner</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form action="/admin/add_banner" method="post" enctype="multipart/form-data">
+                    <label>Name</label>
+                    <input type="text" class="form-control" id="bannername" name="bannername" placeholder=""
+                        required><br>
+                    <label>Header</label>
+                    <input type="text" class="form-control" id="header" name="header" placeholder="" required><br>
+                    <label>Content</label>
+                    <input type="text" class="form-control" id="content" name="content" placeholder="" required><br>
+                    <label>Image</label>
+                    <input class="form-control btn btn-outline-success" type="file" id="img" name="img" multiple><br><br>
+                    <div class="row">
+                    <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk" ></i>
+                        Save</button>
+                        </div><br>
+                </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
         <div class="row">
 
-            <div class="col-12 col-md-3 col-lg-3 col-xl-3">
+            <div class="col-12 col-md-2 col-lg-2 col-xl-2">
 
 
             </div>
-            <div class="col-12 col-md-9 col-lg-9 col-xl-9">
+            <div class="col-12 col-md-10 col-lg-10 col-xl-10">
                 <table class="table mt-3    " id="bannerJS">
                     <thead class="bg-success ">
                         <tr>
@@ -96,14 +101,14 @@
                                                       
                             <td>
                                 <div class="zoom">
-                                <img src="/banner-images/{{this.bannerImg.[0]}}" alt="img" width="100" height="100"> 
+                                <img src="/banner-images/{{this.bannerImg}}" alt="img" width="100" height="50"> 
                             </div>
                             </td>
                             <td>
                                 <button class="btn btn-outline-success" data-bs-toggle="modal"
                                     data-bs-target="#bannerEditModal" onclick="getEditBanner('{{this._id}}')" >Edit <i class="fa-solid fa-file-pen"></i></button>
-                                {{!-- <button class="btn btn-outline-danger" onclick="delBanner({{this._id}})">Delete<i
-                                        class="fa-solid fa-trash"></i></button> --}}
+                                <button class="btn btn-outline-danger" onclick="delBanner({{this._id}})">Delete<i
+                                        class="fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
 
