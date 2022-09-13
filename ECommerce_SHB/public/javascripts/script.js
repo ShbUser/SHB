@@ -194,6 +194,16 @@ async function statusDelivered(orderID,obj) {
         }
     })    
 }
+async function getEditBanner(bannerID){
+    await axios.get('/admin/get_edit_banner/'+bannerID).then((e)=>{
+        if (e.data.status) {
+            document.getElementById('editbannername').value=e.data.banner.bannername   
+            document.getElementById('editheader').value=e.data.banner.header
+            document.getElementById('editcontent').value=e.data.banner.content
+            
+        }
+    })    
+}
 
 // async function addEditShipAddress(){
 //     editAddressID=document.getElementById('tempAddressID').value

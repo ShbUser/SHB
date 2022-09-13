@@ -3,6 +3,7 @@ const { resolve, nodeify } = require('promise');
 let router = express.Router();
 let userHelper = require('../helpers/user-helpers')
 let productHelper = require('../helpers/product-helpers');
+let adminHelper=require('../helpers/admin-helpers')
 let scrpt = require('../public/javascripts/script');
 const { response } = require('express');
 const { restart } = require('nodemon');
@@ -52,8 +53,9 @@ router.get('/', function (req, res, next) {
   }
 
   productHelper.getAllProducts().then((products) => {
-    res.render('users/home', { title: 'shb', user, user_head: true, products });
-
+    adminHelper.getAllBanners().then((banner)=>{
+      res.render('users/home', { title: 'shb', user, user_head: true, products,banner });
+    })
   })
 
 });
@@ -352,6 +354,7 @@ router.post('/add_personalDet/:id', verifyLogin, (req, res, next) => {
   })
 })
 router.post('/updateProfilePic/:id', verifyLogin, upload.single('img'), (req, res, next) => {
+  //if(req.file === undefined) req.file.filename=getImg
   userHelper.setProfilepiC(req.file.filename, user._id).then((response) => {
     req.session.user.photo = req.file.filename
     user.photo = req.file.filename

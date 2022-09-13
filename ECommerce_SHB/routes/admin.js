@@ -11,7 +11,8 @@ const { resolve } = require('path');
 const { reject } = require('promise');
 
 let imgArr = []
-let imgID
+let edit_Banner_ID, banner_img
+
 const verifyLogin = (req, res, next) => {
     if (req.session.adminLoggedIn) {
         next()
@@ -45,8 +46,7 @@ const storage1 = multer.diskStorage({
 })
 //end  .....
 const upload = multer({ storage: storage })
-let upload1 =multer({ storage: storage1 }).single('img')
-
+let upload1 = multer({ storage: storage1 })
 // ................................. GET methods................................................
 
 router.get('/', (req, res) => {
@@ -81,18 +81,18 @@ router.get('/view_products', verifyLogin, (req, res) => {
 
 })
 
-router.get('/status_Shipped/:id',verifyLogin, async(req, res, next) => {
+router.get('/status_Shipped/:id', verifyLogin, async (req, res, next) => {
     await adminHelper.updateStatusShipped(req.params.id).then((response) => {
         // res.redirect('/admin/view_orders')
-        res.json({status:true})
+        res.json({ status: true })
     }).catch((err) => {
         next(err)
     })
 })
 
-router.get('/status_Delivered/:id',verifyLogin, async(req, res, next) => {
-   await adminHelper.updateStatusDelivered(req.params.id).then((response) => {
-        res.json({status:true})
+router.get('/status_Delivered/:id', verifyLogin, async (req, res, next) => {
+    await adminHelper.updateStatusDelivered(req.params.id).then((response) => {
+        res.json({ status: true })
     }).catch((err) => {
         next(err)
     })
@@ -120,13 +120,14 @@ router.get('/view_users', verifyLogin, (req, res) => {
     })
 })
 
-router.get('/banner_manage',verifyLogin,(req,res,next)=>{
-        adminHelper.getAllBanners().then((banners)=>{
-            res.render('admin/banner_manage',{admin:true,banners})
-        }).catch((err)=>{
-            next(err)
-        })
+router.get('/banner_manage', verifyLogin, (req, res, next) => {
+    adminHelper.getAllBanners().then((banners) => {
+        res.render('admin/banner_manage', { admin: true, banners })
+    }).catch((err) => {
+        next(err)
     })
+})
+
 
 router.get('/edit_category/:id', verifyLogin, (req, res) => {
 
@@ -189,6 +190,13 @@ router.get('/unblock-user/:id', verifyLogin, (req, res) => {
 
 })
 
+router.get('/get_edit_banner/:id', (req, res) => {
+    adminHelper.getEditBanner(req.params.id).then((banner) => {
+       imgArr = banner.bannerImg
+        edit_Banner_ID = banner._id
+        res.json({ status: true, banner: banner })
+    })
+})
 
 
 // .........................................Post methods..........................................................
@@ -219,7 +227,7 @@ router.post('/log_in_ad', (req, res) => {
 
 
 
-router.post('/add_product', verifyLogin, upload.array('img', 5), (req, res,next) => {
+router.post('/add_product', verifyLogin, upload.array('img', 5), (req, res, next) => {
     const images = req.files
     let array = []
     array = images.map((value) => value.filename)
@@ -227,7 +235,7 @@ router.post('/add_product', verifyLogin, upload.array('img', 5), (req, res,next)
 
     productHelper.addProduct(req.body).then((id) => {
         res.redirect('/admin/view_products')
-    }).catch((err)=>{
+    }).catch((err) => {
         next(err)
     })
 })
@@ -247,7 +255,7 @@ router.post('/update-categories/:id', verifyLogin, (req, res) => {
 
 router.post('/update_product/:id', verifyLogin, upload.array('img', 3), (req, res) => {
     if (req.files == "") {
-        req.body.myimg = imgArr        
+        req.body.myimg = imgArr
     }
     else {
         const images = req.files
@@ -262,7 +270,7 @@ router.post('/update_product/:id', verifyLogin, upload.array('img', 3), (req, re
                 }
             })
         });
-
+        imgArr = []
     }
     productHelper.setUpdateProduct(req.body, req.params.id).then((response) => {
         imgArr = ""
@@ -274,14 +282,58 @@ router.post('/update_product/:id', verifyLogin, upload.array('img', 3), (req, re
     })
 })
 
-router.post('/add_banner',verifyLogin,upload1,(req,res,next)=>{
-    req.body.bannerImg=req.file.filename
-    adminHelper.addBanner(req.body).then((id)=>{
+router.post('/add_banner', verifyLogin, upload1.array('img',3), (req, res, next) => {
+    // req.body.bannerImg = req.file.filename
+    const images = req.files
+    let array = []
+    array = images.map((value) => value.filename)
+    req.body.bannerImg = array
+    adminHelper.addBanner(req.body).then((id) => {
         res.redirect('/admin/banner_manage')
-    }).catch((err)=>{
+    }).catch((err) => {
         next(err)
     })
+})
 
+
+router.post('/edit_banner', verifyLogin, upload1.array('img',3), (req, res) => {
+    if (req.files == "") {
+        req.body.myimg = imgArr
+    }
+    else {
+        const images = req.files
+        let array = []
+        array = images.map((value) => value.filename)
+        req.body.myimg = array
+
+        imgArr.forEach(element => {
+            fs.unlink("./public/banner-images/" + element, (err) => {
+                if (err) {
+                    throw err;
+                }
+            })
+        });
+        imgArr = []
+    }
+    // if (req.file ==null) {
+    //     req.body.bannerImg = banner_img
+    // }
+    // else {
+    //     req.body.bannerImg = req.file.filename
+    //     fs.unlink("./public/banner-images/" + banner_img, (err) => {
+    //         if (err) {
+    //             throw (err)
+    //         }
+    //     })
+    // }
+    adminHelper.editBanner(edit_Banner_ID, req.body).then((response) => {
+
+        banner_img = ""
+        edit_Banner_ID = ""
+        res.redirect('/admin/banner_manage')
+    }).catch((err) => {
+        next(err)
+    })
 })
 
 module.exports = router;

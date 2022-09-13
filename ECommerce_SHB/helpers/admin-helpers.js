@@ -121,6 +121,34 @@ module.exports = {
                 reject(error)
             }
         })
+    },
+    getEditBanner:(bannerId)=>{
+        return new Promise(async (resolve, reject) => {
+            try {
+                let banner= await db.get().collection(collection.BANNER_COLLECTION).findOne({ _id: objectID(bannerId) })
+                resolve(banner)
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
+    
+    editBanner:(bannerId,bannerDet)=>{
+        return new Promise(async (resolve, reject) => {
+            try {
+                console.log(bannerDet,".................");
+                await db.get().collection(collection.BANNER_COLLECTION).updateOne({ _id: objectID(bannerId) }, 
+                { $set: { 
+                    bannername: bannerDet.bannername,
+                    header:bannerDet.header,
+                    content:bannerDet.content,
+                    bannerImg:bannerDet.bannerImg
+             } })
+                resolve(response)
+            } catch (error) {
+                reject(error)
+            }
+        })
     }
     
 }

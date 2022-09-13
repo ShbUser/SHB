@@ -6,22 +6,25 @@
 		<li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
 	</ol>
 	<div class="carousel-inner">
+		{{#each banner}}
 		<div class="carousel-item active">
 			<div class="container">
 				<div class="row p-5">
 					<div class="mx-auto col-md-8 col-lg-6 order-lg-last">
-						<img class="img-fluid" src="./assets/img/banner_img_01.jpg" alt="">
+						<img class="img-fluid" src="/banner-images/{{this.bannerImg.[0]}}" alt="">
 					</div>
 					<div class="col-lg-6 mb-0 d-flex align-items-center">
 						<div class="text-align-left align-self-center">
 							<h1 class="h1 text-success"><b>SHB</b> eCommerce</h1>
-							<h3 class="h2">New Outer Collection</h3>								
+							<h2 class="h2">{{this.header}}</h2>
+							<h5 class="h5">{{this.content}}</h5>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="carousel-item">
+		{{/each}}
+		{{!-- <div class="carousel-item">
 			<div class="container">
 				<div class="row p-5">
 					<div class="mx-auto col-md-8 col-lg-6 order-lg-last">
@@ -35,8 +38,8 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="carousel-item">
+		</div> --}}
+		{{!-- <div class="carousel-item">
 			<div class="container">
 				<div class="row p-5">
 					<div class="mx-auto col-md-8 col-lg-6 order-lg-last">
@@ -51,7 +54,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> --}}
 	</div>
 	<a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel"
 		role="button" data-bs-slide="prev">
@@ -78,26 +81,28 @@
 	</div>
 	<div class="row">
 		{{#each products}}
-		 <div class="col-md-3 col-xl-3 mt-3 text-center">
-            <div class="card border-0" style="width: 250px; height: 300px;">
-                <a href="/view_product/{{this._id}}">
-				{{!-- <a href="/order_placed"> --}}
-					<img src="/product-images/{{this.myimg.[0]}}" class="card-img-top" style="width: 180px; height: 180px;" alt="...">
-				</a>
-                <div class="card-body">
-                    <h5 class="card-title" style="font-weight: bold; font-size: medium;">{{this.name}}</h5>
-                    <h5 class="card-title" style="font-weight: lighter; font-size: medium;">{{this.[0].name}}</h5>
-                    <h5 class="card-title" style="font-weight:normal; font-size: medium;">RS: {{this.price}}</h5>
-                    {{!-- <p class="card-text" style="font-weight: lighter; font-size: medium;">{{this.description}}</p>     --}}                   
-					 <button class="btn btn-outline-light" onclick="addToWishlist('{{this._id}}') ">
-					<i class="fa-solid fa-heart text-success"></i></button>  					    
-					 <button class="btn btn-outline-light" onclick="addToCart('{{this._id}}') ">
-					<i class="fa fa-fw fa-cart-arrow-down text-success"></i></button>      
-					
-                </div>
-            </div>            
+		<div class="col-md-3 col-xl-3 mt-3 text-center">
+			<div class="card border-0" style="width: 250px; height: 300px;">
+				<a href="/view_product/{{this._id}}">
+					{{!-- <a href="/order_placed"> --}}
+						<img src="/product-images/{{this.myimg.[0]}}" class="card-img-top"
+							style="width: 180px; height: 180px;" alt="...">
+					</a>
+					<div class="card-body">
+						<h5 class="card-title" style="font-weight: bold; font-size: medium;">{{this.name}}</h5>
+						<h5 class="card-title" style="font-weight: lighter; font-size: medium;">{{this.[0].name}}</h5>
+						<h5 class="card-title" style="font-weight:normal; font-size: medium;">RS: {{this.price}}</h5>
+						{{!-- <p class="card-text" style="font-weight: lighter; font-size: medium;">{{this.description}}
+						</p> --}}
+						<button class="btn btn-outline-light" onclick="addToWishlist('{{this._id}}') ">
+							<i class="fa-solid fa-heart text-success"></i></button>
+						<button class="btn btn-outline-light" onclick="addToCart('{{this._id}}') ">
+							<i class="fa fa-fw fa-cart-arrow-down text-success"></i></button>
 
-        </div>
+					</div>
+			</div>
+
+		</div>
 		{{/each}}
 		{{!-- <div class="col-12 col-md-4 p-5 mt-3">
 			<a href="#"><img src="/product-images/{{this._id}}.jpg" class="rounded-circle img-fluid border"></a>
