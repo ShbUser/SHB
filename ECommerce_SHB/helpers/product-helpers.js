@@ -15,27 +15,27 @@ let objectID = require('mongodb').ObjectId
 module.exports = {
     addProduct: (Product) => {
         return new Promise((resolve, reject) => {
-            try{
-            db.get().collection(collection.PRODUCT_COLLECTION).insertOne(Product).then((data) => {
-                resolve(data.insertedId)
-            })
-        }catch(error){
-            reject(error)
-        }
+            try {
+                db.get().collection(collection.PRODUCT_COLLECTION).insertOne(Product).then((data) => {
+                    resolve(data.insertedId)
+                })
+            } catch (error) {
+                reject(error)
+            }
         })
 
-    },    
-    getSingleProduct:(proID)=>{
-         return new Promise((resolve,reject)=>{   
-            try{      
-             db.get().collection(collection.PRODUCT_COLLECTION).findOne({_id:objectID(proID)}).then((product)=>{                 
-                 resolve(product)             
-             })
-            }catch(error){
+    },
+    getSingleProduct: (proID) => {
+        return new Promise((resolve, reject) => {
+            try {
+                db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectID(proID) }).then((product) => {
+                    resolve(product)
+                })
+            } catch (error) {
                 reject(error)
-             }
-         })
-     },
+            }
+        })
+    },
 
     getAllProducts: () => {
         return new Promise(async (resolve, reject) => {
@@ -44,8 +44,9 @@ module.exports = {
             let product = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate(
                 [
                     {
-                      $set: {'category': {  '$toObjectId': '$category'   }
-                      }
+                        $set: {
+                            'category': { '$toObjectId': '$category' }
+                        }
                     },
                     //  {
                     //   $lookup: 
@@ -56,24 +57,24 @@ module.exports = {
                     //     'as': 'category'
                     //   }
                     // },
-                    
-                     // {
-                //     $set : {category : {$toObjectId : '$category'}} 
-                // },
-                {
-                    $lookup: {
-                        from: collection.CATEGORY_COLLECTION,
-                        localField: 'category',
-                        foreignField: '_id',
-                        as: 'category'
+
+                    // {
+                    //     $set : {category : {$toObjectId : '$category'}} 
+                    // },
+                    {
+                        $lookup: {
+                            from: collection.CATEGORY_COLLECTION,
+                            localField: 'category',
+                            foreignField: '_id',
+                            as: 'category'
+                        }
                     }
-                }
-            ]).toArray()
+                ]).toArray()
             //  console.log(product);
             resolve(product)
         })
-        
-       
+
+
     },
 
     getUpdateProduct: (proID) => {
@@ -83,33 +84,37 @@ module.exports = {
             })
         })
     },
-    
+
     setUpdateProduct: (products, proID) => {
         return new Promise(async (resolve, reject) => {
-            
-            await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectID(proID)},           
-                {                     
+
+            await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectID(proID) },
+                {
                     $set: {
                         name: products.name,
                         price: products.price,
-                        size: products.size,                        
-                        category:products.category,
+                        size: products.size,
+                        category: products.category,
                         qty: products.qty,
                         description: products.description,
-                        myimg:products.myimg
+                        myimg: products.myimg
                     }
                 }).then((response) => {
                     resolve(response)
                 })
-            })
+        })
     },
 
     deleteProduct: (proId) => {
         return new Promise(async (resolve, reject) => {
-            await db.get().collection(collection.PRODUCT_COLLECTION).deleteOne({ _id: objectID(proId) }).then((response) => {
-                resolve(response)
-               
-            })
+            try {
+                await db.get().collection(collection.PRODUCT_COLLECTION).deleteOne({ _id: objectID(proId) }).then((response) => {
+                    resolve(response)
+
+                })
+            } catch (error) {
+                reject(error)
+            }
         })
 
     },
@@ -123,7 +128,7 @@ module.exports = {
             })
         })
     },
-    
+
     getCategory: () => {
         return new Promise(async (resolve, reject) => {
             let categories = await db.get().collection(collection.CATEGORY_COLLECTION).find().toArray()
@@ -164,23 +169,23 @@ module.exports = {
 
     // .....................cart.................................
 
-    getCountCart:(userID)=>{
-        return new Promise(async(resolve,reject)=>{
-            try{
-            let cart =await db.get().collection(collection.CART_COLLECTION).findOne({user:objectID(userID)})
-            if(cart!=null){
-            cart=cart.product.length
-            
-             resolve(cart)
-            }else {
-                resolve(0)
-            }
-        }catch(error){
+    getCountCart: (userID) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectID(userID) })
+                if (cart != null) {
+                    cart = cart.product.length
+
+                    resolve(cart)
+                } else {
+                    resolve(0)
+                }
+            } catch (error) {
                 reject(error)
             }
         })
-        
+
     }
-    
+
 
 }

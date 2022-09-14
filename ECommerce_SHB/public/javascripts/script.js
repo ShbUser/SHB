@@ -205,6 +205,60 @@ async function getEditBanner(bannerID){
     })    
 }
 
+
+async function getEditCoupen(coupenID){
+    await axios.get('/admin/get_edit_coupen/'+coupenID).then((e)=>{
+        if (e.data.status) {
+            document.getElementById('editcoupenname').value=e.data.coupen.coupenname   
+            document.getElementById('editcoupentype').value=e.data.coupen.coupentype
+            document.getElementById('editcoupencode').value=e.data.coupen.coupencode
+            document.getElementById('editcoupendiscount').value=e.data.coupen.coupendiscount
+            
+        }
+    })    
+}
+
+async function delBanner(bannerID,obj) {    
+    swal({
+        title: "Are you sure?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(async(willDelete) => {
+        if (willDelete) {
+            await axios.get('/admin/del_banner/'+ bannerID).then((e)=>{
+                if (e.data.status) {
+                    $(obj).closest('tr').remove()
+                    swal("Item deleted", "", "success")
+                }
+            })  
+        } else {
+          swal("Your imaginary file is safe!");
+        }
+      })
+
+}   
+async function delCoupen(coupenID,obj) {    
+    swal({
+        title: "Are you sure?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+      }).then(async(willDelete) => {
+        if (willDelete) {
+            await axios.get('/admin/del_coupen/'+ coupenID).then((e)=>{
+                if (e.data.status) {
+                    $(obj).closest('tr').remove()
+                    swal("Item deleted", "", "success")
+                }
+            })  
+        } else {
+          swal("Your imaginary file is safe!");
+        }
+      })
+
+}   
+
 // async function addEditShipAddress(){
 //     editAddressID=document.getElementById('tempAddressID').value
 //     if(editAddressID==""){

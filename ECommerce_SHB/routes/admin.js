@@ -11,7 +11,7 @@ const { resolve } = require('path');
 const { reject } = require('promise');
 
 let imgArr = []
-let edit_Banner_ID, banner_img
+let edit_Banner_ID, edit_coupen_ID, banner_img
 
 const verifyLogin = (req, res, next) => {
     if (req.session.adminLoggedIn) {
@@ -116,14 +116,6 @@ router.get('/view_users', verifyLogin, (req, res) => {
     })
 })
 
-router.get('/banner_manage', verifyLogin, (req, res, next) => {
-    adminHelper.getAllBanners().then((banners) => {
-        res.render('admin/banner_manage', { admin: true, banners })
-    }).catch((err) => {
-        next(err)
-    })
-})
-
 
 router.get('/edit_category/:id', verifyLogin, (req, res) => {
 
@@ -148,8 +140,10 @@ router.get('/delete_products/:id/:imgs', verifyLogin, (req, res) => {
                     throw err;
                 }
             })
-        });
+        })
         res.redirect('/admin/view_products')
+    }).catch((err) => {
+        next(err)
     })
 })
 
@@ -168,32 +162,80 @@ router.get('/edit_products/:id', verifyLogin, (req, res) => {
 
     })
 })
-router.get('/signout', (req, res) => {
-    req.session.destroy()
-    res.redirect('/admin')
-})
 
-router.get('/block-user/:id', verifyLogin, (req, res) => {
+router.get('/block-user/:id', verifyLogin, (req, res,next) => {
     adminHelper.doBlockUser(req.params.id).then((response) => {
         res.redirect('/admin/view_users')
+    }).catch((err)=>{
+        next(err)
     })
 
 })
-router.get('/unblock-user/:id', verifyLogin, (req, res) => {
+router.get('/unblock-user/:id', verifyLogin, (req, res,next) => {
     adminHelper.doUnBlockUser(req.params.id).then((response) => {
         res.redirect('/admin/view_users')
+    }).catch((err)=>{
+        next(err)
     })
 
 })
 
-router.get('/get_edit_banner/:id', (req, res) => {
+router.get('/banner_manage', verifyLogin, (req, res, next) => {
+    adminHelper.getAllBanners().then((banners) => {
+        res.render('admin/banner_manage', { admin: true, banners })
+    }).catch((err) => {
+        next(err)
+    })
+})
+
+router.get('/get_edit_banner/:id', verifyLogin, (req, res,next) => {
     adminHelper.getEditBanner(req.params.id).then((banner) => {
-       banner_img = banner.bannerImg
+        banner_img = banner.bannerImg
         edit_Banner_ID = banner._id
         res.json({ status: true, banner: banner })
+    }).catch((err)=>{
+        next(err)
+    })
+})
+router.get('/get_edit_coupen/:id', verifyLogin, (req, res,next) => {
+    adminHelper.getEditCoupen(req.params.id).then((coupen) => {        
+        edit_coupen_ID = coupen._id
+        res.json({ status: true, coupen: coupen })
+    }).catch((err)=>{
+        next(err)
     })
 })
 
+
+
+router.get('/del_banner/:id/:img', verifyLogin, (req, res,next) => {
+    adminHelper.deleteBanner(req.params.id).then((response) => {
+        img = req.params.img
+            fs.unlink("./public/banner-images/" + img, (err) => {
+                if (err) {
+                    throw err;
+                }
+            })
+        res.json({ status: true })
+    }).catch((err)=>{
+        next(err)
+    })
+})
+router.get('/del_coupen/:id', verifyLogin, (req, res,next) => {
+    adminHelper.deleteCoupen(req.params.id).then((response) => {
+        res.json({ status: true })
+        }).catch((err)=>{
+            next(err)
+        })
+})
+
+router.get('/coupen_manage', verifyLogin, (req, res, next) => {
+     adminHelper.getAllCoupens().then((coupens) => {
+        res.render('admin/coupen_manage', { admin: true,coupens})
+    }).catch((err) => {
+        next(err)
+    })
+})
 
 // .........................................Post methods..........................................................
 
@@ -274,10 +316,17 @@ router.post('/add_banner', verifyLogin, upload1.single('img'), (req, res, next) 
     })
 })
 
+router.post('/add_coupen', verifyLogin, (req, res, next) => {
+    adminHelper.addCoupen(req.body).then((id) => {
+        res.redirect('/admin/coupen_manage')
+    }).catch((err) => {
+        next(err)
+    })
+})
 
-router.post('/edit_banner', verifyLogin, upload1.single('img'), (req, res,next) => {
-   
-    if (req.file ==null) {
+router.post('/edit_banner', verifyLogin, upload1.single('img'), (req, res, next) => {
+
+    if (req.file == null) {
         req.body.bannerImg = banner_img
     }
     else {
@@ -297,5 +346,18 @@ router.post('/edit_banner', verifyLogin, upload1.single('img'), (req, res,next) 
         next(err)
     })
 })
+router.post('/edit_coupen', verifyLogin,(req, res, next) => {
+    adminHelper.editCoupen(edit_coupen_ID, req.body).then((response) => {
+        edit_coupen_ID = ""
+        res.redirect('/admin/coupen_manage')
+    }).catch((err) => {
+        next(err)
+    })
+})
 
+
+router.get('/signout', (req, res) => {
+    req.session.destroy()
+    res.redirect('/admin')
+})
 module.exports = router;

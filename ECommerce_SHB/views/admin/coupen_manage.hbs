@@ -1,0 +1,131 @@
+<div class="container">
+
+    <section>
+        {{!-- <h3 class="text-center">Promotion management</h3><br> --}}
+        <p class="text-muted text-center">
+            <a href="" class="btn btn-outline-primary"
+             data-bs-toggle="modal" data-bs-target="#addCoupenModal"> Create coupen</a></a></p>
+       
+        {{!-- Edit banner modal --}}
+
+        <!-- Modal -->
+        <div class="modal fade" id="coupenEditModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Edit Coupen</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/admin/edit_coupen" method="post" >
+                            <label>Name</label>
+                            <input type="text" class="form-control" id="editcoupenname" name="coupenname" placeholder=""
+                                required><br>
+                            <label>Type</label>
+                            <input type="text" class="form-control" id="editcoupentype" name="coupentype" placeholder=""
+                                required><br>
+                                <label>Code</label>
+                            <input type="text" class="form-control" id="editcoupencode" name="coupencode" placeholder=""
+                                required><br>
+                            <label>Discount</label>
+                            <input type="text" class="form-control" id="editcoupendiscount" name="coupendiscount" placeholder=""
+                                required><br>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i>
+                                    Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+
+         {{!-- Add banner modal --}}
+
+        <!-- Modal -->
+        <div class="modal fade" id="addCoupenModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Add Coupen</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form action="/admin/add_coupen" method="post">
+                            <label>Name</label>
+                            <input type="text" class="form-control" id="coupenname" name="coupenname" placeholder=""
+                                required><br>
+                            <label>Type</label>
+                            <input type="text" class="form-control" id="coupentype" name="coupentype" placeholder=""
+                                required><br>
+                                 <label>Code</label>
+                            <input type="text" class="form-control" id="coupencode" name="coupencode" placeholder=""
+                                required><br>
+                            <label>Discount</label>
+                            <input type="text" class="form-control" id="coupendisount" name="coupendiscount" placeholder=""
+                                required><br>
+                           
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i>
+                                    Save</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="row">
+
+            <div class="col-12 col-md-2 col-lg-2 col-xl-2">
+
+
+            </div>
+            <div class="col-12 col-md-10 col-lg-10 col-xl-10">
+                <table class="table align-middle text-center" id="bannerJS">
+                    <thead class="bg-success">
+                        <tr>
+                            <th scope="col">Coupen name</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Code</th>
+                            <th scope="col">Discount</th>
+                            <th>Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each coupens}}
+                        <tr>
+                            <td class="w-25">{{this.coupenname}}</td>
+                            <td >{{this.coupentype}}</td>
+                            <td class="w-25">{{this.coupencode}}</td>
+                            <td>{{this.coupendiscount}}</td>
+                            <td>
+                                <button class="btn btn-outline-success" data-bs-toggle="modal"
+                                    data-bs-target="#coupenEditModal" onclick="getEditCoupen('{{this._id}}')" >Edit <i class="fa-solid fa-file-pen"></i></button>
+                                <a class="btn btn-outline-danger" onclick="delCoupen('{{this._id}}',this)">Delete<i
+                                        class="fa-solid fa-trash"></i></a>
+                            </td>
+                        </tr>
+
+                        {{/each}}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#bannerJS').DataTable();
+    });
+</script>

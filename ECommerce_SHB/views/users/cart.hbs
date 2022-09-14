@@ -1,100 +1,92 @@
 <section>
+    {{!-- <h1 class="text-center">My Bag<i class="fa-solid fa-bag-shopping"></i></h1> --}}
+        <img src="/assets/img/carbnnr.jpg" width="100%" height="300">
 
-    <div class="container">
-        <h1>My Bag<i class="fa-solid fa-bag-shopping"></i></h1>
-        <hr>
-        {{!-- {{#each products}}
-        <div class="card mb-3" >
-            <div class="row g-0">
-                <div class="col-xl-2">
-                    <img src="/product-images/{{this.product.myimg.[0]}}" width="150px" alt="...">
-                </div>
-                <div class="col-xl-6">
-                    <div class="card-body">
-                        <h5 class="card-title">{{this.product.name}}</h5>
-                        <p class="card-text">Rs: {{this.product.price}}</p>
-                        <p class="card-text">Category: {{this.product.[0].name}}</p>
-                        <p class="card-text">Size: {{this.product.size}}</p>
-                        <div>Quantity: <input class="border-0" type="number" aria-readonly="true" min="1" step="1"
-                                data-bind="value:replyNumber" style="width: 50px;" value="{{this.quantity}}"
-                                id="{{this.product._id}}" name="input">
-                            <button class="btn btn-outline-success border-0"
-                                onclick="setToCount('{{this.product._id}}')"> <i
-                                    class="fa-solid fa-file-pen"></i></button>
-                        </div>
+    <div class="container"><br>
+        
+        
+        <div class="row">
+            <div class="col-lg-10 col-xl-10">
+
+
+                <table  style="width: 60rem;border-collapse: separate;border-spacing:0 10px ;">
+
+                    {{!-- <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Item</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Size</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead> --}}
+
+                    <tbody>
+
+                        {{#each products}}
+                        <tr >
+
+                            <td><img class="" width="160px" height="160px" src="/product-images/{{this.product.myimg.[0]}}" alt="">
+                            </td>
+                           
+                            <td> <label class="text-success fw-bold">Name : </label>{{this.product.name}}<br>
+                                <label class="text-success fw-bold">Category : </label>{{this.category.name}}<br>
+                               
+                            </td>
+                            
+                            
+                            <td>                                
+                                <label class="text-success fw-bold">Size : </label>{{this.product.size}}<br>
+                                 <label class="text-success fw-bold">Price : </label>Rs: {{this.product.price}}
+                                </td>
+                                
+                           
+                                
+                            <td><label class="text-success fw-bold">Quantity : </label>
+                            <div class="border-2 border-primary">
+                                <input  type="number" aria-readonly="true" min="1" step="1"
+                                    data-bind="value:replyNumber" style="width: 50px;" value="{{this.quantity}}"
+                                    id="{{this.product._id}}" name="quantity">
+                                <button class="btn btn-outline-success border-0"
+                                    onclick="setToCount('{{this.product._id}}')">
+                                    <i class="fa-solid fa-floppy-disk"></i></button>
+                                    </div>
+                            </td>
+                            <td><button class="btn btn-danger border-0"
+                                    onclick="delCartItem('{{this.product._id}}',this)"><i
+                                        class="fa-regular fa-x"></i></button>
+                                    
+                            </td>
+                            
+                        </tr>
                         
-                    </div>
-                </div>
-                <div class="col-xl-2 b-5">
-                            <button class="btn btn-outline-danger border-0"
-                            onclick="deleteItem('{{this.product._id}}',this)"><i
-                                class="fa-solid fa-trash-can"></i></button>
+                        {{/each}}
+                        
+                    </tbody>
 
-                </div>
-                {{/each}}
+                </table>
             </div>
-        </div> --}}
-        <table class="table mt-3 text-center align-middle" style="width: 50rem; border: none;">
-
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Item</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Size</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                {{#each products}}
-                <tr>
-
-                    <th scope="row"></th>
-
-                    <td><img class="" width="80px"
-                            src="/product-images/{{this.product.myimg.[0]}}"  alt="">
-                    </td>
-                    <td >{{this.product.name}}</td>
-                    <td>Rs: {{this.product.price}}</td>
-                    <td>{{this.product.size}}</td>
-                    <td>{{this.category.name}}</td>
-
-                    <td>
-                        <input class="border-0" type="number" aria-readonly="true" min="1" step="1"
-                            data-bind="value:replyNumber" style="width: 50px;" value="{{this.quantity}}"
-                            id="{{this.product._id}}" name="quantity">
-                        <button class="btn btn-outline-success border-0" onclick="setToCount('{{this.product._id}}')">
-                           <i class="fa-solid fa-floppy-disk"></i></button>
-                    </td>
-                    <td><button class="btn btn-outline-danger border-0"
-                            onclick="delCartItem('{{this.product._id}}',this)"><i class="fa-regular fa-x"></i></button>
-                    </td>
-
-                </tr>
-
-                {{/each}}
-            </tbody>
-
-        </table>
-        <hr style="width: 50rem;">
+            <div class="col-2 col-md-2 col-lg-2 col-xl-2 bg-secondary">
+                
+            </div>
+        </div>
+        <hr>
         <h2 class="ml-4">Total: Rs. <span class="text-success" id="total-price">{{totalValue}}</span></h2>
         <a href="/place_order" class="btn btn-outline-success float-right pr-5">Place Order<i
                 class="fa-solid fa-cloud-arrow-down"></i></a>
 
-   
+
 </section>
 
 <script>
     //function deleteItem(id, obj) {
-       // if (confirm("Do you want delete this item")) {
-         //   delCartItem(id),
-           //     $(obj).closest('tr').remove()
-        //}
+    // if (confirm("Do you want delete this item")) {
+    //   delCartItem(id),
+    //     $(obj).closest('tr').remove()
+    //}
     //}
 
     function changrValue() {

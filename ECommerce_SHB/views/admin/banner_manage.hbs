@@ -1,7 +1,7 @@
 <div class="container">
 
     <section>
-        <h3 class="text-center">Banner management</h3><br>
+        {{!-- <h3 class="text-center">Banner management</h3><br> --}}
         <p class="text-muted text-center">Don't add more than three banners. If you want to add after delete
             <a href="" data-bs-toggle="modal" data-bs-target="#addBannerModal"> click here</a></a></p>
        
@@ -83,7 +83,7 @@
             </div>
             <div class="col-12 col-md-10 col-lg-10 col-xl-10">
                 <table class="table mt-3    " id="bannerJS">
-                    <thead class="bg-success ">
+                    <thead class="bg-success">
                         <tr>
                             <th scope="col">Banner name</th>
                             <th scope="col">Header</th>
@@ -107,8 +107,8 @@
                             <td>
                                 <button class="btn btn-outline-success" data-bs-toggle="modal"
                                     data-bs-target="#bannerEditModal" onclick="getEditBanner('{{this._id}}')" >Edit <i class="fa-solid fa-file-pen"></i></button>
-                                <button class="btn btn-outline-danger" onclick="delBanner({{this._id}})">Delete<i
-                                        class="fa-solid fa-trash"></i></button>
+                                <a class="btn btn-outline-danger" onclick="delBanner('{{this._id}}/{{this.bannerImg}}',this)">Delete<i
+                                        class="fa-solid fa-trash"></i></a>
                             </td>
                         </tr>
 
@@ -119,10 +119,6 @@
             </div>
         </div>
     </section>
-<div class="form-check form-switch">
-  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-  <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
-</div>
 </div>
 
 <script>
