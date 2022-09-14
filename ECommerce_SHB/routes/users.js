@@ -3,7 +3,7 @@ const { resolve, nodeify } = require('promise');
 let router = express.Router();
 let userHelper = require('../helpers/user-helpers')
 let productHelper = require('../helpers/product-helpers');
-let adminHelper=require('../helpers/admin-helpers')
+let adminHelper = require('../helpers/admin-helpers')
 let scrpt = require('../public/javascripts/script');
 const { response } = require('express');
 const { restart } = require('nodemon');
@@ -53,8 +53,8 @@ router.get('/', function (req, res, next) {
   }
 
   productHelper.getAllProducts().then((products) => {
-    adminHelper.getAllBanners().then((banner)=>{
-      res.render('users/home', { title: 'shb', user, user_head: true, products,banner });
+    adminHelper.getAllBanners().then((banner) => {
+      res.render('users/home', { title: 'shb', user, user_head: true, products, banner });
     })
   })
 
@@ -145,7 +145,7 @@ router.get('/user_profile', verifyLogin, (req, res, next) => {
   })
 })
 
-router.get('/edit_ship_address/:id',verifyLogin, (req, res, next) => {
+router.get('/edit_ship_address/:id', verifyLogin, (req, res, next) => {
   userHelper.getShipAddress(user._id, req.params.id).then((shipAddress) => {
     res.json({ status: true, shipAddress: shipAddress })
     // console.log(shipAddress);
@@ -174,14 +174,18 @@ router.get('/cart', verifyLogin, async (req, res, next) => {
   if (user) {
     await productHelper.getCountCart(req.session.user._id).then(async (cartCount) => {
       await userHelper.getCartProducts(req.session.user._id).then(async (products) => {
-        if (products.length) {
-          await userHelper.getTotalAmount(req.session.user._id).then((totalValue) => {
-            res.render('users/cart', { user_head: true, products, user, cartCount, totalValue })
-          }).catch((err) => {
-            next(err)
-          })
-        }
-        else res.redirect('/')
+        await adminHelper.getAllCoupens().then(async (coupens) => {
+          if (products.length) {
+            await userHelper.getTotalAmount(req.session.user._id).then((totalValue) => {
+              res.render('users/cart', { user_head: true, products, user, cartCount, coupens, totalValue })
+            }).catch((err) => {
+              next(err)
+            })
+          }
+          else res.redirect('/')
+        }).catch((err) => {
+          next(err)
+        })
       }).catch((err) => {
         next(err)
       })
@@ -193,6 +197,20 @@ router.get('/cart', verifyLogin, async (req, res, next) => {
   // console.log(products);
 
 
+})
+router.get('/apply_coupon/:id', verifyLogin, (req, res, next) => {
+  userHelper.getTotalAmount(user._id).then((total) => {
+    userHelper.totalWithCoupen(req.params.id).then((discAmt) => {
+      let gt = (parseInt(total) - parseInt(discAmt))
+      res.json({ status: true, gt: gt })
+    }).catch((err) => {
+      next(err)
+    })
+
+  }).catch((err) => {
+    next(err)
+
+  })
 })
 
 router.get('/del-cart-item/:id', verifyLogin, (req, res, next) => {
@@ -218,11 +236,21 @@ router.get('/del-order-item/:id', verifyLogin, (req, res, next) => {
 })
 
 
-router.get('/place_order', verifyLogin, async (req, res) => {
+router.get('/place_order', verifyLogin, async (req, res, next) => {
+
   await userHelper.getTotalAmount(req.session.user._id).then(async (total) => {
-    await userHelper.getAddressFromOrderList(user._id).then(async (address) => {
-      await userHelper.getAllShipAddress(user._id).then((shipAddressList) => {
-        res.render('users/place_order', { user_head: true,user, total, address ,shipAddressList})
+    await userHelper.totalWithCoupen(req.body.coupon).then(async (discAmt) => {
+      await userHelper.getAddressFromOrderList(user._id).then(async (address) => {
+        await userHelper.getAllShipAddress(user._id).then((shipAddressList) => {
+          console.log(coupens, "....................");
+          if (discAmt != "0") {
+            total = (parseInt(total) - parseInt(discAmt))
+          }
+          res.render('users/place_order', { user_head: true, user, total, address, shipAddressList })
+        }).catch((err) => {
+          next(err)
+        })
+
       }).catch((err) => {
         next(err)
       })
@@ -230,7 +258,7 @@ router.get('/place_order', verifyLogin, async (req, res) => {
     }).catch((err) => {
       next(err)
     })
-  }).catch((err)=>{
+  }).catch((err) => {
     next(err)
   })
 })
@@ -427,7 +455,7 @@ router.post('/checkout', async (req, res, next) => {
   userHelper.placeOrder(req.body, products, totalPrice).then((orderID) => {
     if (req.body['payment-method'] === 'COD') {
       res.json({ codSuccess: true })
-       res.redirect('/order')
+      res.redirect('/order')
     }
     else {
 

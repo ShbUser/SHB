@@ -13,6 +13,7 @@ const serviceSid = process.env.serviceSid
 const client = require('twilio')(accountSid, authToken);
 
 const Razorpay = require('razorpay');
+const res = require('express/lib/response')
 let instance = new Razorpay({
     key_id: process.env.key_id,
     key_secret: process.env.key_secret,
@@ -211,8 +212,8 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
                 let allAddress = await db.get().collection(collection.USER_COLLECTION).findOne(
-                    { _id: objectID(userID) }, {address:1})
-                    console.log(allAddress);
+                    { _id: objectID(userID) }, { address: 1 })
+                console.log(allAddress);
                 resolve(allAddress)
             } catch (error) {
                 reject(error)
@@ -245,41 +246,41 @@ module.exports = {
     addEditShippingAddress: (address, userID) => {
         return new Promise(async (resolve, reject) => {
             try {
-                if(address.tempAddressID !=""){
-                let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectID(userID)})
-                if (user) {
-                    db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectID(userID), 'address._id':objectID(address.tempAddressID)},
-                        {
-                            $set:
-                            {                                
-                                // address:{_id:{$in:[address.tempAddressID]}}
-                                'address.$.name':address.name,
-                                'address.$.streetaddress':address.streetaddress,
-                                'address.$.altermobile':address.altermobile,
-                                'address.$.pincode':address.pincode,
-                                'address.$.landmark':address.landmark,
-                                'address.$.city':address.city,
-                                'address.$.district':address.district,
-                                'address.$.state':address.state
-                            }
-
-                        })
-                }
-            }else{
-                address._id = objectID()
-                let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectID(userID)})
-                if (user) {
-                    db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectID(userID)},
-                        {
-                            $push:
+                if (address.tempAddressID != "") {
+                    let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectID(userID) })
+                    if (user) {
+                        db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectID(userID), 'address._id': objectID(address.tempAddressID) },
                             {
-                                address: address
-                            }
+                                $set:
+                                {
+                                    // address:{_id:{$in:[address.tempAddressID]}}
+                                    'address.$.name': address.name,
+                                    'address.$.streetaddress': address.streetaddress,
+                                    'address.$.altermobile': address.altermobile,
+                                    'address.$.pincode': address.pincode,
+                                    'address.$.landmark': address.landmark,
+                                    'address.$.city': address.city,
+                                    'address.$.district': address.district,
+                                    'address.$.state': address.state
+                                }
 
-                        })
+                            })
+                    }
+                } else {
+                    address._id = objectID()
+                    let user = await db.get().collection(collection.USER_COLLECTION).findOne({ _id: objectID(userID) })
+                    if (user) {
+                        db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectID(userID) },
+                            {
+                                $push:
+                                {
+                                    address: address
+                                }
+
+                            })
+                    }
+
                 }
-                
-            }
                 resolve(resolve)
             } catch (error) {
                 reject(error)
@@ -580,6 +581,7 @@ module.exports = {
                             }
                         ]).toArray()
 
+
                         //console.log(total[0].total);
                         resolve(total[0].total)
                     } else resolve(0)
@@ -589,6 +591,20 @@ module.exports = {
             }
         })
 
+
+    },
+    totalWithCoupen: (coupon) => {
+        return new Promise(async(resolve, reject) => {
+            try {
+                let discAmt = await db.get().collection(collection.COUPEN_COLLECTION).findOne({ coupencode: coupon }, { coupendiscount: 1 })
+                
+                if(discAmt){
+                 resolve(discAmt.coupendiscount)
+                }else{ resolve("0") }
+            } catch (error) {
+                reject(error)
+            }
+        })
 
     },
 
@@ -751,7 +767,7 @@ module.exports = {
 
                 ]).toArray()
 
-                console.log(orderItems)
+                // console.log(orderItems)
                 if (orderItems.length) {
                     resolve(orderItems)
                 } else resolve(orderItems = 0)

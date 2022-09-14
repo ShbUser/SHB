@@ -1,15 +1,15 @@
 <section>
     {{!-- <h1 class="text-center">My Bag<i class="fa-solid fa-bag-shopping"></i></h1> --}}
-        <img src="/assets/img/carbnnr.jpg" width="100%" height="300">
+    <img src="/assets/img/carbnnr.jpg" width="100%" height="300">
 
     <div class="container"><br>
-        
-        
+
+
         <div class="row">
-            <div class="col-lg-10 col-xl-10">
+            <div class="col-12 col-md-9 col-lg-9 col-xl-9">
 
 
-                <table  style="width: 60rem;border-collapse: separate;border-spacing:0 10px ;">
+                <table class="w-100" style="border-collapse: separate;border-spacing:0 10px ;">
 
                     {{!-- <thead>
                         <tr>
@@ -27,70 +27,138 @@
                     <tbody>
 
                         {{#each products}}
-                        <tr >
+                        <tr>
 
-                            <td><img class="" width="160px" height="160px" src="/product-images/{{this.product.myimg.[0]}}" alt="">
+                            <td><img class="" width="160px" height="160px"
+                                    src="/product-images/{{this.product.myimg.[0]}}" alt="">
                             </td>
-                           
+
                             <td> <label class="text-success fw-bold">Name : </label>{{this.product.name}}<br>
                                 <label class="text-success fw-bold">Category : </label>{{this.category.name}}<br>
-                               
+
                             </td>
-                            
-                            
-                            <td>                                
+
+
+                            <td>
                                 <label class="text-success fw-bold">Size : </label>{{this.product.size}}<br>
-                                 <label class="text-success fw-bold">Price : </label>Rs: {{this.product.price}}
-                                </td>
-                                
-                           
-                                
+                                <label class="text-success fw-bold">Price : </label>Rs: {{this.product.price}}
+                            </td>
+
+
+
                             <td><label class="text-success fw-bold">Quantity : </label>
-                            <div class="border-2 border-primary">
-                                <input  type="number" aria-readonly="true" min="1" step="1"
-                                    data-bind="value:replyNumber" style="width: 50px;" value="{{this.quantity}}"
-                                    id="{{this.product._id}}" name="quantity">
-                                <button class="btn btn-outline-success border-0"
-                                    onclick="setToCount('{{this.product._id}}')">
-                                    <i class="fa-solid fa-floppy-disk"></i></button>
-                                    </div>
+                                <div class="border-2 border-primary">
+                                    <input type="number" aria-readonly="true" min="1" step="1"
+                                        data-bind="value:replyNumber" style="width: 50px;" value="{{this.quantity}}"
+                                        id="{{this.product._id}}" name="quantity">
+                                    <button class="btn btn-outline-success border-0"
+                                        onclick="setToCount('{{this.product._id}}')">
+                                        <i class="fa-solid fa-floppy-disk"></i></button>
+                                </div>
                             </td>
                             <td><button class="btn btn-danger border-0"
                                     onclick="delCartItem('{{this.product._id}}',this)"><i
                                         class="fa-regular fa-x"></i></button>
-                                    
+
                             </td>
-                            
+
                         </tr>
-                        
+
                         {{/each}}
-                        
+
                     </tbody>
 
                 </table>
             </div>
-            <div class="col-2 col-md-2 col-lg-2 col-xl-2 bg-secondary">
-                
+            <div class="col-12 col-md-3 col-lg-3 col-xl-3 bg-light mt-5">
+                <br>
+                <h5>Payment Details...</h5>
+
+                <div class="row ">
+                    <p>Get your <a href="" data-bs-toggle="modal" data-bs-target="#couponmodal"> promotion</a></p>
+                    <input type="text" name="coupon" id="couponID" value="">
+                    <button onclick="applyCoupon()" class="btn btn-primary">Apply</button>
+                </div><br>
+                <form action="/place_order" method="get" id="">
+                    <div class="row ">
+                        <div class="col">
+                            <p class="text-start">Sub total Rs </p>
+                            <p>Discount : </p>
+                            <p>GST :</p>
+                            <p>SGST :</p>
+                        </div>
+                        <div class="col">
+                            <p class="text-primary">{{totalValue}}</p>
+                            <p class="text-primary">0.0%</p>
+                            <p class="text-primary">0.0</p>
+                            <p class="text-primary">0.0</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h3 class="ml-4">Total: Rs. <span class="text-primary" id="total-price">{{totalValue}} </span>
+                        </h3>
+                        <button type="submit" class="btn btn-success float-right pr-5">Place Order<i
+                                class="fa-solid fa-cloud-arrow-down"></i></button>
+                    </div>
+                </form>
             </div>
         </div>
         <hr>
-        <h2 class="ml-4">Total: Rs. <span class="text-success" id="total-price">{{totalValue}}</span></h2>
-        <a href="/place_order" class="btn btn-outline-success float-right pr-5">Place Order<i
-                class="fa-solid fa-cloud-arrow-down"></i></a>
+        <div class="modal fade" id="couponmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Add Coupen</h5>
 
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
+                    </div>
+                    <div class="modal-body">
+                        <p class=" text-muted"> Copy paste your coupen code...</p>
+                        <hr>
+                        <table class="table align-middle text-center" id="bannerJS">
+                            <tbody class="border-bottom">
+                                {{#each coupens}}
+                                <tr>
+                                    <td>
+                                        <p>{{this.coupenname}}</p>
+                                    </td>
+                                    <td>
+                                        <h4>{{this.coupencode}}</h4>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-outline-success border-0" data-bs-toggle="modal"
+                                            data-bs-target="#coupenEditModal" id="copy"
+                                            onclick="getCoupen('{{this.coupencode}}')">
+                                            <i class="fa-regular fa-copy"></i></button>
+                                    </td>
+
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
 </section>
 
 <script>
-    //function deleteItem(id, obj) {
-    // if (confirm("Do you want delete this item")) {
-    //   delCartItem(id),
-    //     $(obj).closest('tr').remove()
-    //}
-    //}
 
     function changrValue() {
         document.getElementById('pro_qty').value = document.getElementById('pro_qty').text
         alert(document.getElementById('pro_qty').value)
+    }
+   
+    function getCoupen(coupon) {
+        const COPY = document.getElementById('#copy')
+        //const VALUE = document.querySelector('#value')
+
+        COPY.addEventListener('click', async () => {
+            await navigator.clipboard.writeText(coupon)
+
+        })
     }
 </script>

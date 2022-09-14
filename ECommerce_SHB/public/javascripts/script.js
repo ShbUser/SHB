@@ -218,6 +218,19 @@ async function getEditCoupen(coupenID){
     })    
 }
 
+
+async function applyCoupon(){
+    coupenID = document.getElementById('couponID').value
+    alert("lllll")
+    await axios.get('/apply_coupon/'+coupenID).then((e)=>{
+        if (e.data.status) {
+            alert(e.data.gt)
+            document.getElementById('total-price').innerHTML=e.data.gt
+           
+        }
+    })    
+}
+
 async function delBanner(bannerID,obj) {    
     swal({
         title: "Are you sure?",
