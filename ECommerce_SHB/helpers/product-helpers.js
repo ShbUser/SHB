@@ -39,39 +39,43 @@ module.exports = {
 
     getAllProducts: () => {
         return new Promise(async (resolve, reject) => {
-            // let product = await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
-            // resolve(product)
-            let product = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate(
-                [
-                    {
-                        $set: {
-                            'category': { '$toObjectId': '$category' }
-                        }
-                    },
-                    //  {
-                    //   $lookup: 
-                    //   {
-                    //     'from': 'category', 
-                    //     'localField': 'category', 
-                    //     'foreignField': '_id', 
-                    //     'as': 'category'
-                    //   }
-                    // },
+            try {
+                // let product = await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
+                // resolve(product)
+                let product = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate(
+                    [
+                        {
+                            $set: {
+                                'category': { '$toObjectId': '$category' }
+                            }
+                        },
+                        //  {
+                        //   $lookup: 
+                        //   {
+                        //     'from': 'category', 
+                        //     'localField': 'category', 
+                        //     'foreignField': '_id', 
+                        //     'as': 'category'
+                        //   }
+                        // },
 
-                    // {
-                    //     $set : {category : {$toObjectId : '$category'}} 
-                    // },
-                    {
-                        $lookup: {
-                            from: collection.CATEGORY_COLLECTION,
-                            localField: 'category',
-                            foreignField: '_id',
-                            as: 'category'
+                        // {
+                        //     $set : {category : {$toObjectId : '$category'}} 
+                        // },
+                        {
+                            $lookup: {
+                                from: collection.CATEGORY_COLLECTION,
+                                localField: 'category',
+                                foreignField: '_id',
+                                as: 'category'
+                            }
                         }
-                    }
-                ]).toArray()
-            //  console.log(product);
-            resolve(product)
+                    ]).toArray()
+                //  console.log(product);
+                resolve(product)
+            } catch (error) {
+                reject(error)
+            }
         })
 
 
@@ -79,29 +83,36 @@ module.exports = {
 
     getUpdateProduct: (proID) => {
         return new Promise(async (resolve, reject) => {
-            await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectID(proID) }).then((product) => {
-                resolve(product)
-            })
+            try {
+                await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectID(proID) }).then((product) => {
+                    resolve(product)
+                })
+            } catch (error) {
+                reject(error)
+            }
         })
     },
 
     setUpdateProduct: (products, proID) => {
         return new Promise(async (resolve, reject) => {
-
-            await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectID(proID) },
-                {
-                    $set: {
-                        name: products.name,
-                        price: products.price,
-                        size: products.size,
-                        category: products.category,
-                        qty: products.qty,
-                        description: products.description,
-                        myimg: products.myimg
-                    }
-                }).then((response) => {
-                    resolve(response)
-                })
+            try {
+                await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: objectID(proID) },
+                    {
+                        $set: {
+                            name: products.name,
+                            price: products.price,
+                            size: products.size,
+                            category: products.category,
+                            qty: products.qty,
+                            description: products.description,
+                            myimg: products.myimg
+                        }
+                    }).then((response) => {
+                        resolve(response)
+                    })
+            } catch (error) {
+                reject(error)
+            }
         })
     },
 
@@ -122,46 +133,66 @@ module.exports = {
 
     addCategory: (categry) => {
         return new Promise((resolve, reject) => {
-            db.get().collection(collection.CATEGORY_COLLECTION).insertOne(categry).then((data) => {
-                // console.log(categry)
-                resolve(data)
-            })
+            try {
+                db.get().collection(collection.CATEGORY_COLLECTION).insertOne(categry).then((data) => {
+                    // console.log(categry)
+                    resolve(data)
+                })
+            } catch (error) {
+                reject(error)
+            }
         })
     },
 
     getCategory: () => {
         return new Promise(async (resolve, reject) => {
-            let categories = await db.get().collection(collection.CATEGORY_COLLECTION).find().toArray()
-            resolve(categories)
+            try {
+                let categories = await db.get().collection(collection.CATEGORY_COLLECTION).find().toArray()
+                resolve(categories)
+            } catch (error) {
+                reject(error)
+            }
         })
     },
 
     getUpdateCategory: (catID) => {
         return new Promise(async (resolve, reject) => {
-            await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ _id: objectID(catID) }).then((category) => {
-                resolve(category)
-            })
+            try {
+                await db.get().collection(collection.CATEGORY_COLLECTION).findOne({ _id: objectID(catID) }).then((category) => {
+                    resolve(category)
+                })
+            } catch (error) {
+                reject(error)
+            }
         })
     },
     setUpdateCategory: (categ, catID) => {
         return new Promise(async (resolve, reject0) => {
-            await db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ _id: objectID(catID) },
-                {
-                    $set: {
-                        name: categ.name,
-                        description: categ.description
-                    }
-                }).then((response) => {
-                    resolve(response)
-                })
+            try {
+                await db.get().collection(collection.CATEGORY_COLLECTION).updateOne({ _id: objectID(catID) },
+                    {
+                        $set: {
+                            name: categ.name,
+                            description: categ.description
+                        }
+                    }).then((response) => {
+                        resolve(response)
+                    })
+            } catch (error) {
+                reject(error)
+            }
         })
 
     },
     deleteCategory: (catId) => {
         return new Promise(async (resolve, reject) => {
-            await db.get().collection(collection.CATEGORY_COLLECTION).deleteOne({ _id: objectID(catId) }).then((response) => {
-                resolve(response)
-            })
+            try {
+                await db.get().collection(collection.CATEGORY_COLLECTION).deleteOne({ _id: objectID(catId) }).then((response) => {
+                    resolve(response)
+                })
+            } catch (error) {
+                reject(error)
+            }
         })
 
     },

@@ -57,22 +57,28 @@ router.get('/admin_home', verifyLogin, (req, res) => {
 })
 
 
-router.get('/add_products', verifyLogin, (req, res) => {
+router.get('/add_products', verifyLogin, (req, res,next) => {
     productHelper.getCategory().then((category) => {
         // console.log(category);
         res.render('admin/add_products', { admin: true, category })
+    }).catch((err) => {
+        next(err)
     })
 })
 
-router.get('/add_categories', verifyLogin, (req, res) => {
+router.get('/add_categories', verifyLogin, (req, res,next) => {
     productHelper.getCategory().then((category) => {
         res.render('admin/add_categories', { admin: true, category })
+    }).catch((err) => {
+        next(err)
     })
 })
 
-router.get('/view_products', verifyLogin, (req, res) => {
+router.get('/view_products', verifyLogin, (req, res,next) => {
     productHelper.getAllProducts().then((products) => {
         res.render('admin/view_products', { admin: true, products });
+    }).catch((err) => {
+        next(err)
     })
 
 })
@@ -110,27 +116,33 @@ router.get('/admin_view_order_products/:id', verifyLogin, async (req, res, next)
     })
 })
 
-router.get('/view_users', verifyLogin, (req, res) => {
+router.get('/view_users', verifyLogin, (req, res,next) => {
     adminHelper.getAllUsers().then((users) => {
         res.render('admin/view_users', { admin: true, users })
+    }).catch((err) => {
+        next(err)
     })
 })
 
 
-router.get('/edit_category/:id', verifyLogin, (req, res) => {
+router.get('/edit_category/:id', verifyLogin, (req, res,next) => {
 
     productHelper.getUpdateCategory(req.params.id).then((categ) => {
         res.render('admin/edit_categories', { admin: true, categ })
 
+    }).catch((err) => {
+        next(err)
     })
 })
-router.get('/delete_category/:id', verifyLogin, (req, res) => {
+router.get('/delete_category/:id', verifyLogin, (req, res,next) => {
     productHelper.deleteCategory(req.params.id).then((id) => {
         res.redirect('/admin/add_categories')
+    }).catch((err) => {
+        next(err)
     })
 })
 
-router.get('/delete_products/:id/:imgs', verifyLogin, (req, res) => {
+router.get('/delete_products/:id/:imgs', verifyLogin, (req, res,next) => {
     productHelper.deleteProduct(req.params.id).then((id) => {
 
         imgArr = req.params.imgs.split(",")
@@ -147,7 +159,7 @@ router.get('/delete_products/:id/:imgs', verifyLogin, (req, res) => {
     })
 })
 
-router.get('/edit_products/:id', verifyLogin, (req, res) => {
+router.get('/edit_products/:id', verifyLogin, (req, res,next) => {
 
     productHelper.getCategory().then((categories) => {
         productHelper.getUpdateProduct(req.params.id).then((product) => {
@@ -156,10 +168,16 @@ router.get('/edit_products/:id', verifyLogin, (req, res) => {
             imgArr = product.myimg
             productHelper.getUpdateCategory(product.category).then((category) => {
                 res.render('admin/edit_products', { admin: true, categories, product, category })
+            }).catch((err) => {
+                next(err)
             })
 
+        }).catch((err) => {
+            next(err)
         })
 
+    }).catch((err) => {
+        next(err)
     })
 })
 
@@ -239,7 +257,7 @@ router.get('/coupen_manage', verifyLogin, (req, res, next) => {
 
 // .........................................Post methods..........................................................
 
-router.post('/log_in_ad', (req, res) => {
+router.post('/log_in_ad', (req, res,next) => {
 
     adminHelper.doLogin_admin(req.body).then((response) => {
         if (response.status) {
@@ -251,6 +269,8 @@ router.post('/log_in_ad', (req, res) => {
             req.session.adminLoginErr = "!!! You entered invalid Username or Password"
             res.redirect('/admin')
         }
+    }).catch((err)=>{
+        next(err)
     })
 
 })
@@ -269,20 +289,24 @@ router.post('/add_product', verifyLogin, upload.array('img', 5), (req, res, next
     })
 })
 
-router.post('/add-categories', verifyLogin, (req, res) => {
+router.post('/add-categories', verifyLogin, (req, res,next) => {
     productHelper.addCategory(req.body).then((response) => {
         res.redirect('/admin/add_categories')
+    }).catch((err) => {
+        next(err)
     })
 })
 
-router.post('/update-categories/:id', verifyLogin, (req, res) => {
+router.post('/update-categories/:id', verifyLogin, (req, res,next) => {
     productHelper.setUpdateCategory(req.body, req.params.id).then((response) => {
         res.redirect('/admin/add_categories')
+    }).catch((err) => {
+        next(err)
     })
 })
 
 
-router.post('/update_product/:id', verifyLogin, upload.array('img', 3), (req, res) => {
+router.post('/update_product/:id', verifyLogin, upload.array('img', 3), (req, res,next) => {
     if (req.files == "") {
         req.body.myimg = imgArr
     }
@@ -298,12 +322,14 @@ router.post('/update_product/:id', verifyLogin, upload.array('img', 3), (req, re
                     throw err;
                 }
             })
-        });
+        })
         imgArr = []
     }
     productHelper.setUpdateProduct(req.body, req.params.id).then((response) => {
         imgArr = ""
         res.redirect('/admin/view_products')
+    }).catch((err) => {
+        next(err)
     })
 })
 

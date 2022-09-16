@@ -249,35 +249,6 @@ router.get('/del-order-item/:id', verifyLogin, (req, res, next) => {
   })
 })
 
-
-router.post('/place_order', verifyLogin, async (req, res, next) => {
-
-  await userHelper.getTotalAmount(req.session.user._id).then(async (total) => {
-    await userHelper.totalWithCoupen(req.body.coupon).then(async (coupen) => {
-      await userHelper.getAddressFromOrderList(user._id).then(async (address) => {
-        await userHelper.getAllShipAddress(user._id).then((shipAddressList) => {
-
-          if (coupen != "0") {
-            total = (parseInt(total) - parseInt(coupen.coupendiscount))
-          }
-          res.render('users/place_order', { user_head: true, user, total, address, coupen, shipAddressList })
-        }).catch((err) => {
-          next(err)
-        })
-
-      }).catch((err) => {
-        next(err)
-      })
-
-    }).catch((err) => {
-      next(err)
-    })
-  }).catch((err) => {
-    next(err)
-  })
-})
-
-
 router.get('/order', verifyLogin, async (req, res, next) => {
   await userHelper.getOrder(req.session.user._id).then((order) => {
     res.render('users/order', { user_head: true, user, order })
@@ -459,30 +430,72 @@ router.post('/set-quantity', verifyLogin, (req, res, next) => {
   })
 
 })
+router.post('/place_order', verifyLogin, async (req, res, next) => {
 
-//....................................COD or ONLINE payment.........................................
+  await userHelper.getTotalAmount(req.session.user._id).then(async (total) => {
+    await userHelper.totalWithCoupen(req.body.coupon).then(async (coupen) => {
+      await userHelper.getAddressFromOrderList(user._id).then(async (address) => {
+        await userHelper.getAllShipAddress(user._id).then((shipAddressList) => {
 
-router.post('/checkout', async (req, res, next) => {
-  let totalPrice = 0, products = 0
-  products = await userHelper.getCartProductList(user._id)
-  totalPrice = await userHelper.getTotalAmount(user._id)
-  userHelper.placeOrder(user._id, req.body, products, totalPrice).then((orderID) => {
-    if (req.body['payment-method'] === 'COD') {
-      res.json({ codSuccess: true })
-      res.redirect('/order')
-    }
-    else {
+          if (coupen != 0) {
+            total = (parseInt(total) - parseInt(coupen.coupendiscount))
+          }
+          res.render('users/place_order', { user_head: true, user, total, address, coupen, shipAddressList })
+        }).catch((err) => {
+          next(err)
+        })
 
-      userHelper.generateRazorPay(orderID, totalPrice).then((response) => {
-        res.json(response)
       }).catch((err) => {
         next(err)
       })
 
-    }
+    }).catch((err) => {
+      next(err)
+    })
   }).catch((err) => {
     next(err)
   })
+})
+
+
+//....................................COD or ONLINE payment.........................................
+
+router.post('/checkout', async (req, res, next) => {
+  //let totalPrice = 0, products = 0
+  await userHelper.getCartProductList(user._id).then(async (products) => {
+    await userHelper.getTotalAmount(user._id).then(async (totalPrice) => {
+      await userHelper.totalWithCoupen(req.body.coupencode).then((coupen) => {
+        if (coupen != 0) {
+          totalPrice = (parseInt(totalPrice) - parseInt(coupen.coupendiscount))
+        }
+        userHelper.placeOrder(user._id, req.body, products, totalPrice).then((orderID) => {
+          if (req.body['payment-method'] === 'COD') {
+            res.json({ codSuccess: true })
+            res.redirect('/order')
+          }
+          else {
+            userHelper.generateRazorPay(orderID, totalPrice).then((response) => {
+              res.json(response)
+            }).catch((err) => {
+              next(err)
+            })
+
+          }
+        }).catch((err) => {
+          next(err)
+        })
+
+      }).catch((err) => {
+        next(err)
+      })
+
+    }).catch((err) => {
+      next(err)
+    })
+  }).catch((err) => {
+    next(err)
+  })
+
 })
 
 

@@ -638,7 +638,7 @@ module.exports = {
                 let discAmt = await db.get().collection(collection.COUPEN_COLLECTION).findOne({ coupencode: coupon }, {})
                 if (discAmt) {
                     resolve(discAmt)
-                } else { resolve("0") }
+                } else { resolve(0) }
             } catch (error) {
                 reject(error)
             }
@@ -657,7 +657,7 @@ module.exports = {
                     inValid = false
                     resolve(inValid)
                 }
-               
+
             } catch (error) {
                 reject(error)
             }
