@@ -20,6 +20,7 @@
                     <th scope="col">Payment</th>
                     <th scope="col">Status</th>
                     <th scope="col">Date</th>
+                    <th scope="col">Billing</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -59,8 +60,12 @@
                     <td style="color:green; font-weight: bolder;" id="status">{{this.deliveryDetails.status}}
                     </td>
                     {{/if}}
-
+                    
                     <td>{{formatDate this.deliveryDetails.date}}</td>
+                    <td><button class="btn btn-outline-success border-0" onclick="">
+                        <img src="/assets/img/bill.png" width="35px" alt="..."> Billing</button>
+                    </td>
+
                     <td><button class="btn btn-outline-danger border-0" onclick="delOrderItems('{{this._id}}',this)">
                         <img src="/assets/img/download.png" width="35px" alt="..."> Cancel</button>
                     </td>

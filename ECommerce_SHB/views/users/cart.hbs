@@ -73,14 +73,15 @@
             <div class="col-12 col-md-3 col-lg-3 col-xl-3 bg-light mt-5">
                 <br>
                 <h5>Payment Details...</h5>
-
-                <div class="row ">
-                    <p>Get your <a href="" data-bs-toggle="modal" data-bs-target="#couponmodal"> promotion</a></p>
-                    <input type="text" name="coupon" id="couponID" value="">
-                    <button onclick="applyCoupon()" class="btn btn-primary">Apply</button>
-                </div><br>
-                <form action="/place_order" method="get" id="">
+                <form action="/place_order" method="post" id="">
                     <div class="row ">
+                        <p>Get your <a href="" data-bs-toggle="modal" data-bs-target="#couponmodal"> promotion</a></p>
+                        {{!-- <button onclick="applyCoupon()" class="btn btn-primary">Apply</button> --}}
+                        <input type="text" name="coupon" class="form-control" id="couponID" readonly>
+                    </div><br>
+                    {{!-- <input type="text" name="coupon" id="couponID" value=""> --}}
+                    <div class="row ">
+
                         <div class="col">
                             <p class="text-start">Sub total Rs </p>
                             <p>Discount : </p>
@@ -89,7 +90,7 @@
                         </div>
                         <div class="col">
                             <p class="text-primary">{{totalValue}}</p>
-                            <p class="text-primary">0.0%</p>
+                            <p class="text-primary" id="discount">0.0</p>
                             <p class="text-primary">0.0</p>
                             <p class="text-primary">0.0</p>
                         </div>
@@ -97,8 +98,11 @@
                     <div class="row">
                         <h3 class="ml-4">Total: Rs. <span class="text-primary" id="total-price">{{totalValue}} </span>
                         </h3>
-                        <button type="submit" class="btn btn-success float-right pr-5">Place Order<i
+
+                        <button type="submit" class="btn btn-success">Place Order<i
                                 class="fa-solid fa-cloud-arrow-down"></i></button>
+
+
                     </div>
                 </form>
             </div>
@@ -151,14 +155,14 @@
         document.getElementById('pro_qty').value = document.getElementById('pro_qty').text
         alert(document.getElementById('pro_qty').value)
     }
-   
+
     function getCoupen(coupon) {
-        const COPY = document.getElementById('#copy')
-        //const VALUE = document.querySelector('#value')
+        document.getElementById('couponID').value = coupon
+        applyCoupon()
+        //let BIN=document.getElementById('couponID')
+        //BIN.select();
+        // document.execCommand("copy")
 
-        COPY.addEventListener('click', async () => {
-            await navigator.clipboard.writeText(coupon)
-
-        })
+        //})
     }
 </script>

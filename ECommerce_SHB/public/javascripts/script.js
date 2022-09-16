@@ -220,15 +220,24 @@ async function getEditCoupen(coupenID){
 
 
 async function applyCoupon(){
+    if(document.getElementById('couponID').value !=""){
     coupenID = document.getElementById('couponID').value
-    alert("lllll")
+    //document.getElementById('couponID').value=coupenID
     await axios.get('/apply_coupon/'+coupenID).then((e)=>{
-        if (e.data.status) {
-            alert(e.data.gt)
+        if(e.data.inValid){
+            swal("You have allready used this offer","Get next week...","warning")
+            document.getElementById('couponID').value=""
+        }
+        else if (e.data.status) {
             document.getElementById('total-price').innerHTML=e.data.gt
+            document.getElementById('discount').innerHTML=e.data.discount
+            swal("You saved Rs. 200","Thank you","success")
            
+        }else{
+            swal("Available for above Rs: 2500","Purchase again and get coupen...","warning")
         }
     })    
+}
 }
 
 async function delBanner(bannerID,obj) {    

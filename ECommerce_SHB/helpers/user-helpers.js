@@ -593,20 +593,6 @@ module.exports = {
 
 
     },
-    totalWithCoupen: (coupon) => {
-        return new Promise(async(resolve, reject) => {
-            try {
-                let discAmt = await db.get().collection(collection.COUPEN_COLLECTION).findOne({ coupencode: coupon }, { coupendiscount: 1 })
-                
-                if(discAmt){
-                 resolve(discAmt.coupendiscount)
-                }else{ resolve("0") }
-            } catch (error) {
-                reject(error)
-            }
-        })
-
-    },
 
     setProQuantity: (userID, details) => {
 
@@ -646,7 +632,37 @@ module.exports = {
             }
         })
     },
+    totalWithCoupen: (coupon) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let discAmt = await db.get().collection(collection.COUPEN_COLLECTION).findOne({ coupencode: coupon }, {})
+                if (discAmt) {
+                    resolve(discAmt)
+                } else { resolve("0") }
+            } catch (error) {
+                reject(error)
+            }
+        })
 
+    },
+    isUserValidForCoupen: (userID, coupencode) => {
+        let inValid
+        return new Promise(async (resolve, reject) => {
+            try {
+                let discAmt = await db.get().collection(collection.ORDER_COLLECTION).findOne({ userID: objectID(userID), 'deliveryDetails.coupen': coupencode })
+                if (discAmt) {
+                    inValid = true
+                    resolve(inValid)
+                } else {
+                    inValid = false
+                    resolve(inValid)
+                }
+               
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
     //............................Place order................................
     getCartProductList: (userID) => {
 
@@ -660,7 +676,7 @@ module.exports = {
         })
 
     },
-    placeOrder: (order, products, total) => {
+    placeOrder: (userId, order, products, total) => {
 
         return new Promise((resolve, reject) => {
             try {
@@ -680,16 +696,17 @@ module.exports = {
                         district: order.district,
                         state: order.state,
                         status: status,
+                        coupen: order.coupencode,
                         totalAmount: total,
                         date: new Date(),
                         paymentMethod: order['payment-method']
                     },
-                    userID: objectID(order.userId),
+                    userID: objectID(userId),
                     products: products,
                 }
 
                 db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
-                    db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectID(order.userId) })
+                    db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectID(userId) })
                     resolve(response.insertedId)
                     // db.get().collection(collection.PRODUCT_COLLECTION).updateOne({'response.products.item': objectID(prod) }, {
                     //     $inc: { 'product.$.quantity': 1 }

@@ -80,73 +80,110 @@
 
                 <div class="editColor textMuted">
                     <div class="row">
+
+                        {{#if (neq address "0")}}
                         <div class="col">
-
-
-                            {{#if (neq address "0")}}
                             {{#each address}}
 
                             <label>Name</label>
                             <input type="text" class="form-control " id="shipname" name="name"
-                                value="{{this.deliveryDetails.name}}" placeholder="Name"><br>
+                                value="{{this.deliveryDetails.name}}" placeholder=""><br>
 
                             <label>Street</label>
                             <input type="text" class="form-control" id="streetaddress" name="streetaddress"
-                                value="{{this.deliveryDetails.street}}" placeholder="Street"><br>
+                                value="{{this.deliveryDetails.street}}" placeholder=""><br>
 
                             <label>Mobile</label>
                             <input type="text" class="form-control " id="altermobile" name="altermobile"
-                                value="{{this.deliveryDetails.mobile}}" placeholder="Mobile"><br>
+                                value="{{this.deliveryDetails.mobile}}" placeholder=""><br>
 
                             <label>Pincode</label>
                             <input type="number" class="form-control" id="pincode" name="pincode"
-                                value="{{this.deliveryDetails.pin}}" placeholder="Pincode"><br>
+                                value="{{this.deliveryDetails.pin}}" placeholder=""><br>
                         </div>
                         <div class="col">
 
                             <label>Landmark</label>
                             <input type="text" class="form-control" name="landmark" id="landmark"
-                                value="{{this.deliveryDetails.landmark}}" placeholder="Landmark"><br>
+                                value="{{this.deliveryDetails.landmark}}" placeholder=""><br>
 
                             <label>City</label>
                             <input type="text" class="form-control" id="city" name="city"
-                                value="{{this.deliveryDetails.city}}" placeholder="City"><br>
+                                value="{{this.deliveryDetails.city}}" placeholder=""><br>
 
                             <label>District</label>
                             <input type="text" class="form-control" id="district" name="district"
-                                value="{{this.deliveryDetails.district}}" placeholder="District"><br>
+                                value="{{this.deliveryDetails.district}}" placeholder=""><br>
 
                             <label>State</label>
                             <input type="text" class="form-control" name="state" id="state"
-                                value="{{this.deliveryDetails.state}}" placeholder="State"><br>
+                                value="{{this.deliveryDetails.state}}" placeholder=""><br>
                         </div>
+
+                        {{/each}}
+                        {{else}}
+                        <div class="col">
+                            <label>Name</label>
+                            <input type="text" class="form-control " id="shipname" name="name" value=""
+                                placeholder=""><br>
+
+                            <label>Street</label>
+                            <input type="text" class="form-control" id="streetaddress" name="streetaddress" value=""
+                                placeholder=""><br>
+
+                            <label>Mobile</label>
+                            <input type="text" class="form-control " id="altermobile" name="altermobile" value=""
+                                placeholder=""><br>
+
+                            <label>Pincode</label>
+                            <input type="number" class="form-control" id="pincode" name="pincode" value=""
+                                placeholder=""><br>
+                        </div>
+                        <div class="col">
+
+                            <label>Landmark</label>
+                            <input type="text" class="form-control" name="landmark" id="landmark" value=""
+                                placeholder=""><br>
+
+                            <label>City</label>
+                            <input type="text" class="form-control" id="city" name="city" value=""
+                                placeholder=""><br>
+
+                            <label>District</label>
+                            <input type="text" class="form-control" id="district" name="district" value=""
+                                placeholder=""><br>
+
+                            <label>State</label>
+                            <input type="text" class="form-control" name="state" id="state" value=""
+                                placeholder=""><br>
+                        </div>
+                        {{!-- <input type="text" class="form-control border-primary" name="shipname" value=""
+                            placeholder="Name"><br>
+
+
+                        <input type="text" class="form-control" name="streetaddress" value="" placeholder="Street"><br>
+
+
+                        <input type="text" class="form-control" name="altermobile" value="" placeholder="Mobile"><br>
+
+
+                        <input type="number" class="form-control" name="pincode" value="" placeholder="Pincode"><br>
+
+
+                        <input type="text" class="form-control" name="landmark" value="" placeholder="Landmark"><br>
+
+                        <input type="text" class="form-control" name="city" value="" placeholder="City"><br>
+
+                        <input type="text" class="form-control" name="district" value="" placeholder="District"><br>
+
+                        <input type="text" class="form-control" name="state" value="" placeholder="State"><br> --}}
+
                     </div>
-                    {{/each}}
-                    {{else}}
-                    <input type="text" class="form-control border-primary" name="shipname" value=""
-                        placeholder="Name"><br>
-
-
-                    <input type="text" class="form-control" name="streetaddress" value="" placeholder="Street"><br>
-
-
-                    <input type="text" class="form-control" name="altermobile" value="" placeholder="Mobile"><br>
-
-
-                    <input type="number" class="form-control" name="pincode" value="" placeholder="Pincode"><br>
-
-
-                    <input type="text" class="form-control" name="landmark" value="" placeholder="Landmark"><br>
-
-                    <input type="text" class="form-control" name="city" value="" placeholder="City"><br>
-
-                    <input type="text" class="form-control" name="district" value="" placeholder="District"><br>
-
-                    <input type="text" class="form-control" name="state" value="" placeholder="State"><br>
-
-                    {{/if}}
                 </div>
-                <input type="text" value="{{user._id}}" name="userId" hidden>
+                {{/if}}
+
+                <input type="text" value="{{coupen.coupencode}}" name="coupencode" hidden>
+
 
             </div>
 
@@ -176,7 +213,8 @@
                             class="fa-solid fa-thumbs-up"></i></button>
 
 
-                </div>
+                    {{!--
+                </div> --}}
 
             </div>
         </div>
