@@ -1,7 +1,6 @@
 <div class="row text-center profile">
     <div class="col-12 col-md-12 col-lg-12 col-Xl-12">
         {{!-- <h2 class="text-success">My Profile...</h2> --}}
-        {{!-- <img src="/assets/img/dotprof.jpg" width="100%" height="80"> --}}
         <img src="/assets/img/prfilebanner.png" alt="" width="100%" height="200">
     </div>
 </div>
@@ -31,11 +30,6 @@
                         data-bs-target="#staticBackdrop">
                         <i class="fa-solid fa-file-pen"></i> Change photo
                     </button>
-                    {{!-- <div class="labelDesign"> --}}
-                        {{!-- <button type="submit" class="" onclick="changeProfPic()">Change photo</button> --}}
-                        {{!-- </div> --}}
-                    {{!-- <div class=""><button class="btn btn-success">
-                            <i class="fa-solid fa-file-pen"></i> Change photo</button></div> --}}
                 </div><br>
                 <div class="row">
 
@@ -99,11 +93,6 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        {{!-- {{#each personalDet.address}}
-                        <div class="card" style="width: 18rem;">
-                            <div class="card-body">
-                                <h5 class="card-title"></h5>
-                                <h6 class="card-subtitle mb-2 text-muted"></h6> --}}
                                 <table class="table-responsive" style="width: 68em;" id="productsJS">
                                     <thead class="bg-success text-center">
                                         <tr>
@@ -142,32 +131,6 @@
                                     </tbody>
                                 </table>
 
-                                {{!-- <div class="row">
-                                    <div class="col-md-6">
-                                        <p>Name: {{this.name}}</p>
-                                        <p>Street: {{this.streetaddress}}</p>
-                                        <p>Mobile: {{this.altermobile}}</p>
-                                        <p>Pincode: {{this.pincode}}</p>
-                                        <p>Landmark: {{this.landmark}}</p>
-                                        <p>City: {{this.city}}</p>
-                                        <p>District: {{this.district}}</p>
-                                        <p>State: {{this.state}}</p>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a href="#"><i class="fa-solid fa-trash"></i></a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a href="#" class="card-link"> <i class="fa-solid fa-file-pen"></i></a>
-                                        </div>
-                                    </div>
-                                </div> --}}
-                                {{!--
-                            </div> --}}
-                            {{!--
-                        </div> --}}
-                        {{!-- {{/each}} --}}
-
                     </div>
                     <div class="modal-footer">
 
@@ -175,65 +138,6 @@
                 </div>
             </div>
         </div>
-        {{!-- modal editaddress --}}
-        <!-- Modal -->
-        {{!-- <div class="modal fade" id="modalEditShippAddress" data-bs-backdrop="static" data-bs-keyboard="false"
-            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Change my photo</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="" method="" id="">
-                            <div class="row text-muted">
-
-                                <div class="col-12 col-md-6 col-lg-6 col-xl-6 editColor"> --}}
-                                    {{!-- {{#each }} --}}
-                                    {{!-- <label>Name</label>
-                                    <input type="text" class="form-control " id="" name="name" placeholder="">
-                                    <br>
-                                    <label>Street address</label>
-                                    <input type="text" class="form-control" id="" name="streetaddress" placeholder="">
-                                    <br>
-                                    <label>Alternate mobile</label>
-                                    <input type="text" class="form-control" id="" name="altermobile" placeholder="">
-                                    <br>
-                                    <label>Pincode</label>
-                                    <input type="text" class="form-control" id="" name="pincode" placeholder="">
-                                    <br>
-                                </div>
-                                <div class="col-12 col-md-6 col-lg-6 col-xl-6 editColor">
-                                    <label>Landmark</label>
-                                    <input type="text" class="form-control " id="" name="landmark" placeholder="">
-                                    <br>
-                                    <label>City</label>
-                                    <input type="text" class="form-control" id="" name="city" placeholder="">
-                                    <br>
-                                    <label>District</label>
-                                    <input type="text" class="form-control " id="" name="district" placeholder="">
-                                    <br>
-                                    <label>State</label>
-                                    <input type="text" class="form-control " id="" name="state" placeholder="">
-                                    <br>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button onclick="" id="editShipAddress" class="btn btn-success"><i
-                                class="fa-solid fa-floppy-disk"></i>
-                            Save</button>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-
-        {{!-- end --}}
-
-
     </div>
 
     <div class="row mt-3">
@@ -319,7 +223,7 @@
                             <br>
                         </div>
                         <div class="row m-auto">
-                            <button type="submit" class="btn btn-outline-success" id="btnShipAddress"><i
+                            <button type="submit" class="btn btn-success" id="btnShipAddress"><i
                                     class="fa-solid fa-cloud-arrow-up"></i>
                                 save</button>
                             <input type="text" class="form-control " id="tempAddressID" name="tempAddressID" value=""

@@ -2,6 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 col-md-5 m-auto">
+                
                 <img src="/assets/img/login_image.png" alt="login">
                 {{!-- <h2 class="text-center">Login</h2> --}}
                 <form action="/login" method="post" class="editColor">
@@ -10,7 +11,8 @@
 
                     <p class="error text-danger">{{loginErr}}</p>
                     {{/if}}
-                    <div class="mb-3">
+                    
+                    <div class="mb-3">                        
                         <label for="exampleInputEmail1" class="form-label">Email address</label>
                         <input type="email" class="form-control" id="" aria-describedby="emailHelp" name="email"
                             required>
@@ -22,14 +24,16 @@
                     </div>
                     <button type="submit" class="btn btn-primary" style="float:right;">Login</button>
                     <br>
+                
+                </form>
                 <h3>New customer...</h3>
                 <p class="text-muted">
                     If you are not a member, you need to go to register page and create an account.
                     By creating an account with our store, you will be able to move through
                     the checkout process faster, store multiple shipping addresses, view and
-                    track your orders in your account and more.</p>
-                <a href="/signup">Create a new account ?</a>
-                </form>
+                    track your orders in your account and more.
+                <a href="/signup">Create a new account ?</a>  </p>
+                <a href="/home"><i class="fa-solid fa-house"></i> home</a>
             </div>
         </div>
     </div>

@@ -57,8 +57,8 @@ router.get('/admin_home', verifyLogin, (req, res) => {
 })
 
 
-router.get('/add_products', verifyLogin, (req, res,next) => {
-    productHelper.getCategory().then((category) => {
+router.get('/add_products', verifyLogin, async(req, res,next) => {
+    await productHelper.getCategory().then((category) => {
         // console.log(category);
         res.render('admin/add_products', { admin: true, category })
     }).catch((err) => {

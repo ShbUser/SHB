@@ -45,51 +45,87 @@ const verifyLogin = (req, res, next) => {
     res.redirect('/login')
   }
 }
-router.get('/', function (req, res, next) {
+router.get('/', async (req, res, next) => {
   // res.render('users/place_order',{user_head:true})
-
+  let cartCount = 0
   if (req.session.userLoggedIn) {
     user = req.session.user
   }
+  await productHelper.getAllProducts().then(async (products) => {
+    await adminHelper.getAllBanners().then(async (banner) => {
+      if (user) {
+        await productHelper.getCountCart(req.session.user._id).then(async (cartcount) => {
+          cartCount = cartcount
+        }).catch((err) => {
+          next(err)
+        })
+      }
+      res.render('users/home', { title: 'shb', user, user_head: true, cartCount, products, banner });
 
-  productHelper.getAllProducts().then((products) => {
-    adminHelper.getAllBanners().then((banner) => {
-      res.render('users/home', { title: 'shb', user, user_head: true, products, banner });
+    }).catch((err) => {
+      next(err)
     })
+  }).catch((err) => {
+    next(err)
   })
 
-});
+})
+
+
 router.get('/home', (req, res) => {
   res.redirect('/')
 })
 
-router.get('/login', (req, res) => {
-  if (req.session.user) {
-    res.redirect('/')
-  } else {
-    res.render('users/login', { "loginErr": req.session.userLoginErr })
-    req.session.userLoginErr = false
+router.get('/login', (req, res, next) => {
+  try {
+    if (req.session.user) {
+      res.redirect('/')
+    } else {
+      res.render('users/login', { "loginErr": req.session.userLoginErr })
+      req.session.userLoginErr = false
+    }
+  } catch (error) {
+    next(error)
   }
 })
 
-router.get('/signup', (req, res) => {
 
-  res.render('users/signup', { emailErr: "" })
+router.get('/signup', (req, res, next) => {
+  try {
+    res.render('users/signup', { emailErr: "" })
+  } catch (error) {
+    next(error)
+  }
 })
 
-router.get('/view_product/:id', (req, res, next) => {
-  productHelper.getSingleProduct(req.params.id).then((product) => {
+router.get('/view_product/:id', async (req, res, next) => {
+  await productHelper.getSingleProduct(req.params.id).then((product) => {
     res.render('users/view_product', { user_head: true, user, product })
   }).catch((err) => {
     next(err)
   })
 
 })
-router.get('/shop', (req, res) => {
-  productHelper.getAllProducts().then((products) => {
-    res.render('users/shop', { user_head: true, user, products })
+router.get('/shop', async (req, res, next) => {
+  let cartCount = 0
+  await productHelper.getCategory().then(async (category) => {
+    await productHelper.getAllProducts().then(async (products) => {
+      if (user) {
+        await productHelper.getCountCart(req.session.user._id).then((cartcount) => {
+          cartCount = cartcount
+        }).catch((err) => {
+          next(err)
+        })
+      }
+      res.render('users/shop', { user_head: true, cartCount, category, user, products })
+    }).catch((err) => {
+      next(err)
+    })
+  }).catch((err) => {
+    next(err)
   })
 })
+
 
 
 router.get('/add-to-cart/:id', verifyLogin, (req, res, next) => {
@@ -99,13 +135,20 @@ router.get('/add-to-cart/:id', verifyLogin, (req, res, next) => {
     next(err)
   })
 })
-router.get('/wishlist', verifyLogin, (req, res, next) => {
-  userHelper.getWishlist(user._id).then((products) => {
-    res.render('users/wishlist', { user_head: true, user, products })
+router.get('/wishlist', verifyLogin, async (req, res, next) => {
+  let cartCount = 0
+  await userHelper.getWishlist(user._id).then(async (products) => {
+    if (user) {
+      await productHelper.getCountCart(req.session.user._id).then((cartcount) => {
+        cartCount = cartcount
+      }).catch((err) => {
+        next(err)
+      })
+    }
+    res.render('users/wishlist', { user_head: true, cartCount, user, products })
   }).catch((err) => {
     next(err)
   })
-
 })
 
 router.get('/add_to_wishlist/:id', verifyLogin, (req, res, next) => {
@@ -135,11 +178,18 @@ router.get('/del-wish-item/:id', verifyLogin, (req, res, next) => {
 })
 
 
-router.get('/user_profile', verifyLogin, (req, res, next) => {
-  userHelper.getPersonalDetails(user._id).then((personalDet) => {
-    // console.log(personalDet);
+router.get('/user_profile', verifyLogin, async (req, res, next) => {
+  let cartCount = 0
+  await userHelper.getPersonalDetails(user._id).then(async (personalDet) => {
+    if (user) {
+      await productHelper.getCountCart(req.session.user._id).then((cartcount) => {
+        cartCount = cartcount
+      }).catch((err) => {
+        next(err)
+      })
+    }
     getImg = personalDet.photo;
-    res.render('users/user_profile', { user_head: true, user, personalDet })
+    res.render('users/user_profile', { user_head: true, cartCount, user, personalDet })
   }).catch((err) => {
     next(err)
   })
@@ -168,9 +218,6 @@ router.get('/del-ship-address/:id', verifyLogin, (req, res, next) => {
 })
 
 router.get('/cart', verifyLogin, async (req, res, next) => {
-  // let user = req.session.user
-  // let cartCount = 0, totalValue = 0
-
   if (user) {
     await productHelper.getCountCart(req.session.user._id).then(async (cartCount) => {
       await userHelper.getCartProducts(req.session.user._id).then(async (products) => {
@@ -265,8 +312,6 @@ router.get('/view_order_products/:id', verifyLogin, async (req, res, next) => {
   }).catch((err) => {
     next(err)
   })
-
-
 })
 // ................................post methods.................................................
 
@@ -357,6 +402,22 @@ router.post('/signUpOtpVerify', (req, res, next) => {
     next(err)
   })
 })
+
+router.post('/search_product',async(req,res,next)=>{
+  console.log(req.body.payload,"//.......//////////.........")
+  await productHelper.getProductByCategory(req.body.payload).then((products)=>{
+    // res.render('users/shop', { user_head: true, cartCount, category, user, products })
+    console.log(products,"ppppppppppppppppp");
+      res.send({payload:products})
+  }).catch((err) => {
+    next(err)
+  })
+  // let payload=req.body.payload.trim() 
+ 
+
+})
+
+
 router.post('/add_personalDet/:id', verifyLogin, (req, res, next) => {
 
   userHelper.addPersonalDetails(req.body, req.params.id).then((response) => {
@@ -422,7 +483,6 @@ router.post('/edit_password/:id', (req, res) => {
 router.post('/set-quantity', verifyLogin, (req, res, next) => {
 
   userHelper.setProQuantity(req.session.user._id, req.body).then(async (response) => {
-
     response.total = await userHelper.getTotalAmount(req.session.user._id)
     res.json({ status: true, total: response.total })
   }).catch((err) => {

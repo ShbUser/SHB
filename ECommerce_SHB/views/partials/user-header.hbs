@@ -1,147 +1,163 @@
 <!-- Start Top Nav -->
 {{!-- <div style="position: fixed; z-index: 1; width: 100%;background-color: white;"> --}}
-<nav class="navbar fixed-top navbar-expand-lg bg-dark navbar-light d-none d-lg-block" id="templatemo_nav_top">
-    <div class="container text-light">
-        <div class="w-100 d-flex justify-content-between">
-            <div>
-                <i class="fa fa-envelope mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none"
-                    href="mailto:info@company.com">shb@company.com</a>
-                <i class="fa fa-phone mx-2"></i>
-                <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">+91 9746 182 666</a>
-            </div>
-            <div>
-                <a class="text-light" href=""><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href=""><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href=""><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
-                <a class="text-light" href=""><i class="fab fa-linkedin fa-sm fa-fw"></i></a>
-            </div>
-        </div>
-    </div>
-</nav>
-<!-- Close Top Nav -->
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-12 col-xl-12">
 
-<!-- Header -->
 
-<section>
-    <nav class="navbar fixed-top mt-4 bg-white navbar-expand-lg navbar-light shadow">
-        <div class="container d-flex justify-content-between align-items-center">
-
-            <a class="navbar-brand text-success logo h1 align-self-center" href="#">
-                SHB
-            </a>
-            
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
-                data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between"
-                id="templatemo_main_nav">
-                <div class="flex-fill">
-                    <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/home">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/shop">Shop</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Contact</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="navbar align-self-center d-flex">
-                    <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Search ...">
-                            <div class="input-group-text">
-                                <i class="fa fa-fw fa-search"></i>
-                            </div>
+            <nav class="navbar fixed-top  bg-dark navbar-light d-lg-block"
+                id="templatemo_nav_top">
+                <div class="container text-light">
+                    <div class="w-100 d-flex justify-content-between">
+                        <div>
+                            <i class="fa fa-envelope mx-2"></i>
+                            <a class="navbar-sm-brand text-light text-decoration-none"
+                                href="mailto:info@company.com">shb@company.com</a>
+                            <i class="fa fa-phone mx-2"></i>
+                            <a class="navbar-sm-brand text-light text-decoration-none" href="tel:010-020-0340">+91 9746
+                                182 666</a>
+                        </div>
+                        <div>
+                            <a class="text-light" href=""><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
+                            <a class="text-light" href=""><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                            <a class="text-light" href=""><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
+                            <a class="text-light" href=""><i class="fab fa-linkedin fa-sm fa-fw"></i></a>
                         </div>
                     </div>
-                    <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal"
-                        data-bs-target="#templatemo_search">
-                        <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                    </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="/cart">
-                        <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <span
-                            class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"
-                            id="cart-count">{{cartCount}}</span>
-                    </a>
+                </div>
+            </nav>
+            <!-- Close Top Nav -->
 
-                    <div class="dropdown">
-                        <button class="btn btn-light dropdown-toggle p-0 ms-5" type="button" id=""
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                            <span
-                                class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span>
-                            {{#if user}}
-                            {{user.name}}
-                            {{else}}
-                            Account
-                            {{/if}}
+            <!-- Header -->
+
+            <section>
+                <nav class="navbar fixed-top mt-4 bg-white navbar-expand-lg navbar-light shadow">
+                    <div class="container d-flex justify-content-between align-items-center">
+
+                        <a class="navbar-brand text-success logo h1 align-self-center" href="#">
+                            SHB
+                        </a>
+
+                        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
                         </button>
-                        <ul class="dropdown-menu bg-success p-1 list-inline"
-                            style="line-height: 200%;border-color: black;" aria-labelledby="dropdownMenuButton1">
+
+                        <div class="align-self-center collapse navbar-collapse flex-fill  d-lg-flex justify-content-lg-between"
+                            id="templatemo_main_nav">
+                            <div class="flex-fill">
+                                <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/home">Home</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/shop">Shop</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Contact</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="navbar align-self-center d-flex">
+                                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="inputMobileSearch"
+                                            placeholder="Search ...">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-fw fa-search"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal"
+                                    data-bs-target="#templatemo_search">
+                                    <i class="fa fa-fw fa-search text-dark mr-2"></i>
+                                </a>
+                                <a class="nav-icon position-relative text-decoration-none" href="/cart">
+                                    <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                                    <span
+                                        class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"
+                                        id="cart-count">{{cartCount}}</span>
+                                </a>
+
+                                <div class="dropdown">
+                                    <button class="btn btn-light dropdown-toggle p-0 ms-5" type="button" id=""
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                                        <span
+                                            class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span>
+                                        {{#if user}}
+                                        {{user.name}}
+                                        {{else}}
+                                        Account
+                                        {{/if}}
+                                    </button>
+                                    <ul class="dropdown-menu bg-success p-1 list-inline"
+                                        style="line-height: 200%;border-color: black;"
+                                        aria-labelledby="dropdownMenuButton1">
+                                        {{#if user}}
+
+                                        <a class="dropdown-item" href="/user_profile"><i
+                                                class="fa fa-fw fa-user text-dark mr-3"></i>
+                                            Profile</a>
+                                        <a class="dropdown-item" href="/wishlist"><i class="fa-solid fa-heart"></i> Wish
+                                            list</a>
+                                        <a class="dropdown-item " href="/order"> <i
+                                                class="fa-solid fa-arrow-down-wide-short"></i>
+                                            Orders</a></li>
+                                        <a class="dropdown-item" href="/logout"><i
+                                                class="fa-solid fa-right-from-bracket"></i>
+                                            Logout</a>
+
+                                        {{else}}
+                                        <a class="dropdown-item" href="/login"><i
+                                                class="fa fa-fw fa-user text-dark mr-3"></i>
+                                            Login</a>
+
+                                        {{!-- <a class="dropdown-item" href="/user_profile"><i
+                                                class="fa fa-fw fa-user text-dark mr-3"></i>
+                                            Profile</a>
+                                        <a class="dropdown-item" href="/wishlist"> <i class="fa-solid fa-heart"></i>
+                                            Wish list</a> --}}
+
+                                        {{/if}}
+                                    </ul>
+                                </div>
+
+                            </div>
                             {{#if user}}
-
-                            <a class="dropdown-item" href="/user_profile"><i
-                                    class="fa fa-fw fa-user text-dark mr-3"></i>
-                                Profile</a>
-                            <a class="dropdown-item" href="/wishlist"><i class="fa-solid fa-heart"></i> Wish list</a>
-                            <a class="dropdown-item " href="/order"> <i class="fa-solid fa-arrow-down-wide-short"></i>
-                                Orders</a></li>
-                            <a class="dropdown-item" href="/logout"><i class="fa-solid fa-right-from-bracket"></i>
-                                Logout</a>
-
-                            {{else}}
-                            <a class="dropdown-item" href="/login"><i class="fa fa-fw fa-user text-dark mr-3"></i>
-                                Login</a>
-
-                            {{!-- <a class="dropdown-item" href="/user_profile"><i
-                                    class="fa fa-fw fa-user text-dark mr-3"></i>
-                                Profile</a>
-                            <a class="dropdown-item" href="/wishlist"> <i class="fa-solid fa-heart"></i> Wish list</a> --}}
-
+                            {{#if user.photo}}
+                            <div class="ms-2">
+                                <a href="/user_profile">
+                                    <img src="/product-images/{{user.photo}}" class="rounded-circle" alt="image"
+                                        width="50" height="50"></a>
+                            </div>
                             {{/if}}
-                        </ul>
+                            {{/if}}
+                        </div>
+
                     </div>
-
+                </nav><br><br><br><br>
+                <!-- Modal -->
+                <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="w-100 pt-1 mb-5 text-right">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="" method="get" class="modal-content modal-body border-0 p-0">
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control" id="inputModalSearch" name="q"
+                                    placeholder="Search ...">
+                                <button type="submit" class="input-group-text bg-success text-light">
+                                    <i class="fa fa-fw fa-search text-white"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                {{#if user}}
-                {{#if user.photo}}
-                <div class="ms-2">
-                    <a href="/user_profile">
-                <img src="/product-images/{{user.photo}}" class="rounded-circle" alt="image" width="50" height="50"></a>
-                </div>
-                {{/if}}
-                {{/if}}
-            </div>
-
+            </section>
         </div>
-    </nav><br><br><br><br>
-    <!-- Modal -->
-    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="w-100 pt-1 mb-5 text-right">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="" method="get" class="modal-content modal-body border-0 p-0">
-                <div class="input-group mb-2">
-                    <input type="text" class="form-control" id="inputModalSearch" name="q" placeholder="Search ...">
-                    <button type="submit" class="input-group-text bg-success text-light">
-                        <i class="fa fa-fw fa-search text-white"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
+
     </div>
-</section>
 </div>
-
-
 <!-- Close Header -->

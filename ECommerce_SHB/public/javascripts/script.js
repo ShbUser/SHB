@@ -1,3 +1,20 @@
+function sendData(){
+    let searchResults=document.getElementById('sect')
+    let category=document.getElementById('categoryID').value
+    fetch('search_product',{
+        method:'post',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({payload:category})
+    }).then(res => res.json()).then(data =>{
+        let payload=data.payload
+        console.log(payload,"scripttttttttttttttttt");
+        payload.array.forEach(element => {
+            searchResults.value+=`<p>${element}</p>`
+        });
+        
+    })
+}
+
 
 async function isBlock(){
     await swal("Your account blocked.","Cnontact customer service",{icon:"danger"})
@@ -56,11 +73,11 @@ async function addToCart(proID) {
                  {
                 // alert("Item added to cart")
                 swal("Item Added to your cart","", "success");
-                if(isNaN(document.getElementById('cart-count').value)){ document.getElementById('cart-count').innerHTML=0 }
+                if(isNaN(document.getElementById('cart-count').innerHTML)){ document.getElementById('cart-count').innerHTML=0 }
                 let count = document.getElementById('cart-count').innerHTML
                 count = parseInt(count) + 1                
-                document.getElementById('cart-count').value=1;
-                document.getElementById('cart-count').innerHTML=count
+                // document.getElementById('cart-count').value=1;
+                document.getElementById('cart-count').innerHTML= count
                 // alert(document.getElementById('cart-count').innerHTML)
                  }
                  else{
@@ -125,6 +142,7 @@ async function setToCount(proid) {
                 document.getElementById('total-price').innerHTML=e.data.total
                 document.getElementById('sub-total').innerHTML=e.data.total
                 document.getElementById('couponID').value=""
+                document.getElementById('discount').innerHTML=""
             }
     })
 }
@@ -143,6 +161,13 @@ async function delCartItem(prodID,obj) {
                     
                     swal("Item deleted", "", "success");
                     document.getElementById('total-price').innerHTML=e.data.total
+                    document.getElementById('sub-total').innerHTML=e.data.total
+                    document.getElementById('couponID').value=""
+                    document.getElementById('discount').innerHTML=""
+                
+                let count = document.getElementById('cart-count').innerHTML
+                count = parseInt(count) - 1 
+                document.getElementById('cart-count').innerHTML= count
                     $(obj).closest('tr').remove()
                 }
             })  

@@ -1,32 +1,37 @@
 <!-- Start Banner SHB -->
-<div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
-	<div class="carousel-inner">
-		{{#each banner}}
-		<div class=" carousel-item {{#if @first}} active {{/if}}">
-			<div style="height: 10em; background-size: cover;">
-				<img class="img-fluid" src="/banner-images/{{this.bannerImg}}" alt="" width="100%">
-			</div>
-			<div class="col-lg-6 mb-0 d-flex align-items-center" style="z-index: 1; position: absolute;">
-				<div class="text-align-left align-self-center text-white">
-					<h1 class="h1 text-success"><b>SHB</b> eCommerce</h1>
-					<h2 class="h1">{{this.header}}</h2>
-					<h2 class="h1">{{this.content}}</h2>
+<div class="row">
+	<div class="col-12 col-md-12 col-lg-12 col-xl-12">
+
+		<div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
+			<div class="carousel-inner">
+				{{#each banner}}
+				<div class=" carousel-item {{#if @first}} active {{/if}}">
+					<div style="height: 10em; background-size: cover;">
+						<img class="img-fluid" src="/banner-images/{{this.bannerImg}}" alt="" width="100%">
+					</div>
+					<div class=" mb-0 d-flex align-items-center" style="z-index: 1; position: absolute;">
+						<div class="text-align-left align-self-center text-white">
+							<h1 class="h1 text-success"><b>SHB</b> eCommerce</h1>
+							<h2 class="h1">{{this.header}}</h2>
+							<h2 class="h1">{{this.content}}</h2>
+						</div>
+					</div>
+
 				</div>
+				{{/each}}
+
 			</div>
 
+			<a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel"
+				role="button" data-bs-slide="prev">
+				<i class="fas fa-chevron-left"></i>
+			</a>
+			<a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel"
+				role="button" data-bs-slide="next">
+				<i class="fas fa-chevron-right"></i>
+			</a>
 		</div>
-		{{/each}}
-
 	</div>
-
-	<a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel"
-		role="button" data-bs-slide="prev">
-		<i class="fas fa-chevron-left"></i>
-	</a>
-	<a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel"
-		role="button" data-bs-slide="next">
-		<i class="fas fa-chevron-right"></i>
-	</a>
 </div>
 <!-- End Banner SHB -->
 
@@ -44,22 +49,32 @@
 	</div>
 	<div class="row">
 		{{#each products}}
-		<div class="col-md-3 col-xl-3 mt-3 text-center">
+		<div class="col-12 col-md-3 col-xl-3 mt-5 text-center p-5">
 			<div class="card border-0" style="width: 250px; height: 300px;">
 				<a href="/view_product/{{this._id}}">
 					{{!-- <a href="/order_placed"> --}}
 						<img src="/product-images/{{this.myimg.[0]}}" class="card-img-top"
-							style="width: 180px; height: 180px;" alt="...">
+							style="width: 100%; height: 280px;" alt="...">
 					</a>
 					<div class="card-body">
+						<ul class="list-unstyled d-flex justify-content-between">
+							<li>
+								<i class="text-warning fa fa-star"></i>
+								<i class="text-warning fa fa-star"></i>
+								<i class="text-warning fa fa-star"></i>
+								<i class="text-warning fa fa-star"></i>
+								<i class="text-muted fa fa-star"></i>
+							</li>
+							<li class="text-muted text-right">Rs. {{this.price}}</li>
+						</ul>
 						<h5 class="card-title" style="font-weight: bold; font-size: medium;">{{this.name}}</h5>
 						<h5 class="card-title" style="font-weight: lighter; font-size: medium;">{{this.[0].name}}</h5>
-						<h5 class="card-title" style="font-weight:normal; font-size: medium;">RS: {{this.price}}</h5>
+						<h5 class="card-title" style="font-weight:normal; font-size: medium;">{{this.description}} </h5>
 						{{!-- <p class="card-text" style="font-weight: lighter; font-size: medium;">{{this.description}}
 						</p> --}}
-						<button class="btn btn-outline-light" onclick="addToWishlist('{{this._id}}') ">
+						<button class="btn" onclick="addToWishlist('{{this._id}}') ">
 							<i class="fa-solid fa-heart text-success"></i></button>
-						<button class="btn btn-outline-light" onclick="addToCart('{{this._id}}') ">
+						<button class="btn" onclick="addToCart('{{this._id}}') ">
 							<i class="fa fa-fw fa-cart-arrow-down text-success"></i></button>
 
 					</div>

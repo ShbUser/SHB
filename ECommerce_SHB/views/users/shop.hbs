@@ -1,37 +1,63 @@
+<img src="/assets/img/shoppg.jpg" width="100%" height="300">
 
-<section class="mt-5">
-<div class="row text-end">
-        <h3>Search by category</h3>
-        <input type="text" class="form-control" name="category" id="categoryID">
+<section class="mt-5 ">
+    <div class="row" style="margin-top: -10em;">
+        <div class="col-md-6 col-xl-6">
+        </div>
 
-</div>
+        <div class="col-md-6 col-xl-6 mt-3 editColor text-muted">
 
-    <div class="container">
+            <h4>Search by category : </h4>
+            {{!-- <form action="/search_product" method="get" id=""> --}}
+                <div class="row">
+
+                    <div class="col">
+                            {{!-- <input type="text"  id="categoryID" name="category" onkeyup=""> --}}
+                        <select class="form-select" aria-label="Default select example" name="category" id="categoryID">
+                            <option selected>Select Category</option>
+                            {{#each category}}
+                            <option value="{{this._id}} ">{{this.name}}</option>
+                            {{/each}}
+                        </select><br>
+                    </div>
+                    <div class="col">
+                        <button onclick="sendData()"  class="btn btn-primary">Search</button>
+                    </div>
+
+                </div>
+            {{!-- </form> --}}
+        </div>
+    </div>
+<input type="text" id="sect">
+    <div class="container mt-5">
         <div class="row">
             {{#each products}}
-            <div class="col-md-3 col-xl-3 mt-3 text-center">
-                <div class="card border-0" style="width: 250px; height: 300px;">
-                    <a href="/view_product/{{this._id}}">
-                        <img src="/product-images/{{this.myimg.[0]}}" class="card-img-top"
-                            style="width: 180px; height: 180px;" alt="...">
-                    </a>
-                    <div class="card-body">
-                        <h5 class="card-title">{{this.name}}
-                        </h5>
-                        <p class="card-title"> {{this.description}}
-                        </p>
-                        <h6 class="card-title">RS :
-                            {{this.price}}</h6>
+            <div class="col-md-3 col-md-4 col-lg-3 col-xl-3 ">
 
-                        <button class="btn btn-outline-light" onclick="addToWishlist('{{this._id}}') ">
-                            <i class="fa-solid fa-heart text-success"></i></button>
-                        <button class="btn btn-outline-light" onclick="addToCart('{{this._id}}') ">
-                            <i class="fa fa-fw fa-cart-arrow-down text-success"></i></button>
-
+                <div class="product-grid mt-3">
+                    <div class="product-image">
+                        <a href="/view_product/{{this._id}}" class="image">
+                            <img class="pic-1" src="/product-images/{{this.myimg.[0]}}" style=" height: 300px;"
+                                alt="...">
+                        </a>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="title">{{this.name}}</h3>
+                        <div class="price">{{this.description}}</div>
+                        <div class="price">{{this.price}}</div>
+                        <div class="product-button-group">
+                            <ul class="social">
+                                <li><a href="/view_product/{{this._id}}" data-tip="Quick View"><i
+                                            class="fa fa-search"></i></a></li>
+                                <li><a class="btn" onclick="addToWishlist('{{this._id}}') "
+                                        data-tip="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
+                            </ul>
+                            <a class="add-to-cart btn " onclick="addToCart('{{this._id}}') ">Add To Cart</a>
+                        </div>
                     </div>
                 </div>
-
             </div>
+
             {{/each}}
 
         </div>
@@ -42,5 +68,7 @@
 <script>
     $(document).ready(function () {
         $('#productJS').DataTable();
-    });
+    })
+
+   
 </script>
