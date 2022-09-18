@@ -1,7 +1,7 @@
 <img src="/assets/img/shoppg.jpg" width="100%" height="300">
 
 <section class="mt-5 ">
-    <div class="row" style="margin-top: -10em;">
+    <div class="row">
         <div class="col-md-6 col-xl-6">
         </div>
 
@@ -29,7 +29,7 @@
             </form> 
         </div>
     </div>
-    <div class="container mt-5">
+    <div class="container">
         <p class="text-muted text-center">Explore the variety of products from the online stock and choose the quantity required. 
               You can save the time otherwise lost in waiting in lengthy queues for billing and payments by easily adding the chosen items to your cart online.
               Select the required date for delivery and pay with a suitable payment option.
@@ -47,9 +47,9 @@
                         </a>
                     </div>
                     <div class="product-content">
-                        <h3 class="title">{{this.name}}</h3>
+                        <h3 class="title text-dark">{{this.name}}</h3>
                         <div class="price">{{this.description}}</div>
-                        <div class="price">{{this.price}}</div>
+                        <div class="price">RS: {{this.price}}</div>
                         <div class="product-button-group">
                             <ul class="social">
                                 <li><a href="/view_product/{{this._id}}" data-tip="Quick View"><i

@@ -213,7 +213,6 @@ module.exports = {
             try {
                 let allAddress = await db.get().collection(collection.USER_COLLECTION).findOne(
                     { _id: objectID(userID) }, { address: 1 })
-                console.log(allAddress);
                 resolve(allAddress)
             } catch (error) {
                 reject(error)

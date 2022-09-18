@@ -214,7 +214,8 @@ module.exports = {
                             coupenname: coupenDet.coupenname,
                             coupentype: coupenDet.coupentype,
                             coupencode: coupenDet.coupencode,
-                            coupendiscount: coupenDet.coupendiscount
+                            coupendiscount: coupenDet.coupendiscount,
+                            coupentarget:coupenDet.coupentarget
                         }
                     })
                 resolve(response)

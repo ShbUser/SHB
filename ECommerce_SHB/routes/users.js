@@ -230,7 +230,7 @@ router.get('/cart', verifyLogin, async (req, res, next) => {
               next(err)
             })
           }
-          else res.redirect('/')
+          else res.redirect('/shop')
         }).catch((err) => {
           next(err)
         })
@@ -241,23 +241,26 @@ router.get('/cart', verifyLogin, async (req, res, next) => {
       next(err)
     })
   }
-
-  // console.log(products);
-
-
 })
+
 router.get('/apply_coupon/:id', verifyLogin, (req, res, next) => {
-  userHelper.getTotalAmount(user._id).then((total) => {
+  let total
+  let discount, target
+  userHelper.getTotalAmount(user._id).then((totalAmt) => {
+    total = parseInt(totalAmt)
     userHelper.isUserValidForCoupen(user._id, req.params.id).then((inValid) => {
       if (inValid) {
         res.json({ inValid: true })
       }
       else {
         userHelper.totalWithCoupen(req.params.id).then((coupen) => {
-          const discount = coupen.coupendiscount
-          if (parseFloat(total) > 2500) {
-            let gt = (parseInt(total) - parseInt(discount))
-            res.json({ status: true, gt: gt, discount: discount })
+          discount = parseInt(coupen.coupendiscount)
+          target = parseInt(coupen.coupentarget)
+
+
+          if (total > target) {
+            let gt = (total - discount)
+            res.json({ status: true, gt: gt, discount: discount, target: target })
           } else
             res.json({ status: false })
         }).catch((err) => {
@@ -495,27 +498,34 @@ router.post('/edit_password/:id', (req, res) => {
 
 router.post('/set-quantity', verifyLogin, (req, res, next) => {
   userHelper.setProQuantity(req.body).then(async (response) => {
-   await userHelper.getTotalAmount(req.session.user._id).then((total)=>{
-    
-    res.json({ status: true,response,total:total })
+    await userHelper.getTotalAmount(req.session.user._id).then((total) => {
+
+      res.json({ status: true, response, total: total })
     })
-   
+
   }).catch((err) => {
     next(err)
   })
 
 })
+
+
+
 router.post('/place_order', verifyLogin, async (req, res, next) => {
-
   await userHelper.getTotalAmount(req.session.user._id).then(async (total) => {
-    await userHelper.totalWithCoupen(req.body.coupon).then(async (coupen) => {
-      await userHelper.getAddressFromOrderList(user._id).then(async (address) => {
-        await userHelper.getAllShipAddress(user._id).then((shipAddressList) => {
+    if (total != 0) {
+      await userHelper.totalWithCoupen(req.body.coupon).then(async (coupen) => {
+        await userHelper.getAddressFromOrderList(user._id).then(async (address) => {
+          await userHelper.getAllShipAddress(user._id).then((shipAddressList) => {
 
-          if (coupen != 0) {
-            total = (parseInt(total) - parseInt(coupen.coupendiscount))
-          }
-          res.render('users/place_order', { user_head: true, user, total, address, coupen, shipAddressList })
+            if (coupen != 0) {
+              total = (parseInt(total) - parseInt(coupen.coupendiscount))
+            }
+            res.render('users/place_order', { user_head: true, user, total, address, coupen, shipAddressList })
+          }).catch((err) => {
+            next(err)
+          })
+
         }).catch((err) => {
           next(err)
         })
@@ -523,13 +533,13 @@ router.post('/place_order', verifyLogin, async (req, res, next) => {
       }).catch((err) => {
         next(err)
       })
-
-    }).catch((err) => {
-      next(err)
-    })
+    }else{
+      res.redirect('/shop')
+    }
   }).catch((err) => {
     next(err)
   })
+
 })
 
 

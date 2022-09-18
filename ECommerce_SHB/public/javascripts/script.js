@@ -123,16 +123,7 @@ async function delWishlistItem(wishID){
         }
       })
 }
-//   async function addPersonalDetails(userID) {
-//     await axios.get('/add_personalDet/'+userID,{
 
-//     }).then((e)=>{
-//         if (e.data.status)
-//             {                 
-//                swal("Saved your personal details","", "success");
-//             }
-//       })
-//   }
 async function changeQty(cartID, proID, count,obj) {
     
     let quantity = parseInt(document.getElementById(proID).innerHTML)    
@@ -167,6 +158,7 @@ async function changeQty(cartID, proID, count,obj) {
                     document.getElementById('discount').innerHTML=""
                     swal("item deleted", "", "success");
                     $(obj).closest('tr').remove()
+                    //location.reload()
                     
                 }
                 else if(e.data.status){       
@@ -182,18 +174,6 @@ async function changeQty(cartID, proID, count,obj) {
           
 }
 
-// async function setToCount(proid) {    
-//     qty = document.getElementById(proid).innerHTML    
-//     await axios.post('/set-quantity', { prod: proid,  qt: qty }).then((e)=>{
-//             if(e.data.status){       
-//                  swal("Quantity updated", "", "success");     
-//                 document.getElementById('total-price').innerHTML=e.data.total
-//                 document.getElementById('sub-total').innerHTML=e.data.total
-//                 document.getElementById('couponID').value=""
-//                 document.getElementById('discount').innerHTML=""
-//             }
-//     })
-// }
 
 async function delCartItem(prodID,obj) {
     swal({
@@ -288,31 +268,31 @@ async function getEditCoupen(coupenID){
             document.getElementById('editcoupentype').value=e.data.coupen.coupentype
             document.getElementById('editcoupencode').value=e.data.coupen.coupencode
             document.getElementById('editcoupendiscount').value=e.data.coupen.coupendiscount
+            document.getElementById('editcoupentarget').value=e.data.coupen.coupentarget
             
         }
     })    
 }
 
 
-async function applyCoupon(){
-    if(document.getElementById('couponID').value !=""){
-    coupenID = document.getElementById('couponID').value
-    //document.getElementById('couponID').value=coupenID
+async function applyCoupon(coupenID){
     await axios.get('/apply_coupon/'+coupenID).then((e)=>{
+       
         if(e.data.inValid){
             swal("You have allready used this offer","Get next week...","warning")
             document.getElementById('couponID').value=""
         }
         else if (e.data.status) {
+            document.getElementById('couponID').value = coupenID
             document.getElementById('total-price').innerHTML=e.data.gt
             document.getElementById('discount').innerHTML=e.data.discount
             
             swal("You saved Rs."+e.data.discount,"Thank you","success")
         }else{
-            swal("Available for above Rs: 2500","Purchase again and get coupen...","warning")
+            swal("Not available for this amount." ,"Purchase again and get coupen...","warning")
+            document.getElementById('couponID').value=""
         }
     })    
-}
 }
 
 async function delBanner(bannerID,obj) {    

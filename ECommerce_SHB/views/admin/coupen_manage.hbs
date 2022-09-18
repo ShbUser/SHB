@@ -24,9 +24,11 @@
                             <input type="text" class="form-control" id="editcoupencode" name="coupencode" placeholder=""
                                 required><br>
                             <label>Discount</label>
-                            <input type="text" class="form-control" id="editcoupendiscount" name="coupendiscount"
-                                placeholder="" required><br>
-
+                            <input type="text" class="form-control" id="editcoupendiscount" name="coupendiscount" placeholder=""
+                             required><br>
+                            <label>Amount above</label>
+                            <input type="text" class="form-control" id="editcoupentarget" name="coupentarget" placeholder=""
+                                required><br>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i>
@@ -65,6 +67,9 @@
                             <label>Discount</label>
                             <input type="text" class="form-control" id="coupendisount" name="coupendiscount"
                                 placeholder="" required><br>
+                            <label>Amount above</label>
+                            <input type="text" class="form-control" id="coupentarget" name="coupentarget" placeholder=""
+                                required><br>
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -84,8 +89,8 @@
             </div>
             <div class="col-9 col-md-9 col-lg-9 col-xl-9">
                 <div>
-                    <a href="" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#addCoupenModal"> Create coupen</a>
+                    <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCoupenModal"> Create
+                        coupen</a>
                 </div><br>
 
                 <table class="table align-middle text-center" id="bannerJS">
@@ -95,6 +100,7 @@
                             <th scope="col">Type</th>
                             <th scope="col">Code</th>
                             <th scope="col">Discount</th>
+                            <th scope="col">Target</th>
                             <th>Options</th>
                         </tr>
                     </thead>
@@ -105,6 +111,7 @@
                             <td>{{this.coupentype}}</td>
                             <td class="w-25">{{this.coupencode}}</td>
                             <td>{{this.coupendiscount}}</td>
+                            <td>{{this.coupentarget}}</td>
                             <td>
                                 <button class="btn btn-outline-success" data-bs-toggle="modal"
                                     data-bs-target="#coupenEditModal" onclick="getEditCoupen('{{this._id}}')">Edit <i
