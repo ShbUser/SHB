@@ -252,6 +252,10 @@ body{
     overflow: auto;
   } */
 
+  .blockuserBG{
+    height: 39em;
+    
+  }
 /* ...........................admin................................ */
 
 .list-group a:hover{

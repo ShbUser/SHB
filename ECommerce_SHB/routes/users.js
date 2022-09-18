@@ -28,6 +28,7 @@ const upload = multer({ storage: storage })
 /* GET users listing. */
 let user
 let getImg
+
 const verifyLogin = (req, res, next) => {
 
   if (req.session.userLoggedIn) {
@@ -403,17 +404,30 @@ router.post('/signUpOtpVerify', (req, res, next) => {
   })
 })
 
-router.post('/search_product',async(req,res,next)=>{
-  console.log(req.body.payload,"//.......//////////.........")
-  await productHelper.getProductByCategory(req.body.payload).then((products)=>{
-    // res.render('users/shop', { user_head: true, cartCount, category, user, products })
-    console.log(products,"ppppppppppppppppp");
-      res.send({payload:products})
+router.post('/search_product', async (req, res, next) => {
+  let cartCount = 0
+  await productHelper.getCategory().then(async (category) => {
+    await productHelper.getProductByCategory(req.body.category).then(async (products) => {
+      if (user) {
+        await productHelper.getCountCart(req.session.user._id).then((cartcount) => {
+          cartCount = cartcount
+        }).catch((err) => {
+          next(err)
+        })
+      }
+      res.render('users/shop', { user_head: true, cartCount, category, user, products })
+    }).catch((err) => {
+      next(err)
+    })
   }).catch((err) => {
     next(err)
   })
+
+  // res.render('users/shop', { user_head: true, cartCount, category, user, products })
+  // console.log(products,"ppppppppppppppppp");
+  //   res.send({payload:products})
   // let payload=req.body.payload.trim() 
- 
+
 
 })
 
@@ -477,14 +491,15 @@ router.post('/edit_password/:id', (req, res) => {
   }).catch((err) => {
     next(err)
   })
-
 })
 
 router.post('/set-quantity', verifyLogin, (req, res, next) => {
-
-  userHelper.setProQuantity(req.session.user._id, req.body).then(async (response) => {
-    response.total = await userHelper.getTotalAmount(req.session.user._id)
-    res.json({ status: true, total: response.total })
+  userHelper.setProQuantity(req.body).then(async (response) => {
+   await userHelper.getTotalAmount(req.session.user._id).then((total)=>{
+    
+    res.json({ status: true,response,total:total })
+    })
+   
   }).catch((err) => {
     next(err)
   })

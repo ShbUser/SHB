@@ -218,20 +218,13 @@ module.exports = {
 
     },
 
-    getProductByCategory: (category) => {
+    getProductByCategory: (cat) => {
         return new Promise(async (resolve, reject) => {
             try {
-                console.log(category, "ccccccccccccccc");
-                let product = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
-                    {
-                        $match: {
-                            category: category
-                        }
-                    }
-                ]).toArray() //findOne({category : category}).then((product)=>{
-                console.log(product, "qqqqqqqqqqqqq");
-                resolve(product)
-
+               
+                let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({category:cat}).toArray()
+                
+                resolve(products)
             } catch (error) {
                 reject(error)
             }

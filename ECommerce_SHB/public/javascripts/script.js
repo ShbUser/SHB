@@ -1,19 +1,19 @@
-function sendData(){
-    let searchResults=document.getElementById('sect')
-    let category=document.getElementById('categoryID').value
-    fetch('search_product',{
-        method:'post',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({payload:category})
-    }).then(res => res.json()).then(data =>{
-        let payload=data.payload
-        console.log(payload,"scripttttttttttttttttt");
-        payload.array.forEach(element => {
-            searchResults.value+=`<p>${element}</p>`
-        });
+// function sendData(){
+//     let searchResults=document.getElementById('sect')
+//     let category=document.getElementById('categoryID').value
+//     fetch('search_product',{
+//         method:'post',
+//         headers:{'Content-Type':'application/json'},
+//         body:JSON.stringify({payload:category})
+//     }).then(res => res.json()).then(data =>{
+//         let payload=data.payload
+//         alert(payload,"scripttttttttttttttttt");
+//         // payload.forEach(element => {
+//         //     searchResults.value+=`<p>${element}</p>`
+//         // });
         
-    })
-}
+//     })
+// }
 
 
 async function isBlock(){
@@ -133,19 +133,67 @@ async function delWishlistItem(wishID){
 //             }
 //       })
 //   }
+async function changeQty(cartID, proID, count,obj) {
+    
+    let quantity = parseInt(document.getElementById(proID).innerHTML)    
+    count = parseInt(count)
 
-async function setToCount(proid) {    
-    qty = document.getElementById(proid).value    
-    await axios.post('/set-quantity', { prod: proid,  qt: qty }).then((e)=>{
-            if(e.data.status){       
-                 swal("Quantity updated", "", "success");     
-                document.getElementById('total-price').innerHTML=e.data.total
+    // alert(count)
+
+    // if(quantity == 1 && count == -1){
+    //     swal({
+    //         title: "Do you want to delete?",
+    //         icon: "warning",
+    //         buttons: true,
+    //         dangerMode: true,
+    //       })
+    //       .then(async(willDelete) => {
+    //         if (willDelete) {
+                    
+    //         }
+    //     })
+    // }
+        await axios.post('/set-quantity',{
+                cartID: cartID,
+                proID: proID,
+                count: count,
+                quantity:quantity
+            }).then((e)=>{
+                if(e.data.response.removeProduct){
+                    document.getElementById('total-price').innerHTML=e.data.total
+                    document.getElementById('sub-total').innerHTML=e.data.total
+                    document.getElementById(proID).innerHTML = quantity + count
+                    document.getElementById('couponID').value=""
+                    document.getElementById('discount').innerHTML=""
+                    swal("item deleted", "", "success");
+                    $(obj).closest('tr').remove()
+                    
+                }
+                else if(e.data.status){       
+                    swal("Quantity updated", "", "success");        
+                    document.getElementById('total-price').innerHTML=e.data.total
                 document.getElementById('sub-total').innerHTML=e.data.total
-                document.getElementById('couponID').value=""
+                document.getElementById(proID).innerHTML = quantity + count
+                document.getElementById('couponID').value=""                
+                }
+                
                 document.getElementById('discount').innerHTML=""
-            }
-    })
+            })
+          
 }
+
+// async function setToCount(proid) {    
+//     qty = document.getElementById(proid).innerHTML    
+//     await axios.post('/set-quantity', { prod: proid,  qt: qty }).then((e)=>{
+//             if(e.data.status){       
+//                  swal("Quantity updated", "", "success");     
+//                 document.getElementById('total-price').innerHTML=e.data.total
+//                 document.getElementById('sub-total').innerHTML=e.data.total
+//                 document.getElementById('couponID').value=""
+//                 document.getElementById('discount').innerHTML=""
+//             }
+//     })
+// }
 
 async function delCartItem(prodID,obj) {
     swal({

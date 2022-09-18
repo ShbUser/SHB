@@ -33,20 +33,35 @@
 
                             <td><label class="text-success fw-bold">Quantity : </label>
                                 <div class="border-2 border-primary">
-                                    <input type="number" aria-readonly="true" min="1" step="1"
-                                        data-bind="value:replyNumber" style="width: 50px;" value="{{this.quantity}}"
-                                        id="{{this.product._id}}" name="quantity">
-                                    <button class="btn btn-outline-success border-0"
-                                        onclick="setToCount('{{this.product._id}}')">
-                                        <i class="fa-solid fa-floppy-disk"></i></button>
+                                    {{!-- <div class="row">
+                                        <div class="col text-end"> --}}
+                                            <button class="btn btn-success"
+                                                onclick="changeQty('{{this._id}}','{{this.product._id}}',-1,this)">-</button>
+                                            {{!--
+                                        </div> --}}
+                                        {{!-- <input type="number" aria-readonly="true" min="1" step="1"
+                                            data-bind="value:replyNumber" style="width: 50px;" value="{{this.quantity}}"
+                                            id="{{this.product._id}}" name="quantity"> --}}
+                                        {{!-- <div class="col"> --}}
+                                           <span id="{{this.product._id}}"> {{this.quantity}}</span> 
+                                            {{!-- <input type="text" name="quantity" value="{{this.quantity}}"
+                                                class="form-control" id="{{this.product._id}}" readonly> --}}
+                                            {{!-- </div> --}}
+                                        {{!-- <button class="btn btn-outline-success border-0"
+                                            onclick="setToCount('{{this.product._id}}')">
+                                            <i class="fa-solid fa-floppy-disk"></i></button> --}}
+                                        {{!-- <div class="col"> --}}
+                                            <button class="btn btn-success"
+                                                onclick="changeQty('{{this._id}}','{{this.product._id}}',1,this)"> +</button>
+                                            {{!--
+                                        </div> --}}
+                                    </div>
                                 </div>
                             </td>
                             <td><button class="btn btn-danger border-0"
                                     onclick="delCartItem('{{this.product._id}}',this)"><i
                                         class="fa-regular fa-x"></i></button>
-
                             </td>
-
                         </tr>
 
                         {{/each}}
@@ -67,7 +82,7 @@
                         {{!-- <button onclick="applyCoupon()" class="btn btn-primary">Apply</button> --}}
                         <input type="text" name="coupon" class="form-control" id="couponID" readonly>
                     </div><br>
-                    
+
                     <div class="row ">
                         <div class="col">
                             <p class="text-start">Sub total Rs </p>
@@ -93,7 +108,7 @@
                     </div>
                 </form>
             </div>
- 
+
         </div>
         <hr>
         <div class="modal fade" id="couponmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -139,11 +154,12 @@
 
 <script>
 
-    function changrValue() {
-        document.getElementById('pro_qty').value = document.getElementById('pro_qty').text
-        alert(document.getElementById('pro_qty').value)
-    }
+    //function changrValue() {
+    //document.getElementById('pro_qty').value = document.getElementById('pro_qty').text
+    //alert(document.getElementById('pro_qty').value)
+    //}
 
+   
     function getCoupen(coupon) {
         document.getElementById('couponID').value = coupon
         applyCoupon()
@@ -153,4 +169,6 @@
 
         //})
     }
+
+
 </script>

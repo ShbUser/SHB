@@ -8,11 +8,11 @@
         <div class="col-md-6 col-xl-6 mt-3 editColor text-muted">
 
             <h4>Search by category : </h4>
-            {{!-- <form action="/search_product" method="get" id=""> --}}
+            <form action="/search_product" method="post" id="">
                 <div class="row">
 
                     <div class="col">
-                            {{!-- <input type="text"  id="categoryID" name="category" onkeyup=""> --}}
+                        {{!-- <input type="text" id="categoryID" name="category" onkeyup=""> --}}
                         <select class="form-select" aria-label="Default select example" name="category" id="categoryID">
                             <option selected>Select Category</option>
                             {{#each category}}
@@ -21,15 +21,20 @@
                         </select><br>
                     </div>
                     <div class="col">
-                        <button onclick="sendData()"  class="btn btn-primary">Search</button>
+                        <button type="submit" class="btn btn-primary">Search</button>
                     </div>
 
                 </div>
-            {{!-- </form> --}}
+                
+            </form> 
         </div>
     </div>
-<input type="text" id="sect">
     <div class="container mt-5">
+        <p class="text-muted text-center">Explore the variety of products from the online stock and choose the quantity required. 
+              You can save the time otherwise lost in waiting in lengthy queues for billing and payments by easily adding the chosen items to your cart online.
+              Select the required date for delivery and pay with a suitable payment option.
+              This will help you receive the items whenever you need them and in the available quantity. 
+              Order the online grocery comfortably from home for timely doorstep delivery.</p>
         <div class="row">
             {{#each products}}
             <div class="col-md-3 col-md-4 col-lg-3 col-xl-3 ">
@@ -70,5 +75,5 @@
         $('#productJS').DataTable();
     })
 
-   
+
 </script>

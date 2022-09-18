@@ -594,25 +594,24 @@ module.exports = {
 
     },
 
-    setProQuantity: (userID, details) => {
-
+    setProQuantity: (details) => {
+        details.count = parseInt(details.count)
+        details.quantity = parseInt(details.quantity)
         return new Promise(async (resolve, reject) => {
             try {
-                let user = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectID(userID) })
-                if (user) {
-                    let prodExist = user.product.findIndex(produc => produc.item == details.prod)
-                    //console.log(prodExist)
-                    if (prodExist != -1) {
-                        db.get().collection(collection.CART_COLLECTION).updateOne({ user: objectID(userID), 'product.item': objectID(details.prod) }, {
-
-                            $set: { 'product.$.quantity': parseInt(details.qt) }
-
-                        }
-                        ).then((response) => {
-
-                            resolve({ status: true })
-                        })
-                    }
+                if (details.count == -1 && details.quantity == 1) {
+                    db.get().collection(collection.CART_COLLECTION).updateOne({ _id: objectID(details.cartID) }, {
+                        $pull: { product: { item: objectID(details.proID) } }
+                    }).then((response) => {
+                        resolve({ removeProduct: true })    
+                    })
+                } else {
+                    db.get().collection(collection.CART_COLLECTION).updateOne({ _id: objectID(details.cartID), 
+                        'product.item': objectID(details.proID) }, {
+                        $inc: { 'product.$.quantity': details.count }
+                    }).then((response) => {
+                        resolve(true)
+                    })
                 }
             } catch (error) {
                 reject(error)
