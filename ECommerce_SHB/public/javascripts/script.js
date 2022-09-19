@@ -394,7 +394,6 @@ async function editShipAddress(addressId,obj,isPlaceorder){
        })
     }
 
-
   function delOrderItems(prodID,obj) {
     swal({
         title: "Are you sure?",
@@ -427,46 +426,8 @@ async function editShipAddress(addressId,obj,isPlaceorder){
 }      
 
 
-// module.exports={
-//    emailVerify:async()=> {
-//     let email = document.getElementById('emailfield').value
-//     await axios.post('/email_Verification', {
-//         email: email
-//     }).then((e) => {
-//         if (e.data.status) {
-//             emailErr=true
-//             document.getElementById('emailEr').innerHTML = "!!!..Entered email allready exist..."
-        
-//         }
-//         return true
-//         // else {
-//         //     register()
-//         // }
-//     })
-// }
-// }
-// async function register() {
+//Dash board..........................
 
-//     document.getElementById('emailEr').innerHTML =""   
-//     let name = document.getElementById('namefield').value 
-//     let email = document.getElementById('emailfield').value
-//     let mobile = document.getElementById('mobilefield').value    
-//     let password = document.getElementById('passwordfield').value
-//     await axios.post('/register', {    
-          
-//         name: name,
-//         email: email,
-//         mobile: mobile,
-//         password: password
-        
-//     }).then((e) => {
-//         if (e.data.status) {
-//             alert("ok")
-//             location.href = '/signup_otp'
-//         }
-
-//      })
-// }
 
 
 

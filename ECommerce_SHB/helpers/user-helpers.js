@@ -678,7 +678,7 @@ module.exports = {
 
         return new Promise((resolve, reject) => {
             try {
-
+                    
                 //console.log(order,products,total);
                 let status = order['payment-method'] === 'COD' ? 'Placed' : 'Pending'
                 let orderObj = {

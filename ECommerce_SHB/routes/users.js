@@ -12,6 +12,9 @@ const { redirect } = require('express/lib/response');
 const multer = require('multer')
 let fs = require('fs');
 
+let user
+let getImg
+let buynow=false
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'public/product-images')
@@ -26,8 +29,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 /* GET users listing. */
-let user
-let getImg
+
 
 const verifyLogin = (req, res, next) => {
 
@@ -509,6 +511,27 @@ router.post('/set-quantity', verifyLogin, (req, res, next) => {
 
 })
 
+router.get('/buy_now/:id', verifyLogin, async (req, res, next) => {
+  let total,id
+    await productHelper.getSingleProduct(req.params.id).then(async (product) => {
+      total=product.price
+      id=product._id
+    await userHelper.getAddressFromOrderList(user._id).then(async (address) => {
+      await userHelper.getAllShipAddress(user._id).then((shipAddressList) => {
+        buynow=true
+        res.render('users/place_order', { user_head: true, user,total ,id, address, shipAddressList })
+      }).catch((err) => {
+        next(err)
+      })
+    }).catch((err) => {
+      next(err)
+    })
+
+  }).catch((err) => {
+    next(err)
+  })
+})
+
 
 
 router.post('/place_order', verifyLogin, async (req, res, next) => {
@@ -533,7 +556,7 @@ router.post('/place_order', verifyLogin, async (req, res, next) => {
       }).catch((err) => {
         next(err)
       })
-    }else{
+    } else {
       res.redirect('/shop')
     }
   }).catch((err) => {
@@ -546,7 +569,37 @@ router.post('/place_order', verifyLogin, async (req, res, next) => {
 //....................................COD or ONLINE payment.........................................
 
 router.post('/checkout', async (req, res, next) => {
-  //let totalPrice = 0, products = 0
+  let totalPrice = 0
+  let products=[]
+  // products = 0
+  if(buynow){
+    await productHelper.getSingleProduct(req.body.proid).then(async (product) => {
+        products[0]={item:product._id,quantity:1}
+        totalPrice=product.price
+          userHelper.placeOrder(user._id, req.body, products, totalPrice).then((orderID) => {
+            buynow=false
+            if (req.body['payment-method'] === 'COD') {
+              res.json({ codSuccess: true })
+              res.redirect('/order')
+            }
+            else {
+              userHelper.generateRazorPay(orderID, totalPrice).then((response) => {
+                res.json(response)
+              }).catch((err) => {
+                next(err)
+              })
+  
+            }
+          }).catch((err) => {
+            next(err)
+          })
+      
+    }).catch((err) => {
+      next(err)
+    })
+
+  }
+  else{
   await userHelper.getCartProductList(user._id).then(async (products) => {
     await userHelper.getTotalAmount(user._id).then(async (totalPrice) => {
       await userHelper.totalWithCoupen(req.body.coupencode).then((coupen) => {
@@ -580,6 +633,7 @@ router.post('/checkout', async (req, res, next) => {
   }).catch((err) => {
     next(err)
   })
+}
 
 })
 

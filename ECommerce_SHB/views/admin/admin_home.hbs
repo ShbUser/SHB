@@ -1,0 +1,116 @@
+<div class="container">
+    <div class="row" style="margin-left: 10em;">
+        {{!-- <div class="col-2 col-md-1 col-lg-1 col-xl-1">
+
+        </div> --}}
+        <div class="col-12 col-md-3 col-lg-3 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-line fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Today Sale</p>
+                    <h6 class="mb-0">$1234</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-3 col-lg-3 col-xl-3 ">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-bar fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Total Sale</p>
+                    <h6 class="mb-0">$1234</h6>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-12 col-md32 col-lg-3 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-area fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Today Revenue</p>
+                    <h6 class="mb-0">$1234</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-3 col-lg-3 col-xl-3">
+            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-pie fa-3x text-primary"></i>
+                <div class="ms-3">
+                    <p class="mb-2">Total Revenue</p>
+                    <h6 class="mb-0">$1234</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container p-5">
+    <div class="row">
+        <div class="col-12 col-md-2 col-lg-2 col-xl-2">
+
+        </div>
+        <div class="col-12 col-md-5 col-lg-7 col-xl-7">
+            <canvas id="worldwide-sales"></canvas>
+
+        </div>
+        <div class="col-12 col-md-3 col-lg-3 col-xl-3 align-end">
+            <canvas id="doughnut-chart" style="max-width:300px"></canvas>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+
+    var ctx1 = $("#worldwide-sales").get(0).getContext("2d");
+    var myChart1 = new Chart(ctx1, {
+        type: "bar",
+        data: {
+            labels: ["2016", "2017", "2018", "2019", "2020", "2021", "2022"],
+            datasets: [{
+                label: "USA",
+                data: [15, 30, 55, 65, 60, 80, 95],
+                backgroundColor: "rgba(0, 156, 255, .7)"
+            },
+            {
+                label: "UK",
+                data: [8, 35, 40, 60, 70, 55, 75],
+                backgroundColor: "rgba(0, 156, 255, .5)"
+            },
+            {
+                label: "AU",
+                data: [12, 25, 45, 55, 65, 70, 60],
+                backgroundColor: "rgba(0, 156, 255, .3)"
+            }
+            ]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+    var ctx6 = $("#doughnut-chart").get(0).getContext("2d");
+    var myChart6 = new Chart(ctx6, {
+        type: "doughnut",
+        data: {
+            labels: ["Italy", "France", "Spain", "USA", "Argentina"],
+            datasets: [{
+                backgroundColor: [
+                    "rgba(0, 156, 255, .7)",
+                    "rgba(0, 156, 255, .6)",
+                    "rgba(0, 156, 255, .5)",
+                    "rgba(0, 156, 255, .4)",
+                    "rgba(0, 156, 255, .3)"
+                ],
+                data: [55, 49, 44, 24, 15]
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+</script>

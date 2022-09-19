@@ -46,9 +46,8 @@
                             <li>Dolore magna aliqua</li>
                             <li>Excepteur sint</li>
                         </ul>
-
-                        <form action="" method="">
-                            <input type="hidden" name="product-title" value="Activewear">
+                        
+                            {{!-- <input type="hidden" name="product-title" value="Activewear"> --}}
                             <div class="row">
                                 <div class="col-auto">
                                     {{!-- <ul class="list-inline pb-3">
@@ -92,13 +91,13 @@
                             </div> --}}
                             <div class="row pb-3">
                                 <div class="col">
-                                    <button type="submit" class="btn btn-outline-success btn-lg" name="submit"
-                                        value="buy">Buy now</button>
+                                    <a href="/buy_now/{{product._id}}" class="btn btn-outline-success btn-lg" name="submit"
+                                        value="buy">Buy now</a>
                                     <button  class="btn btn-outline-success btn-lg" name="submit" onclick="addToCart('{{product._id}}')"
                                         value="addtocard">Add To Cart</button>
 
                                 </div>
-                        </form>
+                        
                     </div>
                 </div>
                 </div>
