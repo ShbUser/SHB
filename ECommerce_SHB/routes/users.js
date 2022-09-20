@@ -319,6 +319,22 @@ router.get('/view_order_products/:id', verifyLogin, async (req, res, next) => {
     next(err)
   })
 })
+
+
+router.get('/invoice/:id', verifyLogin, async (req, res, next) => {
+  await userHelper.getrOrderProducts(req.params.id).then(async(products) => {
+  await userHelper.getSingleOrder(req.params.id).then((order) => {
+   
+    res.render('users/invoice',{order,products})
+  }).catch((err) => {
+    next(err)
+  })
+}).catch((err) => {
+  next(err)
+})
+        
+  
+})
 // ................................post methods.................................................
 
 router.post('/signup', (req, res, next) => {
@@ -535,6 +551,7 @@ router.get('/buy_now/:id', verifyLogin, async (req, res, next) => {
 
 
 router.post('/place_order', verifyLogin, async (req, res, next) => {
+  buynow=false
   await userHelper.getTotalAmount(req.session.user._id).then(async (total) => {
     if (total != 0) {
       await userHelper.totalWithCoupen(req.body.coupon).then(async (coupen) => {
@@ -659,6 +676,8 @@ router.post('/verify-payment', (req, res) => {
 router.get('/logout', (req, res) => {
   req.session.destroy()
   user = null
+  getImg=null
+  buynow=false
   res.redirect('/')
 })
 

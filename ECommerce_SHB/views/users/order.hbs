@@ -62,8 +62,8 @@
                     {{/if}}
                     
                     <td>{{formatDate this.deliveryDetails.date}}</td>
-                    <td><button class="btn btn-outline-success border-0" onclick="">
-                        <img src="/assets/img/bill.png" width="35px" alt="..."> Billing</button>
+                    <td><a class="btn btn-outline-success border-0" href="/invoice/{{this._id}}">
+                        <img src="/assets/img/bill.png" width="35px" alt="..."> Billing</a>
                     </td>
 
                     <td><button class="btn btn-outline-danger border-0" onclick="delOrderItems('{{this._id}}',this)">

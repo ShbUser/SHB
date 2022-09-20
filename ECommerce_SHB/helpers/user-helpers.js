@@ -602,11 +602,13 @@ module.exports = {
                     db.get().collection(collection.CART_COLLECTION).updateOne({ _id: objectID(details.cartID) }, {
                         $pull: { product: { item: objectID(details.proID) } }
                     }).then((response) => {
-                        resolve({ removeProduct: true })    
+                        resolve({ removeProduct: true })
                     })
                 } else {
-                    db.get().collection(collection.CART_COLLECTION).updateOne({ _id: objectID(details.cartID), 
-                        'product.item': objectID(details.proID) }, {
+                    db.get().collection(collection.CART_COLLECTION).updateOne({
+                        _id: objectID(details.cartID),
+                        'product.item': objectID(details.proID)
+                    }, {
                         $inc: { 'product.$.quantity': details.count }
                     }).then((response) => {
                         resolve(true)
@@ -678,7 +680,7 @@ module.exports = {
 
         return new Promise((resolve, reject) => {
             try {
-                    
+
                 //console.log(order,products,total);
                 let status = order['payment-method'] === 'COD' ? 'Placed' : 'Pending'
                 let orderObj = {
@@ -807,6 +809,19 @@ module.exports = {
         })
 
     },
+    getSingleOrder: (orderId) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                 await db.get().collection(collection.ORDER_COLLECTION).findOne({ _id: objectID(orderId) }).then((order)=>{
+                    resolve(order)
+                })                
+            } catch (error) {
+                reject(error)
+            }
+        })
+
+    },
+
     getAddressFromOrderList: (userID) => {
         return new Promise(async (resolve, reject) => {
             try {
