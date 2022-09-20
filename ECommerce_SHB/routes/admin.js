@@ -255,6 +255,21 @@ router.get('/coupen_manage', verifyLogin, (req, res, next) => {
     })
 })
 
+router.get('/invoice/:id', verifyLogin, async (req, res, next) => {
+    await userHelper.getrOrderProducts(req.params.id).then(async(products) => {
+    await userHelper.getSingleOrder(req.params.id).then((order) => {
+     
+      res.render('admin/invoice_admin',{order,products})
+    }).catch((err) => {
+      next(err)
+    })
+  }).catch((err) => {
+    next(err)
+  })
+          
+    
+  })
+
 // .........................................Post methods..........................................................
 
 router.post('/log_in_ad', (req, res,next) => {

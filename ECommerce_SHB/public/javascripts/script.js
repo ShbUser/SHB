@@ -11,6 +11,9 @@
 //         // payload.forEach(element => {
 //         //     searchResults.value+=`<p>${element}</p>`
 //         // });
+
+const { BillingPeriodInstance } = require("twilio/lib/rest/supersim/v1/sim/billingPeriod")
+
         
 //     })
 // }
@@ -419,14 +422,27 @@ async function editShipAddress(addressId,obj,isPlaceorder){
         } else {
           swal("Your imaginary file is safe!");
         }
-      });
-
-
-    
+      });    
 }      
 
-
-//Dash board..........................
+// .....................Billing.........................
+function printInvoice(tagId) {
+    var hashId = "#" + tagId;
+    var tagname = $(hashId).prop("tagName").toLowerCase();
+    var attributes = "";
+    var attrs = document.getElementById(tagId).attributes;
+    $.each(attrs, function (i, elem) {
+        attributes += " " + elem.name + " ='" + elem.value + "' ";
+    })
+    var divToPrint = $(hashId).html();
+    var head = "<html><head>" + $("head").html() + "</head>";
+    var allContent = head + "<body  onload='window.print()' >" + "<" + tagname + attributes + ">" + divToPrint + "</" + tagname + ">" + "</body></html>";
+    var newWin = window.open('', 'Print-Window');
+    newWin.document.open();
+    newWin.document.write(allContent);
+    newWin.document.close();
+    setTimeout(function () { newWin.close(); }, 1000);
+}
 
 
 
