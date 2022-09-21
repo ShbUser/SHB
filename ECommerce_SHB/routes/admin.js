@@ -53,7 +53,10 @@ router.get('/', (req, res) => {
     res.render('admin/log_in_ad', { "loginErr": req.session.adminLoginErr })
 })
 router.get('/admin_home', verifyLogin, (req, res) => {
-    res.render('admin/admin_home', { admin: true })
+    adminHelper.getRevenue().then((details)=>{
+         res.render('admin/admin_home', { admin: true,details })
+    })
+   
 })
 
 

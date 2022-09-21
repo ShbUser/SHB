@@ -325,7 +325,7 @@ router.get('/invoice/:id', verifyLogin, async (req, res, next) => {
   await userHelper.getrOrderProducts(req.params.id).then(async(products) => {
   await userHelper.getSingleOrder(req.params.id).then((order) => {
    
-    res.render('users/invoice',{order,products})
+    res.render('users/invoice',{user_head:true, order,products})
   }).catch((err) => {
     next(err)
   })

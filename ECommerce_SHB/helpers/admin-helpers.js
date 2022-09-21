@@ -236,5 +236,39 @@ module.exports = {
             }
         })
 
-    }
+    },
+    getRevenue: () => {
+        //let before_date= new Date().getFullYear()
+        //console.log(before_date); {createdAt:{$gte:ISODate(“2020-03-01”),$lt:ISODate(“2021-03-31”)}}
+        return new Promise(async (resolve, reject) => {
+            try {
+            //   let revenue=  await db.get().collection(collection.ORDER_COLLECTION).find().sort({ 'deliveryDetails.date': -1 }).limit(5).toArray()
+            //   let date=revenue[0].deliveryDetails.date.toDateString()           
+              
+            //                 console.log(date.slice(4),"nnnnnnnnnnnnnnnnnnnnn");
+
+                            let details= await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                                // {
+                                //     $project:{_id:0,month:{$month:"$deliveryDetails.date"}}
+                                // },
+                                
+                                {
+                                    $group:{_id:null,
+                                        total:{$sum:"$totalAmount"}}
+                                    
+                                }
+                                // {
+                                //         $project:{"deliveryDetails.name":1}
+                                // }
+                            ]).toArray()
+                       
+                console.log(details);
+                resolve(details)
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
+
+
 }

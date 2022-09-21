@@ -1,40 +1,47 @@
 <img src="/assets/img/shoppg.jpg" width="100%" height="300">
 
 <section class="mt-5 ">
-    <div class="row">
-        <div class="col-md-6 col-xl-6">
-        </div>
+    <div class="container">
+        <div class="row bg-light" style="border: 1px solid darkblue ;">
+            <p class="text-muted text-center">Explore the variety of products from the online stock and choose the
+                quantity required.
+                You can save the time otherwise lost in waiting in lengthy queues for billing and payments by easily
+                adding the chosen items to your cart online.
+                Select the required date for delivery and pay with a suitable payment option.
+                This will help you receive the items whenever you need them and in the available quantity.
+                Order the online grocery comfortably from home for timely doorstep delivery.</p>
+            <div class="col-md-6 col-xl-6">
+            </div>
 
-        <div class="col-md-6 col-xl-6 mt-3 editColor text-muted">
+            <div class="col-md-6 col-xl-6 mt-3 editColor ">
 
-            <h4>Search by category : </h4>
-            <form action="/search_product" method="post" id="">
-                <div class="row">
+                <h4>Search by category : </h4>
+                <form action="/search_product" method="post" id="">
+                    <div class="row">
 
-                    <div class="col">
-                        {{!-- <input type="text" id="categoryID" name="category" onkeyup=""> --}}
-                        <select class="form-select" aria-label="Default select example" name="category" id="categoryID">
-                            <option selected>Select Category</option>
-                            {{#each category}}
-                            <option value="{{this._id}} ">{{this.name}}</option>
-                            {{/each}}
-                        </select><br>
+                        <div class="col">
+                            {{!-- <input type="text" id="categoryID" name="category" onkeyup=""> --}}
+                            <select class="form-select" aria-label="Default select example" name="category"
+                                id="categoryID">
+                                <option selected>Select Category</option>
+                                {{#each category}}
+                                <option value="{{this._id}} ">{{this.name}}</option>
+                                {{/each}}
+                            </select><br>
+                        </div>
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+
                     </div>
-                    <div class="col">
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
 
-                </div>
-                
-            </form> 
+                </form>
+            </div>
+
         </div>
     </div>
     <div class="container">
-        <p class="text-muted text-center">Explore the variety of products from the online stock and choose the quantity required. 
-              You can save the time otherwise lost in waiting in lengthy queues for billing and payments by easily adding the chosen items to your cart online.
-              Select the required date for delivery and pay with a suitable payment option.
-              This will help you receive the items whenever you need them and in the available quantity. 
-              Order the online grocery comfortably from home for timely doorstep delivery.</p>
+
         <div class="row">
             {{#each products}}
             <div class="col-md-3 col-md-4 col-lg-3 col-xl-3 ">
@@ -68,7 +75,91 @@
         </div>
     </div>
 </section>
+<!-- Start Footer -->
+<footer class="bg-dark mt-5" id="tempaltemo_footer">
+	<div class="container">
+		<div class="row">
 
+			<div class="col-md-4 pt-5">
+				<h2 class="h2 text-success border-bottom pb-3 border-light logo">SHB Shop</h2>
+				<ul class="list-unstyled text-light footer-link-list">
+					<li>
+						<i class="fas fa-map-marker-alt fa-fw"></i>
+						123 Kinfra at 10660
+					</li>
+					<li>
+						<i class="fa fa-phone fa-fw"></i>
+						<a class="text-decoration-none" href="tel:010-020-0340">+91 9746 182 666</a>
+					</li>
+					<li>
+						<i class="fa fa-envelope fa-fw"></i>
+						<a class="text-decoration-none" href="mailto:info@company.com">shb@company.com</a>
+					</li>
+				</ul>
+			</div>
+
+			<div class="col-md-4 pt-5">
+				<h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
+				<ul class="list-unstyled text-light footer-link-list">
+					<li><a class="text-decoration-none" href="#">Home</a></li>
+					<li><a class="text-decoration-none" href="#">About Us</a></li>
+					<li><a class="text-decoration-none" href="#">Shop Locations</a></li>
+					<li><a class="text-decoration-none" href="#">Contact</a></li>
+				</ul>
+			</div>
+
+		</div>
+
+		<div class="row text-light mb-4">
+			<div class="col-12 mb-3">
+				<div class="w-100 my-3 border-top border-light"></div>
+			</div>
+			<div class="col-auto me-auto">
+				<ul class="list-inline text-left footer-icons">
+					<li class="list-inline-item border border-light rounded-circle text-center">
+						<a class="text-light text-decoration-none" target="_blank" href=""><i
+								class="fab fa-facebook-f fa-lg fa-fw"></i></a>
+					</li>
+					<li class="list-inline-item border border-light rounded-circle text-center">
+						<a class="text-light text-decoration-none" target="_blank" href=""><i
+								class="fab fa-instagram fa-lg fa-fw"></i></a>
+					</li>
+					<li class="list-inline-item border border-light rounded-circle text-center">
+						<a class="text-light text-decoration-none" target="_blank" href=""><i
+								class="fab fa-twitter fa-lg fa-fw"></i></a>
+					</li>
+					<li class="list-inline-item border border-light rounded-circle text-center">
+						<a class="text-light text-decoration-none" target="_blank" href=""><i
+								class="fab fa-linkedin fa-lg fa-fw"></i></a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-auto">
+				<label class="sr-only" for="subscribeEmail">Email address</label>
+				<div class="input-group mb-2">
+					<input type="text" class="form-control bg-dark border-light" id="subscribeEmail"
+						placeholder="Email address">
+					<div class="input-group-text btn-success text-light">Subscribe</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="w-100 bg-black py-3">
+		<div class="container">
+			<div class="row pt-2">
+				<div class="col-12">
+					<p class="text-left text-light">
+						Copyright &copy; 2021 SHB
+						| Designed by <a rel="sponsored" href="https://templatemo.com" target="_blank">shb</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</footer>
+<!-- End Footer -->
 
 <script>
     $(document).ready(function () {
