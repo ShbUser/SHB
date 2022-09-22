@@ -39,7 +39,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
                 let user = await db.get().collection(collection.USER_COLLECTION).findOne({ email: userData.email, isBlock: false })
-                // console.log(user);
+
                 if (user) {
 
                     bcrypt.compare(userData.password, user.password).then((status) => {
@@ -678,7 +678,7 @@ module.exports = {
     },
     placeOrder: (userId, order, products, total) => {
 
-        return new Promise((resolve, reject) => {
+        return new Promise(async(resolve, reject) => {
             try {
 
                 //console.log(order,products,total);
@@ -704,9 +704,30 @@ module.exports = {
                     userID: objectID(userId),
                     products: products,
                 }
+                // let prod =await db.get().collection(collection.PRODUCT_COLLECTION).find({})
+                // let prodExist
+                // products.forEach(element => {
+                //     console.log( element.item,"bbbbbbbbbbbbbb");
+                //     //prodExist = prod.findIndex(produc => produc._id == element.item)
+                //     prod.forEach(element1 => {
+                //         console.log(element1._id, element.item,"mmmmmmmmmmmmmmmmmmm");
+                //         if(element1._id == element.item){
+                //             console.log("sssssssssssssssssssssssssss");
+                //             db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: element.item },
+                //                 {
+                //                     $inc: { '$.qty': -1 }
+                //                 }
+                //             ).then(() => {
+                //                 resolve()
+                //             })
+                //         }
+                //     });
+                  
+                // });
 
-                db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then((response) => {
-                    db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectID(userId) })
+
+                   await db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then(async(response) => {
+                   await db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectID(userId) })
                     resolve(response.insertedId)
                     // db.get().collection(collection.PRODUCT_COLLECTION).updateOne({'response.products.item': objectID(prod) }, {
                     //     $inc: { 'product.$.quantity': 1 }
@@ -812,9 +833,9 @@ module.exports = {
     getSingleOrder: (orderId) => {
         return new Promise(async (resolve, reject) => {
             try {
-                 await db.get().collection(collection.ORDER_COLLECTION).findOne({ _id: objectID(orderId) }).then((order)=>{
+                await db.get().collection(collection.ORDER_COLLECTION).findOne({ _id: objectID(orderId) }).then((order) => {
                     resolve(order)
-                })                
+                })
             } catch (error) {
                 reject(error)
             }

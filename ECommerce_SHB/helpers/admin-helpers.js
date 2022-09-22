@@ -237,6 +237,24 @@ module.exports = {
         })
 
     },
+    todaySale:()=>{
+        return new Promise(async(resolve,reject)=>{
+            try{
+            console.log(new Date())
+            let total_sale= await db.get().collection(collection.ORDER_COLLECTION).find({'deliveryDetails.date':new Date()},{$sum:'deliveryDetails.totalAmount'}).toArray()
+            console.log(total_sale,"ttttttttttttttttttt");
+            resolve(total_sale)
+
+            }catch(error){
+                reject(error)
+            }
+        })
+        
+
+    
+
+    },
+
     getRevenue: () => {
         //let before_date= new Date().getFullYear()
         //console.log(before_date); {createdAt:{$gte:ISODate(“2020-03-01”),$lt:ISODate(“2021-03-31”)}}

@@ -49,7 +49,7 @@ const verifyLogin = (req, res, next) => {
   }
 }
 router.get('/', async (req, res, next) => {
-  // res.render('users/place_order',{user_head:true})
+  
   let cartCount = 0
   if (req.session.userLoggedIn) {
     user = req.session.user
@@ -102,13 +102,21 @@ router.get('/signup', (req, res, next) => {
 })
 
 router.get('/view_product/:id', async (req, res, next) => {
-  await productHelper.getSingleProduct(req.params.id).then((product) => {
-    res.render('users/view_product', { user_head: true, user, product })
+  let cartCount = 0
+  await productHelper.getSingleProduct(req.params.id).then(async(product) => {
+    if (user) {
+      await productHelper.getCountCart(req.session.user._id).then((cartcount) => {
+        cartCount = cartcount
+      }).catch((err) => {
+        next(err)
+      })
+    }
+    res.render('users/view_product', { user_head: true, user, product,cartCount })
   }).catch((err) => {
     next(err)
   })
-
 })
+
 router.get('/shop', async (req, res, next) => {
   let cartCount = 0
   await productHelper.getCategory().then(async (category) => {
@@ -436,6 +444,7 @@ router.post('/search_product', async (req, res, next) => {
           next(err)
         })
       }
+      //console.log(products,">>>>>>>>>>>>>>>>>>>");
       res.render('users/shop', { user_head: true, cartCount, category, user, products })
     }).catch((err) => {
       next(err)

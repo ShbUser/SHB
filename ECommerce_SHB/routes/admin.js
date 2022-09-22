@@ -52,9 +52,14 @@ let upload1 = multer({ storage: storage1 })
 router.get('/', (req, res) => {
     res.render('admin/log_in_ad', { "loginErr": req.session.adminLoginErr })
 })
-router.get('/admin_home', verifyLogin, (req, res) => {
+router.get('/admin_home', verifyLogin, (req, res,next) => {
     adminHelper.getRevenue().then((details)=>{
-         res.render('admin/admin_home', { admin: true,details })
+        adminHelper.todaySale().then((todaySale)=>{
+             res.render('admin/admin_home', { admin: true,details,todaySale })
+        }).catch((err) => {
+            next(err)
+        })
+        
     })
    
 })
@@ -299,6 +304,9 @@ router.post('/add_product', verifyLogin, upload.array('img', 5), (req, res, next
     let array = []
     array = images.map((value) => value.filename)
     req.body.myimg = array
+
+    req.body.qty=parseInt(req.body.qty)
+    req.body.price=parseInt(req.body.price)
 
     productHelper.addProduct(req.body).then((id) => {
         res.redirect('/admin/view_products')

@@ -220,8 +220,7 @@ module.exports = {
 
     getProductByCategory: (cat) => {
         return new Promise(async (resolve, reject) => {
-            try {
-               
+            try {            
                 let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({category:cat}).toArray()
                 
                 resolve(products)

@@ -8,8 +8,10 @@
                 <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="Name"
                     value="{{product.name}}" required>
                 <br>
-                <input type="text" class="form-control" id="inputAddress" name="price" placeholder="Price"
-                    value="{{product.price}}" required>
+                <input type="number" class="form-control" id="price" name="price" placeholder=""
+                       min="1" step="1" value="{{product.price}}" required>
+                {{!-- <input type="text" class="form-control" id="inputAddress" name="price" placeholder="Price"
+                     required> --}}
                 <br>
                 <input type="text" class="form-control" id="inputAddress" placeholder="Size" name="size"
                     value="{{product.size}}" required>
@@ -28,10 +30,11 @@
 
 
                 <br>
-
-                <input type="text" class="form-control" id="inputAddress" placeholder="Qauantity" name="qty"
+ <input type="number" class="form-control" id="qty" placeholder="" min="0" step="1"
+                        name="qty" value="{{product.qty}}" ><br>
+                {{!-- <input type="text" class="form-control" id="inputAddress" placeholder="Qauantity" name="qty"
                     value="{{product.qty}}" required>
-                <br>
+                <br> --}}
 
                 <input type="text" class="form-control" id="inputCity" placeholder="Description" name="description"
                     value="{{product.description}}" required>
