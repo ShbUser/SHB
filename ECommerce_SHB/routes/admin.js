@@ -52,20 +52,20 @@ let upload1 = multer({ storage: storage1 })
 router.get('/', (req, res) => {
     res.render('admin/log_in_ad', { "loginErr": req.session.adminLoginErr })
 })
-router.get('/admin_home', verifyLogin, (req, res,next) => {
-    adminHelper.getRevenue().then((details)=>{
-        adminHelper.todaySale().then((todaySale)=>{
-             res.render('admin/admin_home', { admin: true,details,todaySale })
+router.get('/admin_home', verifyLogin, (req, res, next) => {
+    adminHelper.totalSale().then((total_sale) => {
+        adminHelper.todaySale().then((todaySale) => {
+            res.render('admin/admin_home', { admin: true, total_sale, todaySale })
         }).catch((err) => {
             next(err)
         })
-        
+
     })
-   
+
 })
 
 
-router.get('/add_products', verifyLogin, async(req, res,next) => {
+router.get('/add_products', verifyLogin, async (req, res, next) => {
     await productHelper.getCategory().then((category) => {
         // console.log(category);
         res.render('admin/add_products', { admin: true, category })
@@ -74,7 +74,7 @@ router.get('/add_products', verifyLogin, async(req, res,next) => {
     })
 })
 
-router.get('/add_categories', verifyLogin, (req, res,next) => {
+router.get('/add_categories', verifyLogin, (req, res, next) => {
     productHelper.getCategory().then((category) => {
         res.render('admin/add_categories', { admin: true, category })
     }).catch((err) => {
@@ -82,7 +82,7 @@ router.get('/add_categories', verifyLogin, (req, res,next) => {
     })
 })
 
-router.get('/view_products', verifyLogin, (req, res,next) => {
+router.get('/view_products', verifyLogin, (req, res, next) => {
     productHelper.getAllProducts().then((products) => {
         res.render('admin/view_products', { admin: true, products });
     }).catch((err) => {
@@ -124,7 +124,7 @@ router.get('/admin_view_order_products/:id', verifyLogin, async (req, res, next)
     })
 })
 
-router.get('/view_users', verifyLogin, (req, res,next) => {
+router.get('/view_users', verifyLogin, (req, res, next) => {
     adminHelper.getAllUsers().then((users) => {
         res.render('admin/view_users', { admin: true, users })
     }).catch((err) => {
@@ -133,7 +133,7 @@ router.get('/view_users', verifyLogin, (req, res,next) => {
 })
 
 
-router.get('/edit_category/:id', verifyLogin, (req, res,next) => {
+router.get('/edit_category/:id', verifyLogin, (req, res, next) => {
 
     productHelper.getUpdateCategory(req.params.id).then((categ) => {
         res.render('admin/edit_categories', { admin: true, categ })
@@ -142,7 +142,7 @@ router.get('/edit_category/:id', verifyLogin, (req, res,next) => {
         next(err)
     })
 })
-router.get('/delete_category/:id', verifyLogin, (req, res,next) => {
+router.get('/delete_category/:id', verifyLogin, (req, res, next) => {
     productHelper.deleteCategory(req.params.id).then((id) => {
         res.redirect('/admin/add_categories')
     }).catch((err) => {
@@ -150,7 +150,7 @@ router.get('/delete_category/:id', verifyLogin, (req, res,next) => {
     })
 })
 
-router.get('/delete_products/:id/:imgs', verifyLogin, (req, res,next) => {
+router.get('/delete_products/:id/:imgs', verifyLogin, (req, res, next) => {
     productHelper.deleteProduct(req.params.id).then((id) => {
 
         imgArr = req.params.imgs.split(",")
@@ -167,7 +167,7 @@ router.get('/delete_products/:id/:imgs', verifyLogin, (req, res,next) => {
     })
 })
 
-router.get('/edit_products/:id', verifyLogin, (req, res,next) => {
+router.get('/edit_products/:id', verifyLogin, (req, res, next) => {
 
     productHelper.getCategory().then((categories) => {
         productHelper.getUpdateProduct(req.params.id).then((product) => {
@@ -189,18 +189,18 @@ router.get('/edit_products/:id', verifyLogin, (req, res,next) => {
     })
 })
 
-router.get('/block-user/:id', verifyLogin, (req, res,next) => {
+router.get('/block-user/:id', verifyLogin, (req, res, next) => {
     adminHelper.doBlockUser(req.params.id).then((response) => {
         res.redirect('/admin/view_users')
-    }).catch((err)=>{
+    }).catch((err) => {
         next(err)
     })
 
 })
-router.get('/unblock-user/:id', verifyLogin, (req, res,next) => {
+router.get('/unblock-user/:id', verifyLogin, (req, res, next) => {
     adminHelper.doUnBlockUser(req.params.id).then((response) => {
         res.redirect('/admin/view_users')
-    }).catch((err)=>{
+    }).catch((err) => {
         next(err)
     })
 
@@ -214,73 +214,73 @@ router.get('/banner_manage', verifyLogin, (req, res, next) => {
     })
 })
 
-router.get('/get_edit_banner/:id', verifyLogin, (req, res,next) => {
+router.get('/get_edit_banner/:id', verifyLogin, (req, res, next) => {
     adminHelper.getEditBanner(req.params.id).then((banner) => {
         banner_img = banner.bannerImg
         edit_Banner_ID = banner._id
         res.json({ status: true, banner: banner })
-    }).catch((err)=>{
+    }).catch((err) => {
         next(err)
     })
 })
-router.get('/get_edit_coupen/:id', verifyLogin, (req, res,next) => {
-    adminHelper.getEditCoupen(req.params.id).then((coupen) => {        
+router.get('/get_edit_coupen/:id', verifyLogin, (req, res, next) => {
+    adminHelper.getEditCoupen(req.params.id).then((coupen) => {
         edit_coupen_ID = coupen._id
         res.json({ status: true, coupen: coupen })
-    }).catch((err)=>{
+    }).catch((err) => {
         next(err)
     })
 })
 
 
 
-router.get('/del_banner/:id/:img', verifyLogin, (req, res,next) => {
+router.get('/del_banner/:id/:img', verifyLogin, (req, res, next) => {
     adminHelper.deleteBanner(req.params.id).then((response) => {
         img = req.params.img
-            fs.unlink("./public/banner-images/" + img, (err) => {
-                if (err) {
-                    throw err;
-                }
-            })
+        fs.unlink("./public/banner-images/" + img, (err) => {
+            if (err) {
+                throw err;
+            }
+        })
         res.json({ status: true })
-    }).catch((err)=>{
+    }).catch((err) => {
         next(err)
     })
 })
-router.get('/del_coupen/:id', verifyLogin, (req, res,next) => {
+router.get('/del_coupen/:id', verifyLogin, (req, res, next) => {
     adminHelper.deleteCoupen(req.params.id).then((response) => {
         res.json({ status: true })
-        }).catch((err)=>{
-            next(err)
-        })
+    }).catch((err) => {
+        next(err)
+    })
 })
 
 router.get('/coupen_manage', verifyLogin, (req, res, next) => {
-     adminHelper.getAllCoupens().then((coupens) => {
-        res.render('admin/coupen_manage', { admin: true,coupens})
+    adminHelper.getAllCoupens().then((coupens) => {
+        res.render('admin/coupen_manage', { admin: true, coupens })
     }).catch((err) => {
         next(err)
     })
 })
 
 router.get('/invoice/:id', verifyLogin, async (req, res, next) => {
-    await userHelper.getrOrderProducts(req.params.id).then(async(products) => {
-    await userHelper.getSingleOrder(req.params.id).then((order) => {
-     
-      res.render('admin/invoice_admin',{order,products})
+    await userHelper.getrOrderProducts(req.params.id).then(async (products) => {
+        await userHelper.getSingleOrder(req.params.id).then((order) => {
+
+            res.render('admin/invoice_admin', { order, products })
+        }).catch((err) => {
+            next(err)
+        })
     }).catch((err) => {
-      next(err)
+        next(err)
     })
-  }).catch((err) => {
-    next(err)
-  })
-          
-    
-  })
+
+
+})
 
 // .........................................Post methods..........................................................
 
-router.post('/log_in_ad', (req, res,next) => {
+router.post('/log_in_ad', (req, res, next) => {
 
     adminHelper.doLogin_admin(req.body).then((response) => {
         if (response.status) {
@@ -292,7 +292,7 @@ router.post('/log_in_ad', (req, res,next) => {
             req.session.adminLoginErr = "!!! You entered invalid Username or Password"
             res.redirect('/admin')
         }
-    }).catch((err)=>{
+    }).catch((err) => {
         next(err)
     })
 
@@ -305,8 +305,8 @@ router.post('/add_product', verifyLogin, upload.array('img', 5), (req, res, next
     array = images.map((value) => value.filename)
     req.body.myimg = array
 
-    req.body.qty=parseInt(req.body.qty)
-    req.body.price=parseInt(req.body.price)
+    req.body.qty = parseInt(req.body.qty)
+    req.body.price = parseInt(req.body.price)
 
     productHelper.addProduct(req.body).then((id) => {
         res.redirect('/admin/view_products')
@@ -315,7 +315,7 @@ router.post('/add_product', verifyLogin, upload.array('img', 5), (req, res, next
     })
 })
 
-router.post('/add-categories', verifyLogin, (req, res,next) => {
+router.post('/add-categories', verifyLogin, (req, res, next) => {
     productHelper.addCategory(req.body).then((response) => {
         res.redirect('/admin/add_categories')
     }).catch((err) => {
@@ -323,7 +323,7 @@ router.post('/add-categories', verifyLogin, (req, res,next) => {
     })
 })
 
-router.post('/update-categories/:id', verifyLogin, (req, res,next) => {
+router.post('/update-categories/:id', verifyLogin, (req, res, next) => {
     productHelper.setUpdateCategory(req.body, req.params.id).then((response) => {
         res.redirect('/admin/add_categories')
     }).catch((err) => {
@@ -332,7 +332,7 @@ router.post('/update-categories/:id', verifyLogin, (req, res,next) => {
 })
 
 
-router.post('/update_product/:id', verifyLogin, upload.array('img', 3), (req, res,next) => {
+router.post('/update_product/:id', verifyLogin, upload.array('img', 3), (req, res, next) => {
     if (req.files == "") {
         req.body.myimg = imgArr
     }
@@ -398,7 +398,7 @@ router.post('/edit_banner', verifyLogin, upload1.single('img'), (req, res, next)
         next(err)
     })
 })
-router.post('/edit_coupen', verifyLogin,(req, res, next) => {
+router.post('/edit_coupen', verifyLogin, (req, res, next) => {
     adminHelper.editCoupen(edit_coupen_ID, req.body).then((response) => {
         edit_coupen_ID = ""
         res.redirect('/admin/coupen_manage')

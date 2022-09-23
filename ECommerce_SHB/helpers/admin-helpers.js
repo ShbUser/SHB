@@ -145,7 +145,7 @@ module.exports = {
     editBanner: (bannerId, bannerDet) => {
         return new Promise(async (resolve, reject) => {
             try {
-                console.log(bannerDet, ".................");
+                //console.log(bannerDet, ".................");
                 await db.get().collection(collection.BANNER_COLLECTION).updateOne({ _id: objectID(bannerId) },
                     {
                         $set: {
@@ -215,7 +215,7 @@ module.exports = {
                             coupentype: coupenDet.coupentype,
                             coupencode: coupenDet.coupencode,
                             coupendiscount: coupenDet.coupendiscount,
-                            coupentarget:coupenDet.coupentarget
+                            coupentarget: coupenDet.coupentarget
                         }
                     })
                 resolve(response)
@@ -237,56 +237,133 @@ module.exports = {
         })
 
     },
-    todaySale:()=>{
-        return new Promise(async(resolve,reject)=>{
-            try{
-            console.log(new Date())
-            let total_sale= await db.get().collection(collection.ORDER_COLLECTION).find({'deliveryDetails.date':new Date()},{$sum:'deliveryDetails.totalAmount'}).toArray()
-            console.log(total_sale,"ttttttttttttttttttt");
-            resolve(total_sale)
 
-            }catch(error){
-                reject(error)
-            }
-        })
-        
 
-    
+    todaySale: () => {
+        //      let today = new Date();
+        //      today.setHours(0, 0, 0, 0)
 
-    },
-
-    getRevenue: () => {
-        //let before_date= new Date().getFullYear()
-        //console.log(before_date); {createdAt:{$gte:ISODate(“2020-03-01”),$lt:ISODate(“2021-03-31”)}}
-        return new Promise(async (resolve, reject) => {
+        //  let firstDayMonth = new Date(today);
+        //     let lastDayMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)`
+        //     lastDayMonth.setHours(23, 59, 59, 0);
+        //     today = new Date().setHours(0, 0, 0, 0);
+        //     //lastDayMonth=new Date()
+            //let firstDay=new Date(new Date().getTime() - (24 * 60 * 60 - 1000))
+            return new Promise(async (resolve, reject) => {
             try {
-            //   let revenue=  await db.get().collection(collection.ORDER_COLLECTION).find().sort({ 'deliveryDetails.date': -1 }).limit(5).toArray()
-            //   let date=revenue[0].deliveryDetails.date.toDateString()           
-              
-            //                 console.log(date.slice(4),"nnnnnnnnnnnnnnnnnnnnn");
+                
+                //console.log(firstDay, "ffffffffffffffff", new Date())
+                let total_sale = await db.get().collection(collection.ORDER_COLLECTION).find().limit(5) .toArray()
+                    //{ 'deliveryDetails.date' : { $gte: firstDay, $lte: new Date() } }, { total: { $sum: '$deliveryDetails.totalAmount' } }
+                
 
-                            let details= await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-                                // {
-                                //     $project:{_id:0,month:{$month:"$deliveryDetails.date"}}
-                                // },
-                                
-                                {
-                                    $group:{_id:null,
-                                        total:{$sum:"$totalAmount"}}
-                                    
-                                }
-                                // {
-                                //         $project:{"deliveryDetails.name":1}
-                                // }
-                            ]).toArray()
-                       
-                console.log(details);
-                resolve(details)
+                //             let total_sale = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                //                 {
+                //                     $group: {
+                //                         _id: null,
+                //                         "month": {
+                //                             $push: {
+                //                                 $cond: [{
+                //                                     $and: [{
+                //                                         $gte: ["$deliveryDetails.date", firstDayMonth]
+                //                                     },
+                //                                     {
+                //                                         $lte: ["$deliveryDetails.date", lastDayMonth]
+                //                                     }]
+                //                                 },
+
+                //                                     "$$ROOT",
+                //                                     ''
+                //                                 ]
+
+
+                //                             }
+
+                //                         }
+
+                //                     }
+                //                 },
+                //                 {
+                //                    $project:{
+                //                         total: { $sum:'$deliveryDetails.totalAmount' }}
+
+                //                 },
+                //                 // {
+                //                 //     $project: {
+                //                 //              total: 1 //{ $arrayElemAt: ['$month', 0] }
+                //                 //     }
+                //                 // }
+
+                // ]).toArray()
+                console.log(total_sale, "ttttttttttttttttttt");
+                resolve(total_sale)
+
             } catch (error) {
                 reject(error)
             }
         })
     },
+    totalSale: () => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let details = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                    {
+                        $group: {
+                            _id: null,
+                            total: { $sum: "$deliveryDetails.totalAmount" }
+                        }
+
+                    }
+                ]).toArray()
+
+                console.log(details[0],"??????????????//////");
+                resolve(details[0].total)
+            } catch (error) {
+                reject(error)
+            }
+        })
+
+    },
+
+    // totalRevenue: () => {
+    //     //let before_date= new Date().getFullYear()
+    //     //console.log(before_date); {createdAt:{$gte:ISODate(“2020-03-01”),$lte:ISODate(“2021-03-31”)}}
+    //     return new Promise(async (resolve, reject) => {
+    //         try {
+    //             //   let revenue=  await db.get().collection(collection.ORDER_COLLECTION).find().sort({ 'deliveryDetails.date': -1 }).limit(5).toArray()
+    //             //   let date=revenue[0].deliveryDetails.date.toDateString()           
+
+    //             //                 console.log(date.slice(4),"nnnnnnnnnnnnnnnnnnnnn");
+
+    //             let details = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+    //                 // {
+    //                 //     $project:{_id:0,month:{$month:"$deliveryDetails.date"}}
+
+    //                 // },
+    //                 // {
+    //                 //     $match:{
+    //                 //         'deliveryDetails.date':{$lte:new Date('2022-09-23T09:02:19.607+00:00')}
+    //                 //     }
+    //                 // },
+    //                 {
+    //                     $group: {
+    //                         _id: null,
+    //                         total: { $sum: "$deliveryDetails.totalAmount" }
+    //                     }
+
+    //                 }
+    //                 // {
+    //                 //         $project:{"deliveryDetails.name":1}
+    //                 // }
+    //             ]).toArray()
+
+    //             console.log(details[0],"??????????????//////");
+    //             resolve(details[0].total)
+    //         } catch (error) {
+    //             reject(error)
+    //         }
+    //     })
+    // },
 
 
 }

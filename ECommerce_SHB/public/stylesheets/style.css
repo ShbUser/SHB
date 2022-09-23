@@ -55,8 +55,9 @@ body{
      
  }
  .checkout{
-    box-shadow: 20px 25px 30px black;
-    border-radius: 2em;
+    /* box-shadow: 1px 1px 5px black;
+    border-radius: 2em; */
+    opacity: .5;
  }
 
  .checkoutAnthr{

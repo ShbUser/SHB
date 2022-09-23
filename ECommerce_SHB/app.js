@@ -50,7 +50,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //  app.use(fileUpload());
 
 db.connect((err) => {
-  if (err) Console.log("Connection err : " + err)
+  if (err) console.log("Connection err : " + err)
   else
     console.log("Database connection successfully")
 })
