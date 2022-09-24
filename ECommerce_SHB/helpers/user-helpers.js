@@ -704,6 +704,8 @@ module.exports = {
                     userID: objectID(userId),
                     products: products,
                 }
+                //......................................product minus....................................
+                
                 // let prod =await db.get().collection(collection.PRODUCT_COLLECTION).find({})
                 // let prodExist
                 // products.forEach(element => {
@@ -725,6 +727,7 @@ module.exports = {
                   
                 // });
 
+                //..................................product minus finish point................................................................
 
                    await db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then(async(response) => {
                    await db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectID(userId) })

@@ -4,8 +4,12 @@
 
         {{!-- <div class="row d-flex justify-content-center bdrShdw"> --}}
             <div class="row ">
+
                 <div class="col-12 col-md-12 col-xl-12 text-center">
-                    <h3>Order Details...</h3>
+
+                    <h3>Order Details</h3>
+                    <button onclick="exportCsv()" class="w-25 h-75">Export Sales Report <i
+                            class="fa-solid fa-download"></i></button>
                 </div>
             </div>
             <div class="row">
@@ -13,7 +17,7 @@
 
                 </div>
                 <div class="col-10 col-md-11 col-lg-11 col-xl-11  align-middle">
-                    <table class="w-100 text-center bg-success" id="productJS">
+                    <table class="w-100 text-center bg-success" id="orderDet">
                         <thead class="">
                             <tr>
                                 <th scope="col">Item</th>
@@ -113,19 +117,33 @@
         </div> --}}
     </section>
 </div>
+
 <script>
-    $(document).ready(function () {
-        $('#productJS').DataTable();
-
-
-    });
-
-
-    function deleteOrder(id, obj) {
-        if (confirm("Do you want cancel this order")) {
-            delOrderItems(id),
-                $(obj).closest('tr').remove()
+    let dataTable=new DataTable("#orderDet")
+    //$(document).ready(function () {
+     //   $("#orderDet").DataTable()
+    //})
+    let date = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+        })
+        function exportCsv() {
+            dataTable.export({
+                type: "csv",
+                skipColumn: [0, 13, 14],
+                filename: "order_report" + " " + date
+            });
         }
-    }
+        
+        function deleteOrder(id, obj) {
+            if (confirm("Do you want cancel this order")) {
+                delOrderItems(id),
+                    $(obj).closest('tr').remove()
+            }
+        }
+
+
+
 
 </script>

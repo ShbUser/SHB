@@ -84,7 +84,7 @@ router.get('/login', (req, res, next) => {
     if (req.session.user) {
       res.redirect('/')
     } else {
-      res.render('users/login', { "loginErr": req.session.userLoginErr })
+      res.render('users/login', { "loginErr": req.session.userLoginErr,user_head:true,user })
       req.session.userLoginErr = false
     }
   } catch (error) {
@@ -613,8 +613,7 @@ router.post('/checkout', async (req, res, next) => {
                 res.json(response)
               }).catch((err) => {
                 next(err)
-              })
-  
+              })  
             }
           }).catch((err) => {
             next(err)

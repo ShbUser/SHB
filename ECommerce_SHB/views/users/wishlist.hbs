@@ -1,36 +1,45 @@
 <div class="container">
-<div class="mt-5 bg-light text-center" >
-        <h4> Wishlist Details...</h4></div>
-<div class="row">
+	<div class="row mt-5 text-center">
+		<h1 class="text-danger"><i class="fa-solid fa-heart"></i></h1>
+	</div>
+	<div class=" text-center">
+		<h1>My Wishlist...</h1>
+	</div>
+	<hr>
+	<div class="row">
 		{{#each products}}
-		 <div class="col-md-3 col-xl-3 mt-3 text-center">
-            <div class="card border-0" style="width: 250px; height: 300px;">
-                <a href="/view_product/{{this.wishlist._id}}">
-				{{!-- <a href="/order_placed"> --}}
-					<img src="/product-images/{{this.wishlist.myimg.[0]}}" class="card-img-top" style="width: 180px; height: 180px;" alt="...">
-                
-				</a>
-                <div class="card-body">
-                    <h5 class="card-title" style="font-weight: bold; font-size: medium;">{{this.wishlist.name}}</h5>
-                    {{!-- <h5 class="card-title" style="font-weight: lighter; font-size: medium;">{{this.[0].name}}</h5> --}}
-                    <h5 class="card-title" style="font-weight:normal; font-size: medium;">RS: {{this.wishlist.price}}</h5>
-                    <p class="card-text" style="font-weight: lighter; font-size: medium;">{{this.wishlist.description}}</p>     				    
-					 <button class="btn btn-outline-light" onclick="addToCart('{{this.wishlist._id}}') ">
-					<i class="fa fa-fw fa-cart-arrow-down text-success"></i></button>      
-                    <button class="btn btn-outline-light" onclick="delWishlistItem('{{this.wishlist._id}}') ">
-					<i class="fa-regular fa-x text-success"></i></button>
+		<div class="col-md-3 col-xl-3 mt-5 text-center">
+			<div class="card border-0" style="width: 250px; height: 300px;">
+				<a href="/view_product/{{this.wishlist._id}}">
+					{{!-- <a href="/order_placed"> --}}
+						<img src="/product-images/{{this.wishlist.myimg.[0]}}" class="card-img-top"
+							style="width: 180px; height: 180px;" alt="...">
 
-                    
-					
-                </div>
-            </div>            
+					</a>
+					<div class="card-body">
+						<h5 class="card-title" style="font-weight: bold; font-size: medium;">{{this.wishlist.name}}</h5>
+						{{!-- <h5 class="card-title" style="font-weight: lighter; font-size: medium;">{{this.[0].name}}
+						</h5> --}}
+						<h5 class="card-title" style="font-weight:normal; font-size: medium;">RS:
+							{{this.wishlist.price}}</h5>
+						<p class="card-text" style="font-weight: lighter; font-size: medium;">
+							{{this.wishlist.description}}</p>
+						<button class="btn btn-outline-light" onclick="addToCart('{{this.wishlist._id}}') ">
+							<i class="fa fa-fw fa-cart-arrow-down text-success"></i></button>
+						<button class="btn btn-outline-light" onclick="delWishlistItem('{{this.wishlist._id}}') ">
+							<i class="fa-regular fa-x text-success"></i></button>
 
-        </div>
+
+
+					</div>
+			</div>
+
+		</div>
 		{{/each}}
-        </div>
-    </div>
+	</div>
+</div>
 
-    <!-- Start Footer -->
+<!-- Start Footer -->
 <footer class="bg-dark mt-5" id="tempaltemo_footer">
 	<div class="container">
 		<div class="row">

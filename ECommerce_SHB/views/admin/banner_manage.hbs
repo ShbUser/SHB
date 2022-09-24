@@ -88,7 +88,7 @@
                         data-bs-target="#addBannerModal"> New banner</a>
                 </div><br>
 
-                <table class="table mt-3    " id="bannerJS">
+                <table class="table mt-3" id="bannerJS">
                     <thead class="bg-success">
                         <tr>
                             <th scope="col">Banner name</th>
@@ -98,7 +98,7 @@
                             <th>Options</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="">
                         {{#each banners}}
                         <tr>
                             <td>{{this.bannername}}</td>
@@ -107,7 +107,7 @@
 
                             <td>
                                 <div class="zoom">
-                                    <img src="/banner-images/{{this.bannerImg}}" alt="img" width="100" height="50">
+                                    <img src="/banner-images/{{this.bannerImg}}" alt="img" width="100" height="50" >
                                 </div>
                             </td>
                             <td>
