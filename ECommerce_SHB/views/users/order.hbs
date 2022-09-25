@@ -4,7 +4,7 @@
         <div class="">
             <h2><u>Order History </u></h2>
         </div><br>
-        <table class="table mt-3 text-center bg-success" id="productJS">
+        <table class="table mt-3 bg-success" id="productJS">
             <thead class="">
                 <tr>
                     <th scope="col">Products</th>
@@ -24,7 +24,7 @@
                     <th scope="col">Action</th>
                 </tr>
             </thead>
-            <tbody class="text-center align-middle">
+            <tbody class="text-center bg-white align-middle">
 
                 {{#each order}}
                 <tr>
@@ -163,10 +163,8 @@
 <!-- End Footer -->
 
 <script>
-    $(document).ready(function () {
-        $('#productJS').DataTable();
-    });
-
+    let dataTable=new simpleDatatables.DataTable("#productJS")
+    
     
 
     //function deleteOrder(id, obj) {

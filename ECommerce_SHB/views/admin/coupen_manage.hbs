@@ -93,7 +93,7 @@
                         coupen</a>
                 </div><br>
 
-                <table class="table align-middle text-center" id="bannerJS">
+                <table class="table align-middle text-center" id="couponJS">
                     <thead class="bg-success">
                         <tr>
                             <th scope="col">Coupen name</th>
@@ -131,7 +131,6 @@
 </div>
 
 <script>
-    $(document).ready(function () {
-        $('#bannerJS').DataTable();
-    });
+    let dataTable=new simpleDatatables.DataTable("#couponJS")
+  
 </script>

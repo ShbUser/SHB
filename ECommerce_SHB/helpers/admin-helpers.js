@@ -238,71 +238,41 @@ module.exports = {
 
     },
 
-
+//.............................................Dashboard...........................................
     todaySale: () => {
-        //      let today = new Date();
-        //      today.setHours(0, 0, 0, 0)
-
+        let today = new Date();
+        today.setHours(5, 30, 0, 0)
+        // console.log(today, "newwwwwwwwwwwwwwwwwww", new Date());
         //  let firstDayMonth = new Date(today);
         //     let lastDayMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)`
         //     lastDayMonth.setHours(23, 59, 59, 0);
         //     today = new Date().setHours(0, 0, 0, 0);
         //     //lastDayMonth=new Date()
-            //let firstDay=new Date(new Date().getTime() - (24 * 60 * 60 - 1000))
-            return new Promise(async (resolve, reject) => {
+        //let firstDay=new Date(new Date().getTime() - (24 * 60 * 60 - 1000))
+        return new Promise(async (resolve, reject) => {
             try {
-                
-                //console.log(firstDay, "ffffffffffffffff", new Date())
-                let total_sale = await db.get().collection(collection.ORDER_COLLECTION).find().limit(5) .toArray()
-                    //{ 'deliveryDetails.date' : { $gte: firstDay, $lte: new Date() } }, { total: { $sum: '$deliveryDetails.totalAmount' } }
-                
 
-                //             let total_sale = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-                //                 {
-                //                     $group: {
-                //                         _id: null,
-                //                         "month": {
-                //                             $push: {
-                //                                 $cond: [{
-                //                                     $and: [{
-                //                                         $gte: ["$deliveryDetails.date", firstDayMonth]
-                //                                     },
-                //                                     {
-                //                                         $lte: ["$deliveryDetails.date", lastDayMonth]
-                //                                     }]
-                //                                 },
+                let today_sale = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                    {
+                        $match: { 'deliveryDetails.date': { $gte: today, $lte: new Date() } }
+                    },
+                    {
+                        $group: {
+                            _id: null,
+                            total: { $sum: '$deliveryDetails.totalAmount' }
+                        }
+                    }
 
-                //                                     "$$ROOT",
-                //                                     ''
-                //                                 ]
-
-
-                //                             }
-
-                //                         }
-
-                //                     }
-                //                 },
-                //                 {
-                //                    $project:{
-                //                         total: { $sum:'$deliveryDetails.totalAmount' }}
-
-                //                 },
-                //                 // {
-                //                 //     $project: {
-                //                 //              total: 1 //{ $arrayElemAt: ['$month', 0] }
-                //                 //     }
-                //                 // }
-
-                // ]).toArray()
-                console.log(total_sale, "ttttttttttttttttttt");
-                resolve(total_sale)
+                ]).toArray()
+                resolve(today_sale[0].total)
 
             } catch (error) {
                 reject(error)
             }
         })
     },
+
+
     totalSale: () => {
         return new Promise(async (resolve, reject) => {
             try {
@@ -315,8 +285,6 @@ module.exports = {
 
                     }
                 ]).toArray()
-
-                console.log(details[0],"??????????????//////");
                 resolve(details[0].total)
             } catch (error) {
                 reject(error)
@@ -324,6 +292,41 @@ module.exports = {
         })
 
     },
+
+    totalAmountOfProducts: () => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let total_amount_of_products = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
+                    {
+                        $group: {
+                            _id: null,
+                            //total: { $sum: "$price" }
+                            total: { $sum: { $multiply: [{ $toInt: '$qty' }, { $toInt: '$price' }] } }
+                        }
+                    }
+                ]).toArray()
+                console.log(total_amount_of_products, "prodddddddddddddddddddddd");
+                resolve(total_amount_of_products[0].total)
+            } catch (error) {
+                reject(error)
+            }
+        })
+
+    },
+
+    todayRevenue:()=>{
+
+    }
+
+
+
+
+
+
+
+
+
+
 
     // totalRevenue: () => {
     //     //let before_date= new Date().getFullYear()

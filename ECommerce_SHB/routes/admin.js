@@ -55,7 +55,11 @@ router.get('/', (req, res) => {
 router.get('/admin_home', verifyLogin, (req, res, next) => {
     adminHelper.totalSale().then((total_sale) => {
         adminHelper.todaySale().then((todaySale) => {
-            res.render('admin/admin_home', { admin: true, total_sale, todaySale })
+            adminHelper.totalAmountOfProducts().then((total_amount_of_products)=>{
+                total_revenue=parseInt(total_amount_of_products-total_sale)
+                res.render('admin/admin_home', { admin: true, total_sale, todaySale ,total_revenue })
+            })
+            
         }).catch((err) => {
             next(err)
         })
