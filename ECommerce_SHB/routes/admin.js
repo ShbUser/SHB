@@ -55,11 +55,15 @@ router.get('/', (req, res) => {
 router.get('/admin_home', verifyLogin, (req, res, next) => {
     adminHelper.totalSale().then((total_sale) => {
         adminHelper.todaySale().then((todaySale) => {
-            adminHelper.totalAmountOfProducts().then((total_amount_of_products)=>{
-                total_revenue=parseInt(total_amount_of_products-total_sale)
-                res.render('admin/admin_home', { admin: true, total_sale, todaySale ,total_revenue })
+            adminHelper.totalAmountOfProducts().then((total_amount_of_products) => {
+                adminHelper.calculationMonthwiseForGraph().then((details) => {
+
+                        console.log(details,"servrrrrrrrrrrrrrrrr");
+                    total_revenue = parseInt(total_amount_of_products - total_sale)
+                    res.render('admin/admin_home', { admin: true, total_sale, todaySale, total_revenue,details})
+                })
             })
-            
+
         }).catch((err) => {
             next(err)
         })

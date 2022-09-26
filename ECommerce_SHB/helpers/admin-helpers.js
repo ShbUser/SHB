@@ -238,11 +238,12 @@ module.exports = {
 
     },
 
-//.............................................Dashboard...........................................
+    //.............................................Dashboard...........................................
+
     todaySale: () => {
         let today = new Date();
         today.setHours(5, 30, 0, 0)
-        // console.log(today, "newwwwwwwwwwwwwwwwwww", new Date());
+        //console.log(today, "newwwwwwwwwwwwwwwwwww", new Date());
         //  let firstDayMonth = new Date(today);
         //     let lastDayMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)`
         //     lastDayMonth.setHours(23, 59, 59, 0);
@@ -252,20 +253,27 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
 
-                let today_sale = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-                    {
-                        $match: { 'deliveryDetails.date': { $gte: today, $lte: new Date() } }
-                    },
-                    {
-                        $group: {
-                            _id: null,
-                            total: { $sum: '$deliveryDetails.totalAmount' }
+                let todaySale = await db.get().collection(collection.ORDER_COLLECTION).find({ 'deliveryDetails.date': { $gte: today, $lte: new Date() } }).limit(1).toArray()
+
+                if (todaySale != "") {
+                    let today_sale = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                        {
+                            $match: { 'deliveryDetails.date': { $gte: today, $lte: new Date() } }
+                        },
+
+                        {
+                            $group: {
+                                _id: null,
+                                total: { $sum: '$deliveryDetails.totalAmount' }
+                            }
                         }
-                    }
 
-                ]).toArray()
-                resolve(today_sale[0].total)
 
+                    ]).toArray()
+                    resolve(today_sale[0].total)
+                } else {
+                    resolve(0)
+                }
             } catch (error) {
                 reject(error)
             }
@@ -305,7 +313,6 @@ module.exports = {
                         }
                     }
                 ]).toArray()
-                console.log(total_amount_of_products, "prodddddddddddddddddddddd");
                 resolve(total_amount_of_products[0].total)
             } catch (error) {
                 reject(error)
@@ -314,10 +321,60 @@ module.exports = {
 
     },
 
-    todayRevenue:()=>{
+    todayRevenue: () => {
+
+
+    },
+
+    calculationMonthwiseForGraph: () => {
+
+        //  let firstDayMonth = new Date(today);
+
+        //     lastDayMonth.setHours(23, 59, 59, 0);
+        //     today = new Date().setHours(0, 0, 0, 0);
+        //     //lastDayMonth=new Date()
+        //let firstDay=new Date(new Date().getTime() - (24 * 60 * 60 - 1000))
+        //console.log(lastDayMonth, "oooooooooooooooooooooo");
+        return new Promise(async (resolve, reject) => {
+            try {
+                let result = []
+                for (i = 0; i < 12; i++) {
+                    let today = new Date();
+                    today.setMonth(i, 1)
+                    today.setHours(5, 30, 0, 0)
+                    let lastDayMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)
+                    lastDayMonth.setHours(24, 59, 0, 0)
+
+                    let monthly_sale = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                        {
+                            $match: { 'deliveryDetails.date': { $gte: today, $lte: lastDayMonth } }
+                        },                            
+                        {
+                            $group: {
+                                _id: null,
+                                total: { $sum: '$deliveryDetails.totalAmount' }
+                            }
+                        },
+                        {
+                            $project: {
+                                _id:0,
+                                total:1                                    
+                            }
+                        }
+
+                    ]).toArray()
+                    if (monthly_sale == "") {   monthly_sale[0]={total:0}
+                      } 
+                     result[i]=monthly_sale[0]
+                }
+                resolve(result)    
+
+            } catch (error) {
+                reject(error)
+            }
+        })
 
     }
-
 
 
 
