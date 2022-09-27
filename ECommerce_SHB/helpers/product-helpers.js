@@ -100,10 +100,10 @@ module.exports = {
                     {
                         $set: {
                             name: products.name,
-                            price: products.price,
+                            price: parseInt(products.price),
                             size: products.size,
                             category: products.category,
-                            qty: products.qty,
+                            qty: parseInt(products.qty),
                             description: products.description,
                             myimg: products.myimg
                         }

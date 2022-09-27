@@ -678,7 +678,7 @@ module.exports = {
     },
     placeOrder: (userId, order, products, total) => {
 
-        return new Promise(async(resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             try {
 
                 //console.log(order,products,total);
@@ -705,32 +705,22 @@ module.exports = {
                     products: products,
                 }
                 //......................................product minus....................................
-                
-                // let prod =await db.get().collection(collection.PRODUCT_COLLECTION).find({})
-                // let prodExist
-                // products.forEach(element => {
-                //     console.log( element.item,"bbbbbbbbbbbbbb");
-                //     //prodExist = prod.findIndex(produc => produc._id == element.item)
-                //     prod.forEach(element1 => {
-                //         console.log(element1._id, element.item,"mmmmmmmmmmmmmmmmmmm");
-                //         if(element1._id == element.item){
-                //             console.log("sssssssssssssssssssssssssss");
-                //             db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: element.item },
-                //                 {
-                //                     $inc: { '$.qty': -1 }
-                //                 }
-                //             ).then(() => {
-                //                 resolve()
-                //             })
-                //         }
-                //     });
-                  
-                // });
-
+                if (status != "Pending") {
+                    products.forEach(async element => {
+                        //console.log(element.item,-(parseInt(element.quantity)), "bbbbbbbbbbbbbb");                        
+                        await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: element.item },
+                            {
+                                $inc: { 'qty': -(parseInt(element.quantity)) }
+                            }
+                        ).then(() => {
+                            resolve()
+                        })
+                    })
+                }
                 //..................................product minus finish point................................................................
 
-                   await db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then(async(response) => {
-                   await db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectID(userId) })
+                await db.get().collection(collection.ORDER_COLLECTION).insertOne(orderObj).then(async (response) => {
+                    await db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectID(userId) })
                     resolve(response.insertedId)
                     // db.get().collection(collection.PRODUCT_COLLECTION).updateOne({'response.products.item': objectID(prod) }, {
                     //     $inc: { 'product.$.quantity': 1 }
@@ -818,14 +808,27 @@ module.exports = {
         })
     },
     deleteOrderItem: (orderId) => {
+
         return new Promise(async (resolve, reject) => {
             try {
-                await db.get().collection(collection.ORDER_COLLECTION).deleteOne({ _id: objectID(orderId), "deliveryDetails.status": "Placed" }).then((response) => {
-                    resolve(response)
-                    // db.get().collection(collection.CART_COLLECTION).updateOne({ user: objectID(userID), 'product.item': objectID(prod) }, {
-                    //     $inc: { 'product.$.quantity': 1 }
-                    // })
+                //..................product qty increment.............................
+                let prod = await db.get().collection(collection.ORDER_COLLECTION).find({ _id: objectID(orderId) }).toArray()
+                //console.log(prod, "iooioioiooioioioioi");
+                let products = prod[0].products
+                //console.log(products, "gggggggggggggggggggggggggggggggggg");
+                products.forEach(async element => {
+                    await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: element.item },
+                        {
+                            $inc: { 'qty': (parseInt(element.quantity)) }
+                        }).then(() => {
+                            resolve()
+                        })
 
+                })
+                //............................end......................................
+                await db.get().collection(collection.ORDER_COLLECTION).deleteOne({ _id: objectID(orderId), "deliveryDetails.status": "Placed" }
+                ).then((response) => {
+                    resolve(response)
                 })
             } catch (error) {
                 reject(error)
@@ -911,7 +914,18 @@ module.exports = {
                 db.get().collection(collection.ORDER_COLLECTION).updateOne({ _id: objectID(orderID) },
                     {
                         $set: { 'deliveryDetails.status': 'Placed' }
-                    }).then(() => {
+                    }).then(async () => {
+                        let prod = await db.get().collection(collection.ORDER_COLLECTION).find({ _id: objectID(orderID) }).toArray()
+                        let products = prod[0].products
+                        products.forEach(async element => {
+                            await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: element.item },
+                                {
+                                    $inc: { 'qty': -(parseInt(element.quantity)) }
+                                }
+                            ).then(() => {
+                                resolve()
+                            })
+                        })
                         resolve()
                     })
             } catch (error) {
@@ -922,11 +936,3 @@ module.exports = {
     }
 
 }
-// function formatDate(date) {
-//     let d = new Date(date),
-//         month = '' + d.getMonth(),
-//         day = '' + d.getDate(),
-//         year = d.getFullYear();
-//         dt= month+"/"+day+"/"+year
-//     return dt
-// }
