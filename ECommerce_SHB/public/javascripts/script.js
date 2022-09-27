@@ -439,17 +439,17 @@ function delOrderItems(prodID, obj) {
 
 // .....................Billing.........................
 function printInvoice(tagId) {
-    var hashId = "#" + tagId;
-    var tagname = $(hashId).prop("tagName").toLowerCase();
-    var attributes = "";
-    var attrs = document.getElementById(tagId).attributes;
+    let hashId = "#" + tagId;
+    let tagname = $(hashId).prop("tagName").toLowerCase();
+    let attributes = "";
+    let attrs = document.getElementById(tagId).attributes;
     $.each(attrs, function (i, elem) {
         attributes += " " + elem.name + " ='" + elem.value + "' ";
     })
-    var divToPrint = $(hashId).html();
-    var head = "<html><head>" + $("head").html() + "</head>";
-    var allContent = head + "<body  onload='window.print()' >" + "<" + tagname + attributes + ">" + divToPrint + "</" + tagname + ">" + "</body></html>";
-    var newWin = window.open('', 'Print-Window');
+    let divToPrint = $(hashId).html();
+    let head = "<html><head>" + $("head").html() + "</head>";
+    let allContent = head + "<body  onload='window.print()' >" + "<" + tagname + attributes + ">" + divToPrint + "</" + tagname + ">" + "</body></html>";
+    let newWin = window.open('', 'Print-Window');
     newWin.document.open();
     newWin.document.write(allContent);
     newWin.document.close();

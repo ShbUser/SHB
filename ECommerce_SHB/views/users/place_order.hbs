@@ -274,7 +274,7 @@
 				<div class="col-12">
 					<p class="text-left text-light">
 						Copyright &copy; 2021 SHB
-						| Designed by <a rel="sponsored" href="https://templatemo.com" target="_blank">shb</a>
+						| Designed by <a rel="sponsored" href="#" target="_blank">shb</a>
 					</p>
 				</div>
 			</div>
@@ -309,7 +309,7 @@
 
     function razorPayPayment(order) {
 
-        var options = {
+        let options = {
             "key": "rzp_test_uEAmKKJZmehl2V", // Enter the Key ID generated from the Dashboard
             "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
             //alert("**********************************"+order),
@@ -338,7 +338,7 @@
             }
 
         };
-        var rzp1 = new Razorpay(options);
+        let rzp1 = new Razorpay(options);
         rzp1.open();
     }
 

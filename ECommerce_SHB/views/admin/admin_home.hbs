@@ -4,8 +4,8 @@
 
         </div> --}}
         <div class="col-12 col-md-3 col-lg-3 col-xl-3">
-            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                <i class="fa fa-chart-line fa-3x text-primary"></i>
+            <div class="bg-dark text-white rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-line fa-3x text-white"></i>
                 <div class="ms-3">
                     <p class="mb-2">Today Sale</p>
                     <h6 class="mb-0">₹ {{todaySale}}</h6>
@@ -13,8 +13,8 @@
             </div>
         </div>
         <div class="col-12 col-md-3 col-lg-3 col-xl-3 ">
-            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                <i class="fa fa-chart-bar fa-3x text-primary"></i>
+            <div class="bg-dark text-white rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-bar fa-3x text-white"></i>
                 <div class="ms-3">
                     <p class="mb-2">Total Sale</p>
                     <h6 class="mb-0">₹ {{total_sale}}</h6>
@@ -23,8 +23,8 @@
 
         </div>
         <div class="col-12 col-md32 col-lg-3 col-xl-3">
-            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                <i class="fa fa-chart-area fa-3x text-primary"></i>
+            <div class="bg-dark text-white rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-area fa-3x "></i>
                 <div class="ms-3">
                     <p class="mb-2">Today Revenue</p>
                     <h6 class="mb-0">₹ 1234</h6>
@@ -32,8 +32,8 @@
             </div>
         </div>
         <div class="col-12 col-md-3 col-lg-3 col-xl-3">
-            <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                <i class="fa fa-chart-pie fa-3x text-primary"></i>
+            <div class="bg-dark text-white rounded d-flex align-items-center justify-content-between p-4">
+                <i class="fa fa-chart-pie fa-3x text-white"></i>
                 <div class="ms-3">
                     <p class="mb-2">Total Revenue</p>
                     <h6 class="mb-0">₹ {{total_revenue}}</h6>
@@ -54,30 +54,30 @@
             <canvas id="worldwide-sales"></canvas>
 
         </div>
-        <div class="col-12 col-md-3 col-lg-3 col-xl-3 align-end">
+        <div class="col-12 col-md-3 col-lg-3 col-xl-3 align-end mt-5">
             <canvas id="doughnut-chart" style="max-width:300px"></canvas>
 
         </div>
     </div>
+    
 </div>
-
-
 
 <script>
 
-    var ctx1 = $("#worldwide-sales").get(0).getContext("2d");
-    var myChart1 = new Chart(ctx1, {
+    let ctx1 = $("#worldwide-sales").get(0).getContext("2d");
+    let myChart1 = new Chart(ctx1, {
+
         type: "bar",
         data: {
-            labels: ["Jan", "Feb", "March", "April", "May", "June", "July","aug","Sep","Oct","Nov","Dec"],
+            labels: ["Jan", "Feb", "March", "April", "May", "June", "July", "aug", "Sep", "Oct", "Nov", "Dec"],
             datasets: [{
                 label: "Sales",
-                data: ["{{details.[0].total}}", "{{details.[1].total}}","{{details.[2].total}}","{{details.[3].total}}", 
-                "{{details.[4].total}}", "{{details.[5].total}}", "{{details.[6].total}}","{{details.[7].total}}",
-                "{{details.[8].total}}","{{details.[9].total}}","{{details.[10].total}}","{{details.[11].total}}"],
+                data: ["{{details.[0].total}}", "{{details.[1].total}}", "{{details.[2].total}}", "{{details.[3].total}}",
+                    "{{details.[4].total}}", "{{details.[5].total}}", "{{details.[6].total}}", "{{details.[7].total}}",
+                    "{{details.[8].total}}", "{{details.[9].total}}", "{{details.[10].total}}", "{{details.[11].total}}"],
                 backgroundColor: "rgba(0, 156, 255, .7)"
             }
-            
+
             ]
         },
         options: {
@@ -85,24 +85,24 @@
         }
     });
 
-    var ctx6 = $("#doughnut-chart").get(0).getContext("2d");
-    var myChart6 = new Chart(ctx6, {
+    let ctx6 = $("#doughnut-chart").get(0).getContext("2d");
+    let myChart6 = new Chart(ctx6, {
         type: "doughnut",
         data: {
             labels: ["Pending", "Placed", "Shipped", "Delivered"],
             datasets: [{
                 backgroundColor: [
-                    "rgba(0, 156, 255, .7)",
-                    "rgba(0, 156, 255, .6)",
-                    "rgba(0, 156, 255, .5)",
-                    "rgba(0, 156, 255, .4)",
-                    "rgba(0, 156, 255, .3)"
+                    "rgb(255, 0, 0)",
+                    "rgb(255,255,0)",
+                    "rgba(0, 156, 255)",
+                    "rgb(0,128,0)"
                 ],
-                data: [55, 49, 44, 24, 15]
+                data: ["{{doughnut_chart.pending}}", "{{doughnut_chart.placed}}", "{{doughnut_chart.shipped}}", "{{doughnut_chart.delivered}}"]
             }]
         },
         options: {
             responsive: true
         }
     });
+
 </script>

@@ -1,6 +1,6 @@
 const { response } = require('express');
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 let productHelper = require('../helpers/product-helpers');
 let userHelper = require('../helpers/user-helpers')
 const adminHelper = require('../helpers/admin-helpers');
@@ -57,17 +57,26 @@ router.get('/admin_home', verifyLogin, (req, res, next) => {
         adminHelper.todaySale().then((todaySale) => {
             adminHelper.totalAmountOfProducts().then((total_amount_of_products) => {
                 adminHelper.calculationMonthwiseForGraph().then((details) => {
+                    adminHelper.doughnutChart().then((doughnut_chart) => {
+                        total_revenue = parseInt(total_amount_of_products - total_sale)
+                        res.render('admin/admin_home', { admin: true, total_sale, todaySale, total_revenue, details,doughnut_chart })
+                    }).catch((err) => {
+                        next(err)
+                    })
 
-                        console.log(details,"servrrrrrrrrrrrrrrrr");
-                    total_revenue = parseInt(total_amount_of_products - total_sale)
-                    res.render('admin/admin_home', { admin: true, total_sale, todaySale, total_revenue,details})
+                }).catch((err) => {
+                    next(err)
                 })
+            }).catch((err) => {
+                next(err)
             })
 
         }).catch((err) => {
             next(err)
         })
 
+    }).catch((err) => {
+        next(err)
     })
 
 })

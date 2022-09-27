@@ -95,7 +95,7 @@ router.get('/login', (req, res, next) => {
 
 router.get('/signup', (req, res, next) => {
   try {
-    res.render('users/signup', { emailErr: "" })
+    res.render('users/signup', {user_head:true, emailErr: "" })
   } catch (error) {
     next(error)
   }
@@ -399,9 +399,9 @@ router.post('/register', (req, res, next) => {
     else {
       userHelper.sendOtp(req.body.mobile).then((response) => {
         req.session.user = req.body
-        res.render('users/signup_otp')
+        res.render('users/signup_otp',{user_head:true})
       }).catch((err) => {
-        next(err)
+        next(err)   
       })
     }
   }).catch((err) => {

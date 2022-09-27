@@ -347,8 +347,9 @@ module.exports = {
 
                     let monthly_sale = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
                         {
-                            $match: { 'deliveryDetails.date': { $gte: today, $lte: lastDayMonth } }
-                        },                            
+                            $match: { $and: [ {'deliveryDetails.date': { $gte: today, $lte: lastDayMonth }}, { "deliveryDetails.status":{ $ne: "Pending" }  } ] } 
+                            // $match: { 'deliveryDetails.date': { $gte: today, $lte: lastDayMonth } , $ne: [ "$status", "Pending" ] }
+                        },
                         {
                             $group: {
                                 _id: null,
@@ -357,73 +358,47 @@ module.exports = {
                         },
                         {
                             $project: {
-                                _id:0,
-                                total:1                                    
+                                _id: 0,
+                                total: 1
                             }
                         }
 
                     ]).toArray()
-                    if (monthly_sale == "") {   monthly_sale[0]={total:0}
-                      } 
-                     result[i]=monthly_sale[0]
+                    if (monthly_sale == "") {
+                        monthly_sale[0] = { total: 0 }
+                    }
+                    result[i] = monthly_sale[0]
                 }
-                resolve(result)    
+                resolve(result)
 
             } catch (error) {
                 reject(error)
             }
         })
 
+    },
+
+    doughnutChart: () => {
+        let doughnut
+
+        return new Promise(async (resolve, reject) => {
+            try {
+                let pending = await db.get().collection(collection.ORDER_COLLECTION).count({ "deliveryDetails.status": "Pending" })
+
+                let placed = await db.get().collection(collection.ORDER_COLLECTION).count({ "deliveryDetails.status": "Placed" })
+
+                let shipped = await db.get().collection(collection.ORDER_COLLECTION).count({ "deliveryDetails.status": "Shipped" })
+
+                let delivered = await db.get().collection(collection.ORDER_COLLECTION).count({ "deliveryDetails.status": "Delivered" })
+
+                doughnut = { placed, pending, shipped, delivered }
+                resolve(doughnut)
+            } catch (error) {
+                reject(error)
+            }
+        })
+
     }
-
-
-
-
-
-
-
-
-
-
-    // totalRevenue: () => {
-    //     //let before_date= new Date().getFullYear()
-    //     //console.log(before_date); {createdAt:{$gte:ISODate(“2020-03-01”),$lte:ISODate(“2021-03-31”)}}
-    //     return new Promise(async (resolve, reject) => {
-    //         try {
-    //             //   let revenue=  await db.get().collection(collection.ORDER_COLLECTION).find().sort({ 'deliveryDetails.date': -1 }).limit(5).toArray()
-    //             //   let date=revenue[0].deliveryDetails.date.toDateString()           
-
-    //             //                 console.log(date.slice(4),"nnnnnnnnnnnnnnnnnnnnn");
-
-    //             let details = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-    //                 // {
-    //                 //     $project:{_id:0,month:{$month:"$deliveryDetails.date"}}
-
-    //                 // },
-    //                 // {
-    //                 //     $match:{
-    //                 //         'deliveryDetails.date':{$lte:new Date('2022-09-23T09:02:19.607+00:00')}
-    //                 //     }
-    //                 // },
-    //                 {
-    //                     $group: {
-    //                         _id: null,
-    //                         total: { $sum: "$deliveryDetails.totalAmount" }
-    //                     }
-
-    //                 }
-    //                 // {
-    //                 //         $project:{"deliveryDetails.name":1}
-    //                 // }
-    //             ]).toArray()
-
-    //             console.log(details[0],"??????????????//////");
-    //             resolve(details[0].total)
-    //         } catch (error) {
-    //             reject(error)
-    //         }
-    //     })
-    // },
 
 
 }

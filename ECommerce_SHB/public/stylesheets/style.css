@@ -17,10 +17,13 @@ body{
     width: 70%;
 }
 
+
 /* ........................user side................................. */
+
 .lognMdfy{
+
     background-image: url("/assets/img/banner2.webp");
-    height: 54.7em;
+    height: 34em;
     background-size: cover;
    
     font-size: smaller;
@@ -37,7 +40,7 @@ body{
 .signupPage{
     background-image: url("/assets/img/banner2.webp");
     background-size: cover;
-    height: 37em;
+    height: 40em;
 
 }
 .divtrans{
