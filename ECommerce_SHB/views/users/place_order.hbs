@@ -2,87 +2,88 @@
 <div class="container">
     <h1 class="text-white" style="margin-top: -4.9em; margin-left: 1em;"><u>Checkout</u></h1>
 </div>
-<div class="container p-5 mt-5 ">
 
-    <div class="modal fade" id="shippingaddress" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div>
-                        <img src="/assets/img/shp.jpg" width="100">
-                    </div>
-
-                    <h5 class="modal-title" id="staticBackdropLabel">Shipping Address List</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="modal fade" id="shippingaddress" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <img src="/assets/img/shp.jpg" width="100">
                 </div>
-                <div class="modal-body">
-                    <table class="table-responsive" style="width: 68em;border-color: blue;" id="productsJS">
-                        <tbody class="table-bordered">
 
-                            {{#each shipAddressList.address}}
-                            <tr>
-                                <td>
-                                    <p>Name : </p>
-                                    <p>Mobile : </p>
-                                    <p class="text-primary">Street :</p>
-                                </td>
-                                <td>
-                                    <p>{{this.name}}</p>
-                                    <p>{{this.altermobile}}</p>
-                                    <p class="text-primary">{{this.streetaddress}}</p>
-                                </td>
+                <h5 class="modal-title" id="staticBackdropLabel">Shipping Address List</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table-responsive" style="width: 68em;border-color: blue;" id="productsJS">
+                    <tbody class="table-bordered">
+
+                        {{#each shipAddressList.address}}
+                        <tr>
+                            <td>
+                                <p>Name : </p>
+                                <p>Mobile : </p>
+                                <p class="text-primary">Street :</p>
+                            </td>
+                            <td>
+                                <p>{{this.name}}</p>
+                                <p>{{this.altermobile}}</p>
+                                <p class="text-primary">{{this.streetaddress}}</p>
+                            </td>
 
 
-                                <td>
-                                    <p>PinCode : </p>
-                                    <p>City : </p>
-                                    <p class="text-primary">Landmark :</p>
-                                </td>
-                                <td>
-                                    <p>{{this.pincode}}</p>
-                                    <p>{{this.city}}</p>
-                                    <p class="text-primary">{{this.landmark}}</p>
-                                </td>
+                            <td>
+                                <p>PinCode : </p>
+                                <p>City : </p>
+                                <p class="text-primary">Landmark :</p>
+                            </td>
+                            <td>
+                                <p>{{this.pincode}}</p>
+                                <p>{{this.city}}</p>
+                                <p class="text-primary">{{this.landmark}}</p>
+                            </td>
 
-                                <td>
-                                    <p>District :</p>
-                                    <p>State :</p>
-                                </td>
-                                <td>
-                                    <p>{{this.district}}</p>
-                                    <p>{{this.state}}</p>
-                                </td>
-                                <td>
+                            <td>
+                                <p>District :</p>
+                                <p>State :</p>
+                            </td>
+                            <td>
+                                <p>{{this.district}}</p>
+                                <p>{{this.state}}</p>
+                            </td>
+                            <td>
 
-                                    <button onclick="editShipAddress('{{this._id}}',this,false)"
-                                        class="btn btn-success">
-                                        Select</button>
-                                    {{!-- <button class="btn btn-outline-danger border-0"
-                                        onclick="delShippAddress('{{this._id}}',this)"><i
-                                            class="fa-solid fa-trash"></i></button> --}}
-                                </td>
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
-                </div>
+                                <button onclick="editShipAddress('{{this._id}}',this,false)" class="btn btn-success">
+                                    Select</button>
+                                {{!-- <button class="btn btn-outline-danger border-0"
+                                    onclick="delShippAddress('{{this._id}}',this)"><i
+                                        class="fa-solid fa-trash"></i></button> --}}
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-    <!-- Modal -->
-    <form action="/checkout" method="post" id="checkout-form">
-        <div class="row " >
-            <div class="col-lg-6 col-xl-6 bg-white" >
+</div>
+<!-- Modal -->
+<form action="/checkout" method="post" id="checkout-form">
+    <div class="container p-5 mt-5 ">
+
+        <div class="row ">
+            <div class="col-lg-6 col-xl-6 bg-white">
                 <br>
                 <h5>Enter Delivery Details</h5>
                 <div class="row">
-                    <a class="btn btn-danger" href="" data-bs-toggle="modal" data-bs-target="#shippingaddress">Click here  to show address list</a>                   
-                    
+                    <a class="btn btn-danger" href="" data-bs-toggle="modal" data-bs-target="#shippingaddress">Click
+                        here to show address list</a>
+
                 </div><br>
 
 
-                <div class="row editColor textMuted">
+                <div class="row editColor">
 
                     {{#if (neq address "0")}}
                     <div class="col">
@@ -160,7 +161,7 @@
                     {{/if}}
                 </div>
             </div>
-            
+
             <div class="col-lg-6 col-xl-6 p-5">
                 <input type="text" value="{{coupen.coupencode}}" name="coupencode" hidden>
                 <input type="text" value="{{id}}" name="proid" hidden>
@@ -188,98 +189,93 @@
 
                     <button type="submit" class="btn btn-outline-danger border-0" style="float: right;">Checkout<i
                             class="fa-solid fa-thumbs-up"></i></button>
-
-
-                    {{!--
-                </div> --}}
-
             </div>
         </div>
-    </form>
-</div>
 
+    </div>
+</form>
 <!-- Start Footer -->
 <footer class="bg-dark mt-5" id="tempaltemo_footer">
-	<div class="container">
-		<div class="row">
+    <div class="container">
+        <div class="row">
 
-			<div class="col-md-4 pt-5">
-				<h2 class="h2 text-success border-bottom pb-3 border-light logo">SHB Shop</h2>
-				<ul class="list-unstyled text-light footer-link-list">
-					<li>
-						<i class="fas fa-map-marker-alt fa-fw"></i>
-						123 Kinfra at 10660
-					</li>
-					<li>
-						<i class="fa fa-phone fa-fw"></i>
-						<a class="text-decoration-none" href="tel:010-020-0340">+91 9746 182 666</a>
-					</li>
-					<li>
-						<i class="fa fa-envelope fa-fw"></i>
-						<a class="text-decoration-none" href="mailto:info@company.com">shb@company.com</a>
-					</li>
-				</ul>
-			</div>
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-success border-bottom pb-3 border-light logo">SHB Shop</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li>
+                        <i class="fas fa-map-marker-alt fa-fw"></i>
+                        123 Kinfra at 10660
+                    </li>
+                    <li>
+                        <i class="fa fa-phone fa-fw"></i>
+                        <a class="text-decoration-none" href="tel:010-020-0340">+91 9746 182 666</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope fa-fw"></i>
+                        <a class="text-decoration-none" href="mailto:info@company.com">shb@company.com</a>
+                    </li>
+                </ul>
+            </div>
 
-			<div class="col-md-4 pt-5">
-				<h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
-				<ul class="list-unstyled text-light footer-link-list">
-					<li><a class="text-decoration-none" href="#">Home</a></li>
-					<li><a class="text-decoration-none" href="#">About Us</a></li>
-					<li><a class="text-decoration-none" href="#">Shop Locations</a></li>
-					<li><a class="text-decoration-none" href="#">Contact</a></li>
-				</ul>
-			</div>
+            <div class="col-md-4 pt-5">
+                <h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
+                <ul class="list-unstyled text-light footer-link-list">
+                    <li><a class="text-decoration-none" href="#">Home</a></li>
+                    <li><a class="text-decoration-none" href="#">About Us</a></li>
+                    <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
+                    <li><a class="text-decoration-none" href="#">Contact</a></li>
+                </ul>
+            </div>
 
-		</div>
+        </div>
 
-		<div class="row text-light mb-4">
-			<div class="col-12 mb-3">
-				<div class="w-100 my-3 border-top border-light"></div>
-			</div>
-			<div class="col-auto me-auto">
-				<ul class="list-inline text-left footer-icons">
-					<li class="list-inline-item border border-light rounded-circle text-center">
-						<a class="text-light text-decoration-none" target="_blank" href=""><i
-								class="fab fa-facebook-f fa-lg fa-fw"></i></a>
-					</li>
-					<li class="list-inline-item border border-light rounded-circle text-center">
-						<a class="text-light text-decoration-none" target="_blank" href=""><i
-								class="fab fa-instagram fa-lg fa-fw"></i></a>
-					</li>
-					<li class="list-inline-item border border-light rounded-circle text-center">
-						<a class="text-light text-decoration-none" target="_blank" href=""><i
-								class="fab fa-twitter fa-lg fa-fw"></i></a>
-					</li>
-					<li class="list-inline-item border border-light rounded-circle text-center">
-						<a class="text-light text-decoration-none" target="_blank" href=""><i
-								class="fab fa-linkedin fa-lg fa-fw"></i></a>
-					</li>
-				</ul>
-			</div>
-			<div class="col-auto">
-				<label class="sr-only" for="subscribeEmail">Email address</label>
-				<div class="input-group mb-2">
-					<input type="text" class="form-control bg-dark border-light" id="subscribeEmail"
-						placeholder="Email address">
-					<div class="input-group-text btn-success text-light">Subscribe</div>
-				</div>
-			</div>
-		</div>
-	</div>
+        <div class="row text-light mb-4">
+            <div class="col-12 mb-3">
+                <div class="w-100 my-3 border-top border-light"></div>
+            </div>
+            <div class="col-auto me-auto">
+                <ul class="list-inline text-left footer-icons">
+                    <li class="list-inline-item border border-light rounded-circle text-center">
+                        <a class="text-light text-decoration-none" target="_blank" href=""><i
+                                class="fab fa-facebook-f fa-lg fa-fw"></i></a>
+                    </li>
+                    <li class="list-inline-item border border-light rounded-circle text-center">
+                        <a class="text-light text-decoration-none" target="_blank" href=""><i
+                                class="fab fa-instagram fa-lg fa-fw"></i></a>
+                    </li>
+                    <li class="list-inline-item border border-light rounded-circle text-center">
+                        <a class="text-light text-decoration-none" target="_blank" href=""><i
+                                class="fab fa-twitter fa-lg fa-fw"></i></a>
+                    </li>
+                    <li class="list-inline-item border border-light rounded-circle text-center">
+                        <a class="text-light text-decoration-none" target="_blank" href=""><i
+                                class="fab fa-linkedin fa-lg fa-fw"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-auto">
+                <label class="sr-only" for="subscribeEmail">Email address</label>
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control bg-dark border-light" id="subscribeEmail"
+                        placeholder="Email address">
+                    <div class="input-group-text btn-success text-light">Subscribe</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<div class="w-100 bg-black py-3">
-		<div class="container">
-			<div class="row pt-2">
-				<div class="col-12">
-					<p class="text-left text-light">
-						Copyright &copy; 2021 SHB
-						| Designed by <a rel="sponsored" href="#" target="_blank">shb</a>
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="w-100 bg-black py-3">
+        <div class="container">
+            <div class="row pt-2">
+                <div class="col-12">
+                    <p class="text-left text-light">
+                        Copyright &copy; 2021 SHB
+                        | Designed by <a rel="sponsored" href="#" target="_blank">shb</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </footer>
 <!-- End Footer -->
@@ -371,20 +367,30 @@
                     required: true,
                     lettersonly: true
                 },
+                streetaddress: {
+                    required: true,
 
-                mobile: {
+                },
+                altermobile: {
+                    required: true
+                },
+                pincode: {
+                    required: true,
+                    number: true
+                },
+                landmark: {
                     required: true
                 },
                 city: {
                     required: true
                 },
-                pin: {
-                    required: true,
-                    digits: true
-                },
-                address: {
+                district: {
                     required: true
-                }
+                },
+                state: {
+                    required: true
+                },
+
             }
         })
 

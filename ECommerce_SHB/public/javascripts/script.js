@@ -67,9 +67,9 @@ async function editPassword(userID) {
 }
 
 async function addToCart(proID) {
+
     await axios.get('/add-to-cart/' + proID).then((e) => {
         if (e.data.status) {
-            // alert("Item added to cart")
             swal("Item Added to your cart", "", "success");
             if (isNaN(document.getElementById('cart-count').innerHTML)) { document.getElementById('cart-count').innerHTML = 0 }
             let count = document.getElementById('cart-count').innerHTML
@@ -77,6 +77,13 @@ async function addToCart(proID) {
             // document.getElementById('cart-count').value=1;
             document.getElementById('cart-count').innerHTML = count
             // alert(document.getElementById('cart-count').innerHTML)
+        }
+
+        else if (e.data.cartItems.no_stock) {
+            swal("Sorry", "Stock not available", "warning");
+        }
+        else if (e.data.cartItems.prod_exist_in_cart) {
+            swal("Product exist in cart", "", "success");
         }
         else {
             location.href = '/login'
@@ -131,7 +138,7 @@ async function changeQty(cartID, proID, count, obj) {
 
     // if(quantity == 1 && count == -1){
     //     swal({
-    //         title: "Do you want to delete?",
+    //         title: "Do you want to remove?",
     //         icon: "warning",
     //         buttons: true,
     //         dangerMode: true,
@@ -148,14 +155,24 @@ async function changeQty(cartID, proID, count, obj) {
         count: count,
         quantity: quantity
     }).then((e) => {
-        if (e.data.response.removeProduct) {
+        if (e.data.no_stock) {
+            swal("Sorry", "Stock not available for this count", "warning");
+        }
+        else if (e.data.response.removeProduct) {
+            let count = document.getElementById('cart-count').innerHTML           
+
             document.getElementById('total-price').innerHTML = e.data.total
             document.getElementById('sub-total').innerHTML = e.data.total
             document.getElementById(proID).innerHTML = quantity + count
-            document.getElementById('couponID').value = ""
-            document.getElementById('discount').innerHTML = ""
+            document.getElementById('couponID').value = "0.00"
+            document.getElementById('discount').innerHTML = "0.00"
+
+            count = parseInt(count) - 1
+            document.getElementById('cart-count').innerHTML = count
+
             swal("item deleted", "", "success");
             $(obj).closest('tr').remove()
+          
             //location.reload()
 
         }

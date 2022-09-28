@@ -309,30 +309,25 @@ module.exports = {
 
     },
 
-    totalAmountOfProducts: () => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                let total_amount_of_products = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
-                    {
-                        $group: {
-                            _id: null,
-                            //total: { $sum: "$price" }
-                            total: { $sum: { $multiply: [{ $toInt: '$qty' }, { $toInt: '$price' }] } }
-                        }
-                    }
-                ]).toArray()
-                resolve(total_amount_of_products[0].total)
-            } catch (error) {
-                reject(error)
-            }
-        })
+    // totalAmountOfProducts: () => {
+    //     return new Promise(async (resolve, reject) => {
+    //         try {
+    //             let total_amount_of_products = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate([
+    //                 {
+    //                     $group: {
+    //                         _id: null,
+    //                         //total: { $sum: "$price" }
+    //                         total: { $sum: { $multiply: [{ $toInt: '$qty' }, { $toInt: '$price' }] } }
+    //                     }
+    //                 }
+    //             ]).toArray()
+    //             resolve(total_amount_of_products[0].total)
+    //         } catch (error) {
+    //             reject(error)
+    //         }
+    //     })
 
-    },
-
-    todayRevenue: () => {
-
-
-    },
+    // },
 
     calculationMonthwiseForGraph: () => {
 
@@ -344,41 +339,41 @@ module.exports = {
         //let firstDay=new Date(new Date().getTime() - (24 * 60 * 60 - 1000))
         //console.log(lastDayMonth, "oooooooooooooooooooooo");
         return new Promise(async (resolve, reject) => {
-            try {                
-                    let result = []
-                    for (i = 0; i < 12; i++) {
-                        let today = new Date();
-                        today.setMonth(i, 1)
-                        today.setHours(5, 30, 0, 0)
-                        let lastDayMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)
-                        lastDayMonth.setHours(24, 59, 0, 0)
+            try {
+                let result = []
+                for (i = 0; i < 12; i++) {
+                    let today = new Date();
+                    today.setMonth(i, 1)
+                    today.setHours(5, 30, 0, 0)
+                    let lastDayMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)
+                    lastDayMonth.setHours(24, 59, 0, 0)
 
-                        let monthly_sale = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
-                            {
-                                $match: { $and: [{ 'deliveryDetails.date': { $gte: today, $lte: lastDayMonth } }, { "deliveryDetails.status": { $ne: "Pending" } }] }
-                                // $match: { 'deliveryDetails.date': { $gte: today, $lte: lastDayMonth } , $ne: [ "$status", "Pending" ] }
-                            },
-                            {
-                                $group: {
-                                    _id: null,
-                                    total: { $sum: '$deliveryDetails.totalAmount' }
-                                }
-                            },
-                            {
-                                $project: {
-                                    _id: 0,
-                                    total: 1
-                                }
+                    let monthly_sale = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                        {
+                            $match: { $and: [{ 'deliveryDetails.date': { $gte: today, $lte: lastDayMonth } }, { "deliveryDetails.status": { $ne: "Pending" } }] }
+                            // $match: { 'deliveryDetails.date': { $gte: today, $lte: lastDayMonth } , $ne: [ "$status", "Pending" ] }
+                        },
+                        {
+                            $group: {
+                                _id: null,
+                                total: { $sum: '$deliveryDetails.totalAmount' }
                             }
-
-                        ]).toArray()
-                        if (monthly_sale == "") {
-                            monthly_sale[0] = { total: 0 }
+                        },
+                        {
+                            $project: {
+                                _id: 0,
+                                total: 1
+                            }
                         }
-                        result[i] = monthly_sale[0]
+
+                    ]).toArray()
+                    if (monthly_sale == "") {
+                        monthly_sale[0] = { total: 0 }
                     }
-                    resolve(result)
-                
+                    result[i] = monthly_sale[0]
+                }
+                resolve(result)
+
             } catch (error) {
                 reject(error)
             }
@@ -406,7 +401,45 @@ module.exports = {
             }
         })
 
-    }
+    },
+
+    totalOrders: () => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let total_orders=0
+                total_orders = await db.get().collection(collection.ORDER_COLLECTION).count()
+                if (total_orders > 0) {
+                    resolve(total_orders)
+                }else{
+                    resolve(0)
+                }
+
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
+
+
+    todayOrders: () => {
+        let today = new Date();
+        today.setHours(5, 30, 0, 0)
+        return new Promise(async (resolve, reject) => {
+            try {
+                let today_orders=0
+                today_orders = await db.get().collection(collection.ORDER_COLLECTION).find({ 'deliveryDetails.date': { $gte: today, $lte: new Date() } }).count(1)
+                if (today_orders > 0) {
+                    resolve(today_orders)
+                }else{
+                    resolve(0)
+                }
+
+                
+            } catch (error) {
+                reject(error)
+            }
+        })
+    },
 
 
 }

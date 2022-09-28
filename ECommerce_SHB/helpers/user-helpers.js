@@ -434,37 +434,42 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
 
-                let user = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectID(userID) })
+                let checkQty = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectID(prod) })
+                if (checkQty.qty > 0) {
+                    let user = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectID(userID) })
 
-                if (user) {
-                    let prodExist = user.product.findIndex(produc => produc.item == prod)
-                    //console.log(prodExist)
-                    if (prodExist != -1) {
-                        db.get().collection(collection.CART_COLLECTION).updateOne({ user: objectID(userID), 'product.item': objectID(prod) }, {
-                            $inc: { 'product.$.quantity': 1 }
+                    if (user) {
+                        let prodExist = user.product.findIndex(produc => produc.item == prod)
+                        //console.log(prodExist)
+                        if (prodExist != -1) {
+                            // db.get().collection(collection.CART_COLLECTION).updateOne({ user: objectID(userID), 'product.item': objectID(prod) }, {
+                            //     $inc: { 'product.$.quantity': 1 }
+                            // }
+                            // ).then(() => {
+                            //     resolve({ no_stock: false })
+                            // })
+                            resolve({ prod_exist_in_cart: true, no_stock: false })
+                        } else {
+                            db.get().collection(collection.CART_COLLECTION).updateOne({ user: objectID(userID) },
+                                {
+                                    $push: { product: proObj }
+                                }).then((userID) => {
+                                    resolve({ prod_exist_in_cart: false, no_stock: false })
+                                })
                         }
-                        ).then(() => {
-                            resolve()
-                        })
-                    } else {
-                        db.get().collection(collection.CART_COLLECTION).updateOne({ user: objectID(userID) },
-                            {
-                                $push: { product: proObj }
-                            }).then((userID) => {
-                                resolve()
-                            })
                     }
-                }
-                else {
-                    let objCart = {
-                        user: objectID(userID),
-                        product: [proObj]
-                    }
+                    else {
+                        let objCart = {
+                            user: objectID(userID),
+                            product: [proObj]
+                        }
 
-                    db.get().collection(collection.CART_COLLECTION).insertOne(objCart).then((userID) => {
-                        resolve()
-                    })
-                }
+                        db.get().collection(collection.CART_COLLECTION).insertOne(objCart).then((userID) => {
+                            resolve({prod_exist_in_cart: false, no_stock: false})
+                        })
+                    }
+                } else
+                    resolve({ prod_exist_in_cart: false, no_stock: true })
             } catch (error) {
                 reject(error)
             }
@@ -598,22 +603,29 @@ module.exports = {
         details.quantity = parseInt(details.quantity)
         return new Promise(async (resolve, reject) => {
             try {
+
                 if (details.count == -1 && details.quantity == 1) {
                     db.get().collection(collection.CART_COLLECTION).updateOne({ _id: objectID(details.cartID) }, {
                         $pull: { product: { item: objectID(details.proID) } }
                     }).then((response) => {
-                        resolve({ removeProduct: true })
+                        resolve({ no_stock: false, removeProduct: true })
                     })
                 } else {
-                    db.get().collection(collection.CART_COLLECTION).updateOne({
-                        _id: objectID(details.cartID),
-                        'product.item': objectID(details.proID)
-                    }, {
-                        $inc: { 'product.$.quantity': details.count }
-                    }).then((response) => {
-                        resolve(true)
-                    })
+                    let checkQty = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectID(details.proID) })
+                    if (checkQty.qty > details.quantity) {
+                        db.get().collection(collection.CART_COLLECTION).updateOne({
+                            _id: objectID(details.cartID),
+                            'product.item': objectID(details.proID)
+                        }, {
+                            $inc: { 'product.$.quantity': details.count }
+                        }).then(async (response) => {
+                            resolve({ no_stock: false })
+                        })
+                    } else {
+                        resolve({ no_stock: true })
+                    }
                 }
+
             } catch (error) {
                 reject(error)
             }
@@ -813,29 +825,28 @@ module.exports = {
             try {
                 //..................product qty increment.............................
                 let prod = await db.get().collection(collection.ORDER_COLLECTION).find({ _id: objectID(orderId) }).toArray()
-                //console.log(prod, "iooioioiooioioioioi");
                 let products = prod[0].products
-                //console.log(products, "gggggggggggggggggggggggggggggggggg");
                 products.forEach(async element => {
                     await db.get().collection(collection.PRODUCT_COLLECTION).updateOne({ _id: element.item },
                         {
                             $inc: { 'qty': (parseInt(element.quantity)) }
                         }).then(() => {
-                            resolve()
+                            //resolve()
                         })
-
                 })
                 //............................end......................................
                 await db.get().collection(collection.ORDER_COLLECTION).deleteOne({ _id: objectID(orderId), "deliveryDetails.status": "Placed" }
                 ).then((response) => {
                     resolve(response)
                 })
+
             } catch (error) {
                 reject(error)
             }
         })
 
     },
+
     getSingleOrder: (orderId) => {
         return new Promise(async (resolve, reject) => {
             try {

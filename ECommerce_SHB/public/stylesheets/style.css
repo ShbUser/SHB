@@ -152,7 +152,7 @@ body{
 }
 .product-grid .product-content{ padding: 15px 10px 10px; }
 .product-grid .title{
-    font-size: 16px;
+    /* font-size: 16px; */
     text-transform: capitalize;
     margin: 0 0 8px;
 }
@@ -160,7 +160,7 @@ body{
 .product-grid .title a:hover{ color: var(--color_2); }
 .product-grid .price{
     color: #7b7b7b;
-    font-size: 16px;
+    /* font-size: 16px; */
     font-weight: 400;
 }
 .product-grid .product-button-group{
