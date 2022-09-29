@@ -69,6 +69,7 @@ async function editPassword(userID) {
 async function addToCart(proID) {
 
     await axios.get('/add-to-cart/' + proID).then((e) => {
+
         if (e.data.status) {
             swal("Item Added to your cart", "", "success");
             if (isNaN(document.getElementById('cart-count').innerHTML)) { document.getElementById('cart-count').innerHTML = 0 }
@@ -84,10 +85,10 @@ async function addToCart(proID) {
         }
         else if (e.data.cartItems.prod_exist_in_cart) {
             swal("Product exist in cart", "", "success");
+        }else{
+            location.href='/login'
         }
-        else {
-            location.href = '/login'
-        }
+
     })
 }
 
@@ -159,7 +160,7 @@ async function changeQty(cartID, proID, count, obj) {
             swal("Sorry", "Stock not available for this count", "warning");
         }
         else if (e.data.response.removeProduct) {
-            let count = document.getElementById('cart-count').innerHTML           
+            let count = document.getElementById('cart-count').innerHTML
 
             document.getElementById('total-price').innerHTML = e.data.total
             document.getElementById('sub-total').innerHTML = e.data.total
@@ -172,7 +173,7 @@ async function changeQty(cartID, proID, count, obj) {
 
             swal("item deleted", "", "success");
             $(obj).closest('tr').remove()
-          
+
             //location.reload()
 
         }

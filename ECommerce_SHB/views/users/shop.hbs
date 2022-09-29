@@ -1,49 +1,42 @@
-<img src="/assets/img/shoppg.jpg" width="100%" height="300">
+{{!-- <img src="/assets/img/shoppg.jpg" width="100%" height="180"> --}}
 
-<section class="" style="margin-top: -14em;">
+<section class="">
 	<div class="container">
-		<div class="row">
-			<p class="text-muted text-center">Explore the variety of products from the online stock and choose the
+		<div class="row bg-light  text-center" style="border: 1px solid darkblue ;">
+			<p class="text-muted text-center mt-4">Explore the variety of products from the online
+				stock and choose the
 				quantity required.
 				You can save the time otherwise lost in waiting in lengthy queues for billing and payments by easily
 				adding the chosen items to your cart online.
 				Select the required date for delivery and pay with a suitable payment option.
 				This will help you receive the items whenever you need them and in the available quantity.
 				Order the online grocery comfortably from home for timely doorstep delivery.</p>
-			<div class="col-md-6 col-xl-6">
-			</div>
-
-			<div class="col-md-6 col-xl-6 mt-3 editColor ">
-
-				<h4>Search by category : </h4>
-				<form action="/search_product" method="post" id="">
-					<div class="row">
-
-						<div class="col">
-							{{!-- <input type="text" id="categoryID" name="category" onkeyup=""> --}}
-							<select class="form-select" aria-label="Default select example" name="category"
-								id="categoryID">
-								<option selected>Select Category</option>
-								{{#each category}}
-								<option value="{{this._id}}">{{this.name}}</option>
-								{{/each}}
-							</select><br>
-						</div>
-						<div class="col">
-							<button type="submit" class="btn btn-primary">Search</button>
-						</div>
-
-					</div>
-
-				</form>
-			</div>
 
 		</div>
 	</div>
 	<div class="container mt-5">
 
 		<div class="row">
-			
+			<h4>Search by category : </h4>
+			<form action="/search_product" method="post" id="">
+				<div class="row">
+
+					<div class="col">
+						{{!-- <input type="text" id="categoryID" name="category" onkeyup=""> --}}
+						<select class="form-select" aria-label="Default select example" name="category" id="categoryID">
+							<option selected>Select Category</option>
+							{{#each category}}
+							<option value="{{this._id}}">{{this.name}}</option>
+							{{/each}}
+						</select><br>
+					</div>
+					<div class="col">
+						<button type="submit" class="btn btn-primary">Search</button>
+					</div>
+
+				</div>
+
+			</form>
 			{{#each products}}
 
 			<div class="col-md-3 col-md-4 col-lg-3 col-xl-3 ">
@@ -57,6 +50,13 @@
 					</div>
 					<div class="product-content">
 						<b class="title text-dark">{{this.name}}</b>
+						<li>
+							<i class="text-warning fa fa-star"></i>
+							<i class="text-warning fa fa-star"></i>
+							<i class="text-warning fa fa-star"></i>
+							<i class="text-warning fa fa-star"></i>
+							<i class="text-muted fa fa-star"></i>
+						</li>
 						<div class=" text-start">{{this.description}}</div>
 						<div class=" text-start">RS: {{this.price}}</div>
 						<div class="product-button-group">

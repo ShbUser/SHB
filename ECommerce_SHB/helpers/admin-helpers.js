@@ -253,13 +253,14 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
 
-                let todaySale = await db.get().collection(collection.ORDER_COLLECTION).find({ 'deliveryDetails.date': { $gte: today, $lte: new Date() } }).limit(1).toArray()
+                let todaySale = await db.get().collection(collection.ORDER_COLLECTION).find({ 'deliveryDetails.date': { $gte: today, $lte: new Date()} }).limit(1).toArray()
 
                 if (todaySale != "") {
 
                     let today_sale = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
                         {
-                            $match: { 'deliveryDetails.date': { $gte: today, $lte: new Date() } }
+                            $match: { $and: [{ 'deliveryDetails.date': { $gte: today}}, { "deliveryDetails.status": { $ne: "Pending" } }] }
+                            //$match: { 'deliveryDetails.date': { $gte: today, $lte: new Date() } }
                         },
 
                         {
@@ -290,6 +291,9 @@ module.exports = {
 
                 if (check != "") {
                     let details = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                        {
+                            $match: { "deliveryDetails.status": { $ne: "Pending" } }
+                        },
                         {
                             $group: {
                                 _id: null,
@@ -407,7 +411,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
                 let total_orders=0
-                total_orders = await db.get().collection(collection.ORDER_COLLECTION).count()
+                total_orders = await db.get().collection(collection.ORDER_COLLECTION).count({ "deliveryDetails.status": { $ne: "Pending" } })
                 if (total_orders > 0) {
                     resolve(total_orders)
                 }else{
@@ -427,7 +431,7 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             try {
                 let today_orders=0
-                today_orders = await db.get().collection(collection.ORDER_COLLECTION).find({ 'deliveryDetails.date': { $gte: today, $lte: new Date() } }).count(1)
+                today_orders = await db.get().collection(collection.ORDER_COLLECTION).find({ $and: [{ 'deliveryDetails.date': { $gte: today} }, { "deliveryDetails.status": { $ne: "Pending" } }] }).count(1)
                 if (today_orders > 0) {
                     resolve(today_orders)
                 }else{

@@ -7,11 +7,14 @@
             <div class="container">
                 <img src="assets/img/otp1.png" width="600" alt="otp">
 
-                <div>
-                    <input type="text" class="form-control" style="width: 25%; margin-left: 27em;" name="otp" id="otpID"
+                <div class="row">
+					<div class="col-md-6 text-end">
+                    <input type="text" class="form-control" style="width: 25%; margin-left: 28em;" name="otp" id="otpID"
                         placeholder="Enter your OTP" required>
+						</div>
+						<div class="col-md-6 text-start">
                     <button class="btn btn-outline-primary" onclick="otpVerify()">Verify OTP..</button>
-
+				</div>
                 </div>
             </div>
             <input type="text" class="error text-danger" style="border: none; width: 15em ;" readonly id="wrong">

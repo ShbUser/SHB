@@ -142,12 +142,12 @@ router.get('/shop', async (req, res, next) => {
 router.get('/add-to-cart/:id', verifyLogin, (req, res, next) => {
   userHelper.getUserCart(req.params.id, req.session.user._id).then((cartItems) => {
     if (cartItems.no_stock) {
-      res.json({ status: false, user, cartItems })
+      res.json({ status: false, cartItems })
     } else if(cartItems.prod_exist_in_cart){
-      res.json({ status: false, user, cartItems })
+      res.json({ status: false, cartItems })
     }
     else{
-      res.json({ status: true, user, cartItems })
+      res.json({ status: true, cartItems })
     }
   }).catch((err) => {
     next(err)

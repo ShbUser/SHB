@@ -17,9 +17,9 @@
                     <br>
                 
                 <select class="form-select" aria-label="Default select example" name="category">
-                    <option selected>Select Category</option>
+                    <option ></option>
                     {{#each category}}
-                    <option value="{{this._id}}">{{this.name}}</option>
+                    <option value="{{this._id}}" >{{this.name}}</option>
                     {{/each}}
                 </select><br>
                 
@@ -32,7 +32,7 @@
                         ><br>
                     
                 <label for="" class="form-label">Images</label>
-                <input class="form-control btn btn-outline-success" type="file" id="img" name="img" multiple>
+                <input class="form-control btn btn-outline-success" type="file" id="img" name="img" multiple required>
                 <div class="ms-auto">
                     <button type="submit" class="btn btn-outline-success"> <i
                             class="fa-solid fa-cloud-arrow-up"></i>Save</button>
@@ -62,7 +62,10 @@
                     required: true
                     
                 },
-
+                category: {
+                    required: true
+                    
+                },
                 qty: {
                    required: true,
                     number:true

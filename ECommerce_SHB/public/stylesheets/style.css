@@ -54,7 +54,7 @@ body{
 .bdrShdw{
     
     border-radius: .5em;
-     padding-top: 2em;
+     /* padding-top: 2em; */
      
  }
  .checkout{

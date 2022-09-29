@@ -14,8 +14,13 @@
         <div class="col-12 col-md-4 col-lg-4 col-Xl-5 p-4 bg-lightblue divtrans" style="height: 200%;margin-top: -5em;">
             <div class="text-center ">
                 <div>
+                   {{#if personalDet.photo}}
                     <img src="/product-images/{{personalDet.photo}}" id="profImg" class="rounded-circle" alt="Image"
                         width="175" height="170">
+                        {{else}}
+                        <img src="/assets/img/user.jpg" id="profImg" class="rounded-circle" alt="Image"
+                        width="175" height="170">
+                        {{/if}}
                 </div>
                 <div class="text-muted">
                     <p>Name: {{personalDet.personalDetails.firstname}}</p>

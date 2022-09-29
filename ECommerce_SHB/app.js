@@ -59,7 +59,8 @@ app.use(session({ secret: "key", resave: true, saveUninitialized: true, cookie: 
 
 
 app.use(function (req, res, next) {
-  res.header('Cache-Control', 'no-store , private, no-store, must-revalidate,max-stale=0,post-check=0, pre-check=0')
+  //res.header('Cache-Control', 'no-store')
+  res.header('Cache-Control', 'no-store , private, must-revalidate,max-stale=0,post-check=0, pre-check=0')
   next()
 })
 
@@ -80,7 +81,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+    res.render('error');
 });
 
 module.exports = app;
