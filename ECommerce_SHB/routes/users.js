@@ -15,6 +15,8 @@ let fs = require('fs');
 let user
 let getImg
 let buynow = false
+
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'public/product-images')
@@ -27,6 +29,20 @@ const storage = multer.diskStorage({
 
 })
 const upload = multer({ storage: storage })
+
+//............................For Profile pic................................
+const storage1 = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/user-images')
+  },
+  filename: function (req, file, cb) {
+    const ext = file.mimetype.split("/")[1]
+
+    cb(null, `images-${file.fieldname}-${Date.now()}.${ext}`)
+  },
+
+})
+const upload1 = multer({ storage: storage1 })
 
 /* GET users listing. */
 
@@ -92,6 +108,9 @@ router.get('/login', (req, res, next) => {
   }
 })
 
+router.get('/contact',(req,res)=>{
+  res.render('users/contact',{user_head:true,user})
+})
 
 router.get('/signup', (req, res, next) => {
   try {
@@ -143,10 +162,10 @@ router.get('/add-to-cart/:id', verifyLogin, (req, res, next) => {
   userHelper.getUserCart(req.params.id, req.session.user._id).then((cartItems) => {
     if (cartItems.no_stock) {
       res.json({ status: false, cartItems })
-    } else if(cartItems.prod_exist_in_cart){
+    } else if (cartItems.prod_exist_in_cart) {
       res.json({ status: false, cartItems })
     }
-    else{
+    else {
       res.json({ status: true, cartItems })
     }
   }).catch((err) => {
@@ -317,6 +336,11 @@ router.get('/del-order-item/:id', verifyLogin, (req, res, next) => {
   })
 })
 
+router.get('/place_order',verifyLogin,(req,res)=>{
+    res.redirect('/')
+
+})
+
 router.get('/order', verifyLogin, async (req, res, next) => {
   await userHelper.getOrder(req.session.user._id).then((order) => {
     res.render('users/order', { user_head: true, user, order })
@@ -350,6 +374,8 @@ router.get('/invoice/:id', verifyLogin, async (req, res, next) => {
 
 
 })
+
+
 // ................................post methods.................................................
 
 router.post('/signup', (req, res, next) => {
@@ -478,7 +504,7 @@ router.post('/add_personalDet/:id', verifyLogin, (req, res, next) => {
     next(err)
   })
 })
-router.post('/updateProfilePic/:id', verifyLogin, upload.single('img'), (req, res, next) => {
+router.post('/updateProfilePic/:id', verifyLogin, upload1.single('img'), (req, res, next) => {
   //if(req.file === undefined) req.file.filename=getImg
   userHelper.setProfilepiC(req.file.filename, user._id).then((response) => {
     req.session.user.photo = req.file.filename
@@ -534,7 +560,7 @@ router.post('/set-quantity', verifyLogin, (req, res, next) => {
   userHelper.setProQuantity(req.body).then(async (response) => {
     await userHelper.getTotalAmount(req.session.user._id).then((total) => {
       if (response.no_stock) {
-        res.json({status: false,no_stock:response.no_stock })
+        res.json({ status: false, no_stock: response.no_stock })
       } else {
         res.json({ status: true, response, total: total })
       }
@@ -554,17 +580,18 @@ router.get('/buy_now/:id', verifyLogin, async (req, res, next) => {
     await userHelper.getAddressFromOrderList(user._id).then(async (address) => {
       await userHelper.getAllShipAddress(user._id).then((shipAddressList) => {
         buynow = true
-        res.render('users/place_order', { user_head: true, user, total, id, address, shipAddressList })
+          res.render('users/place_order', { user_head: true, user, total, id, address, shipAddressList })
+      
       }).catch((err) => {
         next(err)
       })
-    }).catch((err) => {
-      next(err)
-    })
-
   }).catch((err) => {
     next(err)
   })
+
+}).catch((err) => {
+  next(err)
+})
 })
 
 
@@ -579,8 +606,9 @@ router.post('/place_order', verifyLogin, async (req, res, next) => {
 
             if (coupen != 0) {
               total = (parseInt(total) - parseInt(coupen.coupendiscount))
-            }
-            res.render('users/place_order', { user_head: true, user, total, address, coupen, shipAddressList })
+            }            
+              res.render('users/place_order', { user_head: true, user, total, address, coupen, shipAddressList })
+            
           }).catch((err) => {
             next(err)
           })
@@ -615,6 +643,7 @@ router.post('/checkout', async (req, res, next) => {
       userHelper.placeOrder(user._id, req.body, products, totalPrice).then((orderID) => {
         buynow = false
         if (req.body['payment-method'] === 'COD') {
+          
           res.json({ codSuccess: true })
           res.redirect('/order')
         }
@@ -643,11 +672,13 @@ router.post('/checkout', async (req, res, next) => {
           }
           userHelper.placeOrder(user._id, req.body, products, totalPrice).then((orderID) => {
             if (req.body['payment-method'] === 'COD') {
+              
               res.json({ codSuccess: true })
               res.redirect('/order')
             }
             else {
               userHelper.generateRazorPay(orderID, totalPrice).then((response) => {
+                
                 res.json(response)
               }).catch((err) => {
                 next(err)
@@ -696,6 +727,7 @@ router.get('/logout', (req, res) => {
   user = null
   getImg = null
   buynow = false
+  is_checkout = false
   res.redirect('/')
 })
 

@@ -1,30 +1,31 @@
 {{!-- <section class="border-warning " style="position: absolute;width: 15em;"> --}}
-        <div class="row bg-dark" style="position: absolute; width: 15%; height: 100%;">
-                <div class="col-12 col-md-12 col-lg-12 col-xl-12">
-                        <div class=" list-group gap-4">
-                                <h4 class="text-center mt-5">
-                                        <p class="text-white">Admin<span><b class="text-success">panel</b></span> </p>
-                                        <i class="fa-solid fa-gears text-muted"></i>
-                                </h4>
+        <div class="row bg-dark" style="position: fixed; width: 15%; height: 100%;">
+                <div class="col-12 col-md-12 col-lg-12 col-xl-12 ">
+                        <div class=" list-group gap-4 w-100 h-100">
+                                <div class="text-center mt-5">
+                                        <h6 class="text-white">Admin<span><b class="text-success">panel</b></span> </h6>
+                                        <img src="/assets/img/user.jpg" id="profImg" class="rounded-circle" alt="Image"
+                        width="50" height="50">
+                                </div>
                         <a href="/admin/admin_home"
                         class="list-group-item list-group-item-action text-white bg-dark"><i
-                        class="fa-solid fa-gauge-high"></i> Dash board</button>
+                        class="fa-solid fa-gauge-high"></i> Dash board</a>
                         <a href="/admin/view_orders"
                         class="list-group-item list-group-item-action text-white bg-dark "><i
-                        class="fa-solid fa-list-check"></i> Orders</button>
+                        class="fa-solid fa-list-check"></i> Orders</a>
                         <a href="/admin/view_products"
                         class="list-group-item list-group-item-action text-white bg-dark"><i
                         class="fa-brands fa-product-hunt"></i> Products</a>
                         <a href="/admin/view_users"
                         class="list-group-item list-group-item-action text-white bg-dark"><i
-                        class="fa-solid fa-user-group"></i> Users</button>
+                        class="fa-solid fa-user-group"></i> Users</a>
                         <a href="/admin/banner_manage"
                         class="list-group-item list-group-item-action text-white bg-dark"><i
-                        class="fa-solid fa-images"></i> Banner</button>
+                        class="fa-solid fa-images"></i> Banner</a>
                         <a href="/admin/coupen_manage"
                         class="list-group-item list-group-item-action text-white bg-dark"><i
                         class="fa-solid fa-tags"></i>
-                        Coupen</button>
+                        Coupen</a>
                         <a href="/admin/add_categories"
                         class="list-group-item list-group-item-action text-white bg-dark"><i
                         class="fa-solid fa-folder-plus"></i>
@@ -33,22 +34,22 @@
                 </div>
         </div>
         <header>
-                <div class="row  text-center bg-dark ">
-                         <div class="col-4 col-md-4 col-lg-4 col-xl-4 ">
+                <div class="row  text-center bg-dark fixed-top" >
+                         <div class="col-3 col-md-4 col-lg-4 col-xl-4 ">
                                 
                         </div>
-                        <div class="col-4 col-md-4 col-lg-4 col-xl-4 ">
-                                <h4><span class="text-success">SHB online hub</span> <span class="text-white">
-                                                Administrator</span></h4>
+                        <div class="col-3 col-md-4 col-lg-4 col-xl-4 ">
+                                {{!-- <h6><span class="text-success">SHB online hub</span> <span class="text-white">
+                                                </span></h6> --}}
                         </div>
-                        <div class="col-1 col-md-1 col-lg-1 col-xl-1 ">
+                        <div class="col-1 col-md-1 col-lg-1 col-xl-1">
                                 <i class="fa-solid fa-bell text-white"></i>
                                 
                         </div>
                          <div class="col-1 col-md-1 col-lg-1 col-xl-1 ">
                                <i class="fa-solid fa-user text-white"></i>
                         </div>
-                        <div class=" col-md-2 col-lg-2 col-xl-2 ">
+                        <div class="col-4 col-md-2 col-lg-2 col-xl-2 ">
                               <a href="/admin/signout"
                         class="btn btn-success "><i class="fa-solid fa-right-from-bracket"></i>Signout</a>
                         </div>
