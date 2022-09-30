@@ -40,28 +40,14 @@ module.exports = {
     getAllProducts: () => {
         return new Promise(async (resolve, reject) => {
             try {
-                // let product = await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
-                // resolve(product)
+                
                 let product = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate(
                     [
                         {
                             $set: {
                                 'category': { '$toObjectId': '$category' }
                             }
-                        },
-                        //  {
-                        //   $lookup: 
-                        //   {
-                        //     'from': 'category', 
-                        //     'localField': 'category', 
-                        //     'foreignField': '_id', 
-                        //     'as': 'category'
-                        //   }
-                        // },
-
-                        // {
-                        //     $set : {category : {$toObjectId : '$category'}} 
-                        // },
+                        },                        
                         {
                             $lookup: {
                                 from: collection.CATEGORY_COLLECTION,
@@ -71,14 +57,12 @@ module.exports = {
                             }
                         }
                     ]).toArray()
-                //  console.log(product);
+                    //console.log(product);
                 resolve(product)
             } catch (error) {
                 reject(error)
             }
         })
-
-
     },
 
     getUpdateProduct: (proID) => {

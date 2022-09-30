@@ -509,8 +509,7 @@ module.exports = {
                         $project: {
                             item: 1, quantity: 1, product: { $arrayElemAt: ['$product', 0] }
                         }
-                    }
-                    ,
+                    },
                     {
                         $set: { 'categorySet': { '$toObjectId': '$product.category' } }
                     },

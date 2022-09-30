@@ -47,9 +47,8 @@
                                 <a href="/admin/edit_products/{{this._id}}"
                                     class="btn btn-outline-success border-0">Edit <i
                                         class="fa-solid fa-file-pen"></i></a>
-                                <a href="/admin/delete_products/{{this._id}}/{{this.myimg}}"
-                                    class="btn btn-outline-danger border-0"
-                                    onclick="return confirm('Do u want to delete {{this.Name}} ?')">Delete<i
+                                <a class="btn btn-outline-danger border-0"
+                                    onclick="delProduct('{{this._id}}','{{this.myimg}}', this)">Delete<i
                                         class="fa-solid fa-trash"></i></a>
                             </td>
                         </tr>

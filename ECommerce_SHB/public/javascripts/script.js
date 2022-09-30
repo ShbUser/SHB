@@ -66,6 +66,8 @@ async function editPassword(userID) {
     }
 }
 
+
+
 async function addToCart(proID) {
 
     await axios.get('/add-to-cart/' + proID).then((e) => {
@@ -326,6 +328,45 @@ async function applyCoupon(coupenID) {
             document.getElementById('couponID').value = ""
         }
     })
+}
+
+async function delCategory(catID, obj) {
+    swal({
+        title: "Are you sure?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+    }).then(async (willDelete) => {
+        if (willDelete) {
+            await axios.get('/admin/delete_category/' + catID).then((e) => {
+                if (e.data.status) {
+                    $(obj).closest('tr').remove()
+                    swal("Item deleted", "", "success")
+                }
+            })
+        } 
+    })
+
+}
+
+async function delProduct(prodID,myImg, obj) {
+    swal({
+        title: "Are you sure?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+    }).then(async (willDelete) => {
+        if (willDelete) {
+            await axios.get('/admin/delete_products/' + prodID+'/'+myImg).then((e) => {
+                if (e.data.status) {
+                    $(obj).closest('tr').remove()
+                    swal("Item deleted", "", "success")
+                    
+                }
+            })
+        } 
+    })
+
 }
 
 async function delBanner(bannerID, obj) {

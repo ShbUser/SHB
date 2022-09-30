@@ -4,33 +4,39 @@
         <div class="d-flex justify-content-center bdrShdw editColor">
             <form action="/admin/add_product" method="POST" id="addproduct" enctype="multipart/form-data">
                 <p>Add &nbsp;<span><b><u>Products</u></b></span> </p>
-                
-                    <label for="floatingInput">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="" ><br>
-                    
-                    <label>Price</label>
-                    <input type="number" class="form-control" id="price" name="price" placeholder=""
-                       min="1" step="1" ><br>
-                
-                    <label>Size</label>
-                    <input type="text" class="form-control" id="size" placeholder="" name="size" >
-                    <br>
-                
+                <label>Select Category</label>
                 <select class="form-select" aria-label="Default select example" name="category">
-                    <option ></option>
+                    <option></option>
                     {{#each category}}
-                    <option value="{{this._id}}" >{{this.name}}</option>
+                    <option value="{{this._id}}">{{this.name}}</option>
                     {{/each}}
                 </select><br>
-                
-                    <label >Quantity</label>
-                    <input type="text" class="form-control" id="qty" placeholder="" 
-                        name="qty" ><br>
-                
-                    <label >Description </label>
-                    <input type="text" class="form-control" id="description" placeholder="" name="description"
-                        ><br>
-                    
+
+                {{!-- <label>Select Sub Category</label>
+                <select class="form-select" aria-label="Default select example" name="category">
+                    <option></option>
+                    {{#each category}}
+                    <option value="{{this._id}}">{{this.name}}</option>
+                    {{/each}}
+                </select><br> --}}
+
+                <label for="floatingInput">Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder=""><br>
+
+                <label>Price</label>
+                <input type="number" class="form-control" id="price" name="price" placeholder="" min="1" step="1"><br>
+
+                <label>Size</label>
+                <input type="text" class="form-control" id="size" placeholder="" name="size">
+                <br>
+
+
+                <label>Quantity</label>
+                <input type="text" class="form-control" id="qty" placeholder="" name="qty"><br>
+
+                <label>Description </label>
+                <input type="text" class="form-control" id="description" placeholder="" name="description"><br>
+
                 <label for="" class="form-label">Images</label>
                 <input class="form-control btn btn-outline-success" type="file" id="img" name="img" multiple required>
                 <div class="ms-auto">
@@ -56,22 +62,22 @@
                 },
                 price: {
                     required: true,
-                    number:true
+                    number: true
                 },
                 size: {
                     required: true
-                    
+
                 },
                 category: {
                     required: true
-                    
+
                 },
                 qty: {
-                   required: true,
-                    number:true
+                    required: true,
+                    number: true
                 },
-                description:{
-                    required:true
+                description: {
+                    required: true
                 }
             }
         })

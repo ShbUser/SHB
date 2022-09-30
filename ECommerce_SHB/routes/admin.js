@@ -168,7 +168,7 @@ router.get('/edit_category/:id', verifyLogin, (req, res, next) => {
 })
 router.get('/delete_category/:id', verifyLogin, (req, res, next) => {
     productHelper.deleteCategory(req.params.id).then((id) => {
-        res.redirect('/admin/add_categories')
+        res.json({ status: true })
     }).catch((err) => {
         next(err)
     })
@@ -185,7 +185,7 @@ router.get('/delete_products/:id/:imgs', verifyLogin, (req, res, next) => {
                 }
             })
         })
-        res.redirect('/admin/view_products')
+        res.json({ status: true })
     }).catch((err) => {
         next(err)
     })
