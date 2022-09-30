@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container pt-5 mt-5">
 
     <section>
         {{!-- Edit banner modal --}}
@@ -24,11 +24,11 @@
                             <input type="text" class="form-control" id="editcoupencode" name="coupencode" placeholder=""
                                 required><br>
                             <label>Discount</label>
-                            <input type="text" class="form-control" id="editcoupendiscount" name="coupendiscount" placeholder=""
-                             required><br>
+                            <input type="text" class="form-control" id="editcoupendiscount" name="coupendiscount"
+                                placeholder="" required><br>
                             <label>Amount above</label>
-                            <input type="text" class="form-control" id="editcoupentarget" name="coupentarget" placeholder=""
-                                required><br>
+                            <input type="text" class="form-control" id="editcoupentarget" name="coupentarget"
+                                placeholder="" required><br>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-success"><i class="fa-solid fa-floppy-disk"></i>
@@ -54,22 +54,22 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="/admin/add_coupen" method="post">
+                        <form action="/admin/add_coupen" id="coupen_form" method="post">
                             <label>Name</label>
-                            <input type="text" class="form-control" id="coupenname" name="coupenname" placeholder=""
-                                required><br>
+                            <input type="text" class="form-control" id="coupenname" name="coupenname"
+                                placeholder=""><br>
                             <label>Type</label>
-                            <input type="text" class="form-control" id="coupentype" name="coupentype" placeholder=""
-                                required><br>
+                            <input type="text" class="form-control" id="coupentype" name="coupentype"
+                                placeholder=""><br>
                             <label>Code</label>
-                            <input type="text" class="form-control" id="coupencode" name="coupencode" placeholder=""
-                                required><br>
+                            <input type="text" class="form-control" id="coupencode" name="coupencode"
+                                placeholder=""><br>
                             <label>Discount</label>
                             <input type="text" class="form-control" id="coupendisount" name="coupendiscount"
-                                placeholder="" required><br>
+                                placeholder=""><br>
                             <label>Amount above</label>
-                            <input type="text" class="form-control" id="coupentarget" name="coupentarget" placeholder=""
-                                required><br>
+                            <input type="text" class="form-control" id="coupentarget" name="coupentarget"
+                                placeholder=""><br>
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -89,7 +89,8 @@
             </div>
             <div class="col-9 col-md-9 col-lg-9 col-xl-9">
                 <div>
-                    <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCoupenModal"> Create
+                    <a href="" class="btn btn-primary w-25" data-bs-toggle="modal" data-bs-target="#addCoupenModal">
+                        Create
                         coupen</a>
                 </div><br>
 
@@ -106,7 +107,7 @@
                     </thead>
                     <tbody>
                         {{#each coupens}}
-                        <tr>
+                        <tr class="text-success">
                             <td class="w-25">{{this.coupenname}}</td>
                             <td>{{this.coupentype}}</td>
                             <td class="w-25">{{this.coupencode}}</td>
@@ -131,6 +132,32 @@
 </div>
 
 <script>
-    let dataTable=new simpleDatatables.DataTable("#couponJS")
-  
+    let dataTable = new simpleDatatables.DataTable("#couponJS")
+
+
+    $(document).ready(function () {
+        $("#coupen_form").validate({
+            rules: {
+                coupenname: {
+                    required: true
+                },
+                coupentype: {
+                    required: true
+                },
+                coupencode: {
+                    required: true
+                },
+                coupendiscount: {
+                    required: true,
+                    number: true
+                },
+                coupentarget: {
+                    required: true,
+                    number: true
+                }
+            }
+        })
+
+    })
+
 </script>

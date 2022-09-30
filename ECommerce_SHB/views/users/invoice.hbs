@@ -36,7 +36,7 @@
             
             <br>
             108<br>
-            01/09/2022<br>
+            {{formatDate date}}<br>
             108<br>
             {{formatDate order.deliveryDetails.date}}<br>
             {{order.deliveryDetails.paymentMethod}}<br>
@@ -72,10 +72,11 @@
     <div class="row">
         <div class="col-7 col-md-7 col-lg-7 col-xl-7 text-end   ">
             <h6>Sub total : {{order.deliveryDetails.totalAmount}}</h6>
+            <h6>Coupon for : ₹ {{disc}}</h6>
             <h6>Ship charge : ₹ 0.00</h6>
             <h6>GST : ₹ 0.00</h6>
             <hr>
-            <h4>Grand total : {{order.deliveryDetails.totalAmount}}</h4>
+            <h4>Grand total : {{totalAmount}}</h4>
         </div>
     </div>
 
@@ -83,4 +84,4 @@
 <div class="container">
 <button class="btn p-0 btn-icon-text" onclick="printInvoice('invoice')"><i class="fa-solid fa-print"></i>
             Invoice</button>
-            </div>
+            </div><br>

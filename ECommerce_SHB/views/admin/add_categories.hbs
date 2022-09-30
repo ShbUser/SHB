@@ -1,12 +1,11 @@
-<div class="container">
+<div class="container mt-5">
 
     <section>
         <div class="row d-flex justify-content-center text-center bdrShdw">
             <div class="col-6 col-md-6 col-lg-6 col-xl-6">
-                <form action="/admin/add-categories" method="post">
-                    <input type="text" class="form-control" id="cat_name" name="name" placeholder="Category" required>
-                    <input type="text" class="form-control" id="cat_name" name="description" placeholder="Description"
-                        required>
+                <form action="/admin/add-categories" method="post" id="category_form">
+                    <input type="text" class="form-control" id="cat_name" name="name" placeholder="Category">
+                    <input type="text" class="form-control" id="description" name="description" placeholder="Description" ><br>
                     <button type="submit" class="btn btn-outline-success"><i class="fa-solid fa-cloud-arrow-up"></i>Add Category</button>
                 </form>
                     <br>
@@ -21,7 +20,7 @@
                     </thead>
                     <tbody>
                         {{#each category}}
-                        <tr>
+                        <tr class="text-success">
                             <td>{{this.name}}</td>
                             <td>{{this.description}}</td>
                             <td>
@@ -42,4 +41,20 @@
 <script>
     new simpleDatatables.DataTable("#categoryJS")
    
+ $(document).ready(function () {
+        $("#category_form").validate({
+            rules: {
+                name: {
+                    required: true
+                },
+                description: {
+                    required: true             
+                }
+            }
+                
+        })
+
+    })
+
+
 </script>

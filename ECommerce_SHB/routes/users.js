@@ -73,6 +73,7 @@ router.get('/', async (req, res, next) => {
   await productHelper.getAllProducts().then(async (products) => {
     await adminHelper.getAllBanners().then(async (banner) => {
       if (user) {
+        //console.log(user,"valllllllllllllllllllllllllll");
         await productHelper.getCountCart(req.session.user._id).then(async (cartcount) => {
           cartCount = cartcount
         }).catch((err) => {
@@ -108,8 +109,8 @@ router.get('/login', (req, res, next) => {
   }
 })
 
-router.get('/contact',(req,res)=>{
-  res.render('users/contact',{user_head:true,user})
+router.get('/contact', (req, res) => {
+  res.render('users/contact', { user_head: true, user })
 })
 
 router.get('/signup', (req, res, next) => {
@@ -336,8 +337,8 @@ router.get('/del-order-item/:id', verifyLogin, (req, res, next) => {
   })
 })
 
-router.get('/place_order',verifyLogin,(req,res)=>{
-    res.redirect('/')
+router.get('/place_order', verifyLogin, (req, res) => {
+  res.redirect('/')
 
 })
 
@@ -362,9 +363,20 @@ router.get('/view_order_products/:id', verifyLogin, async (req, res, next) => {
 
 router.get('/invoice/:id', verifyLogin, async (req, res, next) => {
   await userHelper.getrOrderProducts(req.params.id).then(async (products) => {
-    await userHelper.getSingleOrder(req.params.id).then((order) => {
-
-      res.render('users/invoice', { user_head: true, user, order, products })
+    await userHelper.getSingleOrder(req.params.id).then(async (order) => {
+      //console.log(order,"::::::::::::::::::;");
+      await userHelper.totalWithCoupen(order.deliveryDetails.coupen).then((coupon) => {
+        let disc = coupon.coupendiscount
+        let totalAmount
+        if (disc != undefined) {
+          totalAmount = parseInt(order.deliveryDetails.totalAmount) - parseInt(disc)
+        } else {
+          disc = "0.00"
+          totalAmount = order.deliveryDetails.totalAmount
+        }
+        let date=new Date()
+        res.render('users/invoice', { user_head: true, user, order, products,date, disc, totalAmount })
+      })
     }).catch((err) => {
       next(err)
     })
@@ -580,18 +592,18 @@ router.get('/buy_now/:id', verifyLogin, async (req, res, next) => {
     await userHelper.getAddressFromOrderList(user._id).then(async (address) => {
       await userHelper.getAllShipAddress(user._id).then((shipAddressList) => {
         buynow = true
-          res.render('users/place_order', { user_head: true, user, total, id, address, shipAddressList })
-      
+        res.render('users/place_order', { user_head: true, user, total, id, address, shipAddressList })
+
       }).catch((err) => {
         next(err)
       })
+    }).catch((err) => {
+      next(err)
+    })
+
   }).catch((err) => {
     next(err)
   })
-
-}).catch((err) => {
-  next(err)
-})
 })
 
 
@@ -606,9 +618,9 @@ router.post('/place_order', verifyLogin, async (req, res, next) => {
 
             if (coupen != 0) {
               total = (parseInt(total) - parseInt(coupen.coupendiscount))
-            }            
-              res.render('users/place_order', { user_head: true, user, total, address, coupen, shipAddressList })
-            
+            }
+            res.render('users/place_order', { user_head: true, user, total, address, coupen, shipAddressList })
+
           }).catch((err) => {
             next(err)
           })
@@ -643,7 +655,7 @@ router.post('/checkout', async (req, res, next) => {
       userHelper.placeOrder(user._id, req.body, products, totalPrice).then((orderID) => {
         buynow = false
         if (req.body['payment-method'] === 'COD') {
-          
+
           res.json({ codSuccess: true })
           res.redirect('/order')
         }
@@ -672,13 +684,13 @@ router.post('/checkout', async (req, res, next) => {
           }
           userHelper.placeOrder(user._id, req.body, products, totalPrice).then((orderID) => {
             if (req.body['payment-method'] === 'COD') {
-              
+
               res.json({ codSuccess: true })
               res.redirect('/order')
             }
             else {
               userHelper.generateRazorPay(orderID, totalPrice).then((response) => {
-                
+
                 res.json(response)
               }).catch((err) => {
                 next(err)

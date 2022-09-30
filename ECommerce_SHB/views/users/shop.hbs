@@ -23,8 +23,8 @@
 
 					<div class="col">
 						{{!-- <input type="text" id="categoryID" name="category" onkeyup=""> --}}
-						<select class="form-select" aria-label="Default select example" name="category" id="categoryID">
-							<option selected>Select Category</option>
+						<select class="form-select" aria-label="Default select example" name="category" id="categoryID" required>
+							<option selected>Select category</option>
 							{{#each category}}
 							<option value="{{this._id}}">{{this.name}}</option>
 							{{/each}}
@@ -91,7 +91,7 @@
 					</li>
 					<li>
 						<i class="fa fa-phone fa-fw"></i>
-						<a class="text-decoration-none" href="tel:010-020-0340">+91 9746 182 666</a>
+						<a class="text-decoration-none" href="tel:010-020-0340">+00 000 000 0000</a>
 					</li>
 					<li>
 						<i class="fa fa-envelope fa-fw"></i>

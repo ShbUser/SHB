@@ -2,19 +2,19 @@
 
     <section>
         <div class="d-flex justify-content-center editColor">
-            <form action="/admin/update_product/{{product._id}}" method="post" enctype="multipart/form-data">
+            <form action="/admin/update_product/{{product._id}}" method="post" id="editproduct" enctype="multipart/form-data">
                 <p>Update &nbsp;<span><b><u>Products</u></b></span> </p>
 
                 <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="Name"
-                    value="{{product.name}}" required>
+                    value="{{product.name}}" >
                 <br>
                 <input type="number" class="form-control" id="price" name="price" placeholder="" min="1" step="1"
-                    value="{{product.price}}" required>
+                    value="{{product.price}}" >
                 {{!-- <input type="text" class="form-control" id="inputAddress" name="price" placeholder="Price"
                     required> --}}
                 <br>
                 <input type="text" class="form-control" id="inputAddress" placeholder="Size" name="size"
-                    value="{{product.size}}" required>
+                    value="{{product.size}}" >
                 <br>
                 <select class="form-select" aria-label="Default select example" name="category"
                     style="border-color: blue;">
@@ -30,14 +30,14 @@
 
 
                 <br>
-                <input type="number" class="form-control" id="qty" placeholder="" min="0" step="1" name="qty"
+                <input type="text" class="form-control" id="qty" placeholder=""  name="qty"
                     value="{{product.qty}}"><br>
                 {{!-- <input type="text" class="form-control" id="inputAddress" placeholder="Qauantity" name="qty"
                     value="{{product.qty}}" required>
                 <br> --}}
 
                 <input type="text" class="form-control" id="inputCity" placeholder="Description" name="description"
-                    value="{{product.description}}" required>
+                    value="{{product.description}}" >
                 <br>
                 <label for="inputCity" class="form-label">Image</label>
 
@@ -48,7 +48,7 @@
                 <input class="form-control" type="file" id="img" name="img" multiple onchange=" previewFile(event)" required>
 
                 <div><button type="submit" class="btn btn-outline-success mt-2"><i
-                            class="fa-solid fa-cloud-arrow-up"></i>Update</button></div>
+                            class="fa-solid fa-cloud-arrow-up"></i>Update</button></div><br>
             </form>
         </div>
 
@@ -59,4 +59,39 @@
     function previewFile(event) {
         document.getElementById('preview').src = URL.createObjectURL(event.target.files[0])
     }
+
+$(document).ready(function () {
+        $("#editproduct").validate({
+            rules: {
+                name: {
+                    required: true,
+                    lettersonly: true
+
+                },
+                price: {
+                    required: true,
+                    number:true
+                },
+                size: {
+                    required: true
+                    
+                },
+                category: {
+                    required: true
+                    
+                },
+                qty: {
+                   required: true,
+                    number:true
+                },
+                description:{
+                    required:true
+                }
+            }
+        })
+
+    })
+
+
+
 </script>
