@@ -3,7 +3,7 @@ const MongoClient=require('mongodb').MongoClient;
 const state={ db:null }
 
 module.exports.connect=function(done){
-    const url=process.env.DATABASE_URL
+    const url='mongodb://localhost:27017'
     const dbname='ECommerce_SHB'
 
     MongoClient.connect(url,(err,data)=>{
