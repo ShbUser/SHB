@@ -405,6 +405,7 @@ router.post('/login', (req, res, next) => {
     if (response.status) {
       req.session.user = response.user
       req.session.userLoggedIn = true
+     
       user = req.session.user
       res.redirect('/')
     }
