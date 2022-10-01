@@ -12,9 +12,9 @@ const { redirect } = require('express/lib/response');
 const multer = require('multer')
 let fs = require('fs');
 
-let user
-let getImg
-let buynow = false
+// let user
+//let getImg
+//let buynow = false
 
 
 const storage = multer.diskStorage({
@@ -50,12 +50,12 @@ const upload1 = multer({ storage: storage1 })
 const verifyLogin = (req, res, next) => {
 
   if (req.session.userLoggedIn) {
-    userHelper.isBlock(user._id).then((response) => {
+    userHelper.isBlock(req.session.user._id).then((response) => {
       if (response.status) {
         // scrpt.isBlock()          
-        res.render('users/user_blocked', { user_head: true, user })
+        res.render('users/user_blocked', { user_head: true, user:req.session.user })
         req.session.destroy()
-        user = null
+        // user = null
 
       } else { next() }
     })
@@ -67,19 +67,20 @@ const verifyLogin = (req, res, next) => {
 router.get('/', async (req, res, next) => {
 
   let cartCount = 0
-  if (req.session.userLoggedIn) {
-    user = req.session.user
-  }
+  // if (req.session.userLoggedIn) {
+  //   console.log("22222222222222222222");
+  //  let user = req.session.user
+  // } 
   await productHelper.getAllProducts().then(async (products) => {
     await adminHelper.getAllBanners().then(async (banner) => {
-      if (user) {
+      if (req.session.userLoggedIn ) {
         await productHelper.getCountCart(req.session.user._id).then(async (cartcount) => {
           cartCount = cartcount
         }).catch((err) => {
           next(err)
         })
       }
-      res.render('users/home', { title: 'shb', user, user_head: true, cartCount, products, banner });
+      res.render('users/home', { title: 'shb', user:req.session.user , user_head: true, cartCount, products, banner });
 
     }).catch((err) => {
       next(err)
@@ -100,7 +101,7 @@ router.get('/login', (req, res, next) => {
     if (req.session.user) {
       res.redirect('/')
     } else {
-      res.render('users/login', { "loginErr": req.session.userLoginErr, user_head: true, user })
+      res.render('users/login', { "loginErr": req.session.userLoginErr, user_head: true, user:req.session.user })
       req.session.userLoginErr = false
     }
   } catch (error) {
@@ -109,7 +110,7 @@ router.get('/login', (req, res, next) => {
 })
 
 router.get('/contact', (req, res) => {
-  res.render('users/contact', { user_head: true, user })
+  res.render('users/contact', { user_head: true, use:req.session.user })
 })
 
 router.get('/signup', (req, res, next) => {
@@ -123,29 +124,33 @@ router.get('/signup', (req, res, next) => {
 router.get('/view_product/:id', async (req, res, next) => {
   let cartCount = 0
   await productHelper.getSingleProduct(req.params.id).then(async (product) => {
-    if (user) {
+    if (req.session.userLoggedIn) {
       await productHelper.getCountCart(req.session.user._id).then((cartcount) => {
         cartCount = cartcount
       }).catch((err) => {
         next(err)
       })
     }
-    res.render('users/view_product', { user_head: true, user, product, cartCount })
+  
+    res.render('users/view_product', { user_head: true, user:req.session.user , product, cartCount })
   }).catch((err) => {
     next(err)
   })
 })
 
 router.get('/shop', async (req, res, next) => {
-  let cartCount = 0
+  let user,cartCount = 0
   await productHelper.getCategory().then(async (category) => {
     await productHelper.getAllProducts().then(async (products) => {
-      if (user) {
+      if (req.session.userLoggedIn) {
         await productHelper.getCountCart(req.session.user._id).then((cartcount) => {
           cartCount = cartcount
         }).catch((err) => {
           next(err)
         })
+      }
+      if (req.session.userLoggedIn) {
+        user=req.session.user
       }
       res.render('users/shop', { user_head: true, cartCount, category, user, products })
     }).catch((err) => {
@@ -172,6 +177,8 @@ router.get('/add-to-cart/:id', verifyLogin, (req, res, next) => {
     next(err)
   })
 })
+
+
 router.get('/wishlist', verifyLogin, async (req, res, next) => {
   let cartCount = 0
   await userHelper.getWishlist(user._id).then(async (products) => {
@@ -193,7 +200,7 @@ router.get('/add_to_wishlist/:id', verifyLogin, (req, res, next) => {
     if (wishItem == -1) {
       res.json({ status: true })
     } else {
-      res.json({ status: false, user })
+      res.json({ status: false, user:req.session.user })
     }
 
   }).catch((err) => {
@@ -225,7 +232,7 @@ router.get('/user_profile', verifyLogin, async (req, res, next) => {
         next(err)
       })
     }
-    getImg = personalDet.photo;
+    req.session.getImg = personalDet.photo;
     res.render('users/user_profile', { user_head: true, cartCount, user, personalDet })
   }).catch((err) => {
     next(err)
@@ -255,7 +262,9 @@ router.get('/del-ship-address/:id', verifyLogin, (req, res, next) => {
 })
 
 router.get('/cart', verifyLogin, async (req, res, next) => {
-  if (user) {
+  let user
+  if (req.session.userLoggedIn) {
+    user=req.session.user
     await productHelper.getCountCart(req.session.user._id).then(async (cartCount) => {
       await userHelper.getCartProducts(req.session.user._id).then(async (products) => {
         await adminHelper.getAllCoupens().then(async (coupens) => {
@@ -343,7 +352,7 @@ router.get('/place_order', verifyLogin, (req, res) => {
 
 router.get('/order', verifyLogin, async (req, res, next) => {
   await userHelper.getOrder(req.session.user._id).then((order) => {
-    res.render('users/order', { user_head: true, user, order })
+    res.render('users/order', { user_head: true, user:req.session.user, order })
   }).catch((err) => {
     next(err)
   })
@@ -374,7 +383,8 @@ router.get('/invoice/:id', verifyLogin, async (req, res, next) => {
           totalAmount = order.deliveryDetails.totalAmount
         }
         let date=new Date()
-        res.render('users/invoice', { user_head: true, user, order, products,date, disc, totalAmount })
+
+        res.render('users/invoice', { user_head: true, user:req.session.user, order, products,date, disc, totalAmount })
       })
     }).catch((err) => {
       next(err)
@@ -405,7 +415,7 @@ router.post('/login', (req, res, next) => {
       req.session.user = response.user
       req.session.userLoggedIn = true
      
-      user = req.session.user
+      // user = req.session.user
       res.redirect('/')
     }
     else {
@@ -460,7 +470,7 @@ router.post('/signUpOtpVerify', (req, res, next) => {
     if (check === 'approved') {
       req.session.user.isBlock = false
       userHelper.doSignUp(req.session.user).then((data) => {
-        user = req.session.user
+        // user = req.session.user
         req.session.userLoggedIn = true
         response.status = true
         res.json({ status: true })
@@ -479,17 +489,19 @@ router.post('/signUpOtpVerify', (req, res, next) => {
 })
 
 router.post('/search_product', async (req, res, next) => {
-  let cartCount = 0
+  let user,cartCount = 0
   await productHelper.getCategory().then(async (category) => {
     await productHelper.getProductByCategory(req.body.category).then(async (products) => {
-      if (user) {
+      if (req.session.userLoggedIn) {
         await productHelper.getCountCart(req.session.user._id).then((cartcount) => {
           cartCount = cartcount
         }).catch((err) => {
           next(err)
         })
       }
-      //console.log(products,">>>>>>>>>>>>>>>>>>>");
+      if (req.session.userLoggedIn) {
+       user=req.session.user
+      }
       res.render('users/shop', { user_head: true, cartCount, category, user, products })
     }).catch((err) => {
       next(err)
@@ -521,8 +533,8 @@ router.post('/updateProfilePic/:id', verifyLogin, upload1.single('img'), (req, r
   userHelper.setProfilepiC(req.file.filename, user._id).then((response) => {
     req.session.user.photo = req.file.filename
     user.photo = req.file.filename
-    if (getImg != null) {
-      fs.unlink("./public/product-images/" + getImg, (err) => {
+    if (req.session.getImg != null) {
+      fs.unlink("./public/product-images/" + req.session.getImg, (err) => {
         if (err) {
           throw err;
         }
@@ -558,7 +570,7 @@ router.post('/edit_password/:id', (req, res) => {
     if (response.status) {
       res.json({ status: true })
       req.session.destroy()
-      user = null
+      // user = null
     }
     else {
       res.json({ status: false })
@@ -589,10 +601,11 @@ router.get('/buy_now/:id', verifyLogin, async (req, res, next) => {
   await productHelper.getSingleProduct(req.params.id).then(async (product) => {
     total = product.price
     id = product._id
-    await userHelper.getAddressFromOrderList(user._id).then(async (address) => {
-      await userHelper.getAllShipAddress(user._id).then((shipAddressList) => {
-        buynow = true
-        res.render('users/place_order', { user_head: true, user, total, id, address, shipAddressList })
+    await userHelper.getAddressFromOrderList(req.session.user._id).then(async (address) => {
+      await userHelper.getAllShipAddress(req.session.user._id).then((shipAddressList) => {
+        req.session.buynow = true
+       
+        res.render('users/place_order', { user_head: true, user:req.session.user , total, id, address, shipAddressList })
 
       }).catch((err) => {
         next(err)
@@ -609,17 +622,17 @@ router.get('/buy_now/:id', verifyLogin, async (req, res, next) => {
 
 
 router.post('/place_order', verifyLogin, async (req, res, next) => {
-  buynow = false
+  req.session.buynow = false
   await userHelper.getTotalAmount(req.session.user._id).then(async (total) => {
     if (total != 0) {
       await userHelper.totalWithCoupen(req.body.coupon).then(async (coupen) => {
-        await userHelper.getAddressFromOrderList(user._id).then(async (address) => {
-          await userHelper.getAllShipAddress(user._id).then((shipAddressList) => {
+        await userHelper.getAddressFromOrderList(req.session.user._id).then(async (address) => {
+          await userHelper.getAllShipAddress(req.session.user._id).then((shipAddressList) => {
 
             if (coupen != 0) {
               total = (parseInt(total) - parseInt(coupen.coupendiscount))
             }
-            res.render('users/place_order', { user_head: true, user, total, address, coupen, shipAddressList })
+            res.render('users/place_order', { user_head: true, user:req.session.user , total, address, coupen, shipAddressList })
 
           }).catch((err) => {
             next(err)
@@ -648,12 +661,13 @@ router.post('/checkout', async (req, res, next) => {
   let totalPrice = 0
   let products = []
   // products = 0
-  if (buynow) {
+  if (req.session.buynow) {
+   
     await productHelper.getSingleProduct(req.body.proid).then(async (product) => {
       products[0] = { item: product._id, quantity: 1 }
       totalPrice = product.price
-      userHelper.placeOrder(user._id, req.body, products, totalPrice).then((orderID) => {
-        buynow = false
+      userHelper.placeOrder(req.session.user._id, req.body, products, totalPrice).then((orderID) => {
+        req.session.buynow = false
         if (req.body['payment-method'] === 'COD') {
 
           res.json({ codSuccess: true })
@@ -676,13 +690,14 @@ router.post('/checkout', async (req, res, next) => {
 
   }
   else {
-    await userHelper.getCartProductList(user._id).then(async (products) => {
-      await userHelper.getTotalAmount(user._id).then(async (totalPrice) => {
+    
+    await userHelper.getCartProductList(req.session.user._id).then(async (products) => {
+      await userHelper.getTotalAmount(req.session.user._id).then(async (totalPrice) => {
         await userHelper.totalWithCoupen(req.body.coupencode).then((coupen) => {
           if (coupen != 0) {
             totalPrice = (parseInt(totalPrice) - parseInt(coupen.coupendiscount))
           }
-          userHelper.placeOrder(user._id, req.body, products, totalPrice).then((orderID) => {
+          userHelper.placeOrder(req.session.user._id, req.body, products, totalPrice).then((orderID) => {
             if (req.body['payment-method'] === 'COD') {
 
               res.json({ codSuccess: true })
@@ -736,10 +751,10 @@ router.post('/verify-payment', (req, res) => {
 //.....................................................................................
 router.get('/logout', (req, res) => {
   req.session.destroy()
-  user = null
-  getImg = null
-  buynow = false
-  is_checkout = false
+  // user = null
+  // getImg = null
+  // buynow = false
+  // is_checkout = false
   res.redirect('/')
 })
 

@@ -94,7 +94,7 @@ router.get('/add_products', verifyLogin, async (req, res, next) => {
         // console.log(category);
         res.render('admin/add_products', { admin: true, category })
     }).catch((err) => {
-        next(err)
+        next(err)       
     })
 })
 
@@ -110,7 +110,8 @@ router.get('/view_products', verifyLogin, (req, res, next) => {
     productHelper.getAllProducts().then((products) => {
         res.render('admin/view_products', { admin: true, products });
     }).catch((err) => {
-        next(err)
+         next(err)
+         
     })
 
 })
@@ -121,6 +122,7 @@ router.get('/status_Shipped/:id', verifyLogin, async (req, res, next) => {
         res.json({ status: true })
     }).catch((err) => {
         next(err)
+        
     })
 })
 
@@ -145,6 +147,7 @@ router.get('/admin_view_order_products/:id', verifyLogin, async (req, res, next)
         res.render('admin/admin_view_order_products', { admin: true, products })
     }).catch((err) => {
         next(err)
+        // res.render('admin/admin_err')
     })
 })
 
