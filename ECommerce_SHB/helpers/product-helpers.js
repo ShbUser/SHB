@@ -1,6 +1,6 @@
 
 const { ObjectId } = require('mongodb')
-let db = require('../config/Connection')
+let db = require('../config/connection')
 let collection = require('../config/collections')
 const collections = require('../config/collections')
 const { promise } = require('bcrypt/promises')

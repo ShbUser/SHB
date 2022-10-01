@@ -5,7 +5,7 @@ let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 let session = require('express-session');
-let db = require('./config/Connection');
+let db = require('./config/connection');
 let hbs = require('express-handlebars')
 
 let usersRouter = require('./routes/users');
