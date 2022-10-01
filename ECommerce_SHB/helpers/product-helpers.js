@@ -40,14 +40,14 @@ module.exports = {
     getAllProducts: () => {
         return new Promise(async (resolve, reject) => {
             try {
-                
+
                 let product = await db.get().collection(collection.PRODUCT_COLLECTION).aggregate(
                     [
                         {
                             $set: {
                                 'category': { '$toObjectId': '$category' }
                             }
-                        },                        
+                        },
                         {
                             $lookup: {
                                 from: collection.CATEGORY_COLLECTION,
@@ -57,7 +57,7 @@ module.exports = {
                             }
                         }
                     ]).toArray()
-                    //console.log(product);
+                //console.log(product);
                 resolve(product)
             } catch (error) {
                 reject(error)
@@ -190,7 +190,6 @@ module.exports = {
                 let cart = await db.get().collection(collection.CART_COLLECTION).findOne({ user: objectID(userID) })
                 if (cart != null) {
                     cart = cart.product.length
-
                     resolve(cart)
                 } else {
                     resolve(0)
@@ -204,9 +203,9 @@ module.exports = {
 
     getProductByCategory: (cat) => {
         return new Promise(async (resolve, reject) => {
-            try {            
-                let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({category:cat}).toArray()
-                
+            try {
+                let products = await db.get().collection(collection.PRODUCT_COLLECTION).find({ category: cat }).toArray()
+
                 resolve(products)
             } catch (error) {
                 reject(error)

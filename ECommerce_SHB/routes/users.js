@@ -73,7 +73,6 @@ router.get('/', async (req, res, next) => {
   await productHelper.getAllProducts().then(async (products) => {
     await adminHelper.getAllBanners().then(async (banner) => {
       if (user) {
-        //console.log(user,"valllllllllllllllllllllllllll");
         await productHelper.getCountCart(req.session.user._id).then(async (cartcount) => {
           cartCount = cartcount
         }).catch((err) => {

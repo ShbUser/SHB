@@ -3,51 +3,37 @@
     <img src="/assets/img/carbnnr.jpg" width="100%" height="300">
 
     <div class="container"><br>
-        {{!-- <div style="background-color: aliceblue; border: 1px solid darkblue ;">
-            <p class="text-center">The Cart is a temporary place to store a list of your items and reflects each item's
-                most recent price.
-
-                Do you have a gift card or promotional code? Just check on promotion link.</p>
-        </div> --}}
 
         <div class="row">
             <div class="col-12 col-md-9 col-lg-9 col-xl-9 ">
-                <table class="w-100 " style="border-collapse: separate;border-spacing:0 10px ; ">
+                <table class="w-100" style="border-collapse: separate;border-spacing:0 10px ; ">
 
                     <tbody>
-
                         {{#each products}}
                         <tr>
 
-                            <td><img class="" width="160px" height="160px" style="border-radius: 1mm; border: 1px solid rgb(240, 240, 240)"
+                            <td><img class="" width="160px" height="160px"
+                                    style="border-radius: 1mm; border: 1px solid rgb(240, 240, 240)"
                                     src="/product-images/{{this.product.myimg.[0]}}" alt="">
-                            </td>
-
-                            <td> <label class="text-success fw-bold">Name : </label>{{this.product.name}}<br>
-                                <label class="text-success fw-bold">Category : </label>{{this.category.name}}<br>
+                                <div><label class="text-success fw-bold">Name : </label>{{this.product.name}}</div>
+                                <div><label class="text-success fw-bold">Category : </label>{{this.category.name}}</div>
 
                             </td>
-
 
                             <td>
+
                                 <label class="text-success fw-bold">Size : </label>{{this.product.size}}<br>
-                                <label class="text-success fw-bold">Price : </label>Rs: {{this.product.price}}
+                                <div><label class="text-success fw-bold">Price : </label>Rs: {{this.product.price}}</div>
+                                <br>
+                                <button class="btn btn-success"
+                                    onclick="changeQty('{{this._id}}','{{this.product._id}}',-1,this)">-</button>
+
+                                <span id="{{this.product._id}}"> {{this.quantity}}</span>
+
+                                <button class="btn btn-success"
+                                    onclick="changeQty('{{this._id}}','{{this.product._id}}',1,this)"> +</button>
                             </td>
 
-
-
-                            <td><label class="text-success fw-bold">Quantity : </label>
-                                <div class="border-2 border-primary">
-
-                                    <button class="btn btn-success"
-                                        onclick="changeQty('{{this._id}}','{{this.product._id}}',-1,this)">-</button>
-
-                                    <span id="{{this.product._id}}"> {{this.quantity}}</span>
-
-                                    <button class="btn btn-success"
-                                        onclick="changeQty('{{this._id}}','{{this.product._id}}',1,this)"> +</button>
-
-                                </div>
             </div>
             </td>
             <td><button class="btn btn-danger border-0" onclick="delCartItem('{{this.product._id}}',this)"><i
