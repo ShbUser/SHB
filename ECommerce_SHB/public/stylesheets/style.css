@@ -16,8 +16,12 @@ body{
 .list-group{
     width: 70%;
 }
+.datatablescroll {
+    /* height:150px; */
+    overflow-x: scroll;
+  }
 
-
+  
 /* ........................user side................................. */
 .errPage{
     background-image: url("/assets/img/err1.jpg");
@@ -28,12 +32,14 @@ body{
 }
 .lognMdfy{
 
-    background-image: url("/assets/img/banner2.webp");
-    height: 47em;
-    background-size: cover;
+    /* background-image: url("/assets/img/banner2.webp"); */
+    /* height: 47em; */
+    /* background-size: cover; */
    
+   margin-top: 12em;
     font-size: smaller;
 }
+
 
 .editColor input{    
     border-bottom-color: blue;
@@ -58,9 +64,7 @@ body{
 .userHead{
     margin-top: 2.5em;
 }
-.loginMargin{
-    margin-top: 25em;
-}
+
 
 .bdrShdw{
     

@@ -369,6 +369,45 @@ async function delProduct(prodID,myImg, obj) {
 
 }
 
+async function blockUser(userID) {
+    swal({
+        title: "Are you sure?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+    }).then(async (willDelete) => {
+        if (willDelete) {
+            await axios.get('/admin/block-user/' +userID).then((e) => {
+                if (e.data.status) {
+                    swal("Blocked", "", "success")
+                    location.reload()
+                }
+            })
+        } 
+    })
+
+}
+
+async function unBlockUser(userID) {
+    swal({
+        title: "Are you sure?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+    }).then(async (willDelete) => {
+        if (willDelete) {
+            await axios.get('/admin/unblock-user/' + userID).then((e) => {
+                if (e.data.status) {
+                    swal("Blocked", "", "success")
+                    location.reload()
+                }
+            })
+        } 
+    })
+
+}
+
+
 async function delBanner(bannerID, obj) {
     swal({
         title: "Are you sure?",
@@ -490,9 +529,33 @@ function delOrderItems(prodID, obj) {
                         // location.href='/order'
                     }
                 })
-            } else {
-                swal("Your imaginary file is safe!");
-            }
+            } 
+        });
+}
+
+function delOrderItemsAdmin(prodID, obj) {
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this imaginary file!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then(async (willDelete) => {
+            if (willDelete) {
+                await axios.get('/admin/del-order-item/' + prodID).then((e) => {
+                    if (e.data.status) {
+
+                        swal("Order Cancelled", "", "success");
+                        $(obj).closest('tr').remove()
+                        // document.getElementById('total-price').innerHTML=e.data.total
+                    }
+                    else {
+                        swal("Can't delete Shipped order", "", "success");
+                        // location.href='/order'
+                    }
+                })
+            } 
         });
 }
 

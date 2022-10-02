@@ -14,6 +14,7 @@ const client = require('twilio')(accountSid, authToken);
 
 const Razorpay = require('razorpay');
 const res = require('express/lib/response')
+const { count } = require('console')
 let instance = new Razorpay({
     key_id: process.env.key_id,
     key_secret: process.env.key_secret,
@@ -611,7 +612,8 @@ module.exports = {
                     })
                 } else {
                     let checkQty = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: objectID(details.proID) })
-                    if (checkQty.qty > details.quantity) {
+                    console.log(checkQty.qty,"  ",details.quantity,"  ",details.count);
+                    if (checkQty.qty > details.quantity && details.count==1 || details.count==-1) {
                         db.get().collection(collection.CART_COLLECTION).updateOne({
                             _id: objectID(details.cartID),
                             'product.item': objectID(details.proID)

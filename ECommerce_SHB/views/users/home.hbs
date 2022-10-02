@@ -1,5 +1,5 @@
 <!-- Start Banner SHB -->
-<div class="row">
+<div class="row mt-4">
 	<div class="col-12 col-md-12 col-lg-12 col-xl-12">
 
 		<div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
@@ -7,13 +7,13 @@
 				{{#each banner}}
 				<div class=" carousel-item {{#if @first}} active {{/if}}">
 					<div style="height: 10em; background-size: cover;">
-						<img class="img-fluid" src="/banner-images/{{this.bannerImg}}" alt="" width="100%">
+						<img class="img-fluid" src="/banner-images/{{this.bannerImg}}" alt="" width="100%" >
 					</div>
-					<div class=" mb-0 ms-5 d-flex align-items-center" style="z-index: 1; position: absolute;">
+					<div class=" d-flex align-items-center" style="z-index: 1;">
 						<div class="text-align-left align-self-center text-white">
-							<h1 class="h1 text-success"><b>SHB</b> eCommerce</h1>
-							<h2 class="h1">{{this.header}}</h2>
-							<h2 class="h1">{{this.content}}</h2>
+							<h1 class="ms-5 h1 text-success"><b>SHB</b> eCommerce</h1>
+							<h2 class="ms-5 h1">{{this.header}}</h2>
+							<h2 class="ms-5 h1">{{this.content}}</h2>
 						</div>
 					</div>
 

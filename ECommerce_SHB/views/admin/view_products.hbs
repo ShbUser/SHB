@@ -1,17 +1,20 @@
-<div class="container">
+<div class="container mt-5">
 
-    <div class="row">
-        <div class="col-12 col-md-12 col-xl-12 offset-10 ">
-            <a href="/admin/add_products" class="btn btn-outline-success border-0"><i
-                    class="fa-solid fa-file-circle-plus"></i>Add Products</a>
-        </div>
+    <div class="row text-center">
+        <div>
+        <a href="/admin/add_products" class="btn btn-outline-success"><i class="fa-solid fa-file-circle-plus"></i>Add
+            Products</a>
+            </div>
     </div>
 
     <section>
 
         <div class="row d-flex justify-content-center bdrShdw">
+            <div class="col-3 col-md-2 col-lg-2 col-xl-2 ">
 
-            <div class="col-7 col-md-7 col-lg-9 col-xl-9 ">
+            </div>
+
+            <div class="col-9 col-md-10 col-lg-10 col-xl-10 datatablescroll">
 
                 <table class="table-responsive" style="width: 68em;" id="productsJS">
                     <thead class="bg-success text-center">
@@ -27,7 +30,7 @@
                             <th>Options</th>
                         </tr>
                     </thead>
-                    <tbody class="text-center">
+                    <tbody class="">
                         {{#each products}}
                         <tr class="text-success">
 
@@ -39,10 +42,11 @@
                             <td>{{this.description}}</td>
                             <td>{{this.category.[0].name}}</td>
                             {{!-- <div style=""> --}}
-                                <td><img style="width: 70px; height: 80px;border-radius: 1mm; border: 5px solid rgb(229, 221, 221)" src="/product-images/{{this.myimg.[0]}}"
-                                        alt="image">
+                                <td><img style="width: 70px; height: 80px;border-radius: 1mm; border: 5px solid rgb(229, 221, 221)"
+                                        src="/product-images/{{this.myimg.[0]}}" alt="image">
                                 </td>
-                            {{!-- </div> --}}
+                                {{!--
+                            </div> --}}
                             <td>
                                 <a href="/admin/edit_products/{{this._id}}"
                                     class="btn btn-outline-success border-0">Edit <i
