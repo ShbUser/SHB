@@ -182,14 +182,14 @@ router.get('/add-to-cart/:id', verifyLogin, (req, res, next) => {
 router.get('/wishlist', verifyLogin, async (req, res, next) => {
   let cartCount = 0
   await userHelper.getWishlist(user._id).then(async (products) => {
-    if (user) {
+    if (req.session.userLoggedIn) {
       await productHelper.getCountCart(req.session.user._id).then((cartcount) => {
         cartCount = cartcount
       }).catch((err) => {
         next(err)
       })
     }
-    res.render('users/wishlist', { user_head: true, cartCount, user, products })
+    res.render('users/wishlist', { user_head: true, cartCount, user:req.session.user, products })
   }).catch((err) => {
     next(err)
   })
@@ -224,23 +224,23 @@ router.get('/del-wish-item/:id', verifyLogin, (req, res, next) => {
 
 router.get('/user_profile', verifyLogin, async (req, res, next) => {
   let cartCount = 0
-  await userHelper.getPersonalDetails(user._id).then(async (personalDet) => {
-    if (user) {
+  await userHelper.getPersonalDetails(req.session.user._id).then(async (personalDet) => {
+    if (req.session.userLoggedIn) {
       await productHelper.getCountCart(req.session.user._id).then((cartcount) => {
         cartCount = cartcount
       }).catch((err) => {
         next(err)
       })
     }
-    req.session.getImg = personalDet.photo;
-    res.render('users/user_profile', { user_head: true, cartCount, user, personalDet })
+    req.session.user.getImg = personalDet.photo;
+    res.render('users/user_profile', { user_head: true, cartCount, user:req.session.user, personalDet })
   }).catch((err) => {
     next(err)
   })
 })
 
 router.get('/edit_ship_address/:id', verifyLogin, (req, res, next) => {
-  userHelper.getShipAddress(user._id, req.params.id).then((shipAddress) => {
+  userHelper.getShipAddress(req.session.user._id, req.params.id).then((shipAddress) => {
     res.json({ status: true, shipAddress: shipAddress })
     // console.log(shipAddress);
   }).catch((err) => {
@@ -249,7 +249,7 @@ router.get('/edit_ship_address/:id', verifyLogin, (req, res, next) => {
 })
 
 router.get('/del-ship-address/:id', verifyLogin, (req, res, next) => {
-  userHelper.deleteShipAddress(req.params.id, user._id).then((response) => {
+  userHelper.deleteShipAddress(req.params.id, req.session.user._id).then((response) => {
     if (response.deletedCount != 0)
       res.json({ status: true })
     else
@@ -291,9 +291,9 @@ router.get('/cart', verifyLogin, async (req, res, next) => {
 router.get('/apply_coupon/:id', verifyLogin, (req, res, next) => {
   let total
   let discount, target
-  userHelper.getTotalAmount(user._id).then((totalAmt) => {
+  userHelper.getTotalAmount(req.session.user._id).then((totalAmt) => {
     total = parseInt(totalAmt)
-    userHelper.isUserValidForCoupen(user._id, req.params.id).then((inValid) => {
+    userHelper.isUserValidForCoupen(req.session.user._id, req.params.id).then((inValid) => {
       if (inValid) {
         res.json({ inValid: true })
       }
@@ -362,7 +362,7 @@ router.get('/order', verifyLogin, async (req, res, next) => {
 
 router.get('/view_order_products/:id', verifyLogin, async (req, res, next) => {
   await userHelper.getrOrderProducts(req.params.id).then((products) => {
-    res.render('users/view_order_products', { user_head: true, user, products })
+    res.render('users/view_order_products', { user_head: true, user:req.session.user, products })
   }).catch((err) => {
     next(err)
   })
@@ -530,11 +530,11 @@ router.post('/add_personalDet/:id', verifyLogin, (req, res, next) => {
 })
 router.post('/updateProfilePic/:id', verifyLogin, upload1.single('img'), (req, res, next) => {
   //if(req.file === undefined) req.file.filename=getImg
-  userHelper.setProfilepiC(req.file.filename, user._id).then((response) => {
+  userHelper.setProfilepiC(req.file.filename, req.session.user._id).then((response) => {
     req.session.user.photo = req.file.filename
-    user.photo = req.file.filename
-    if (req.session.getImg != null) {
-      fs.unlink("./public/product-images/" + req.session.getImg, (err) => {
+    //req.session.user.photo = req.file.filename
+    if (req.session.user.getImg != null) {
+      fs.unlink("./public/user-images/" + req.session.user.getImg, (err) => {
         if (err) {
           throw err;
         }
@@ -547,7 +547,7 @@ router.post('/updateProfilePic/:id', verifyLogin, upload1.single('img'), (req, r
 })
 
 router.post('/add_shipping_address', (req, res, next) => {
-  userHelper.addEditShippingAddress(req.body, user._id).then((response) => {
+  userHelper.addEditShippingAddress(req.body, req.session.user._id).then((response) => {
     // res.json({ status: true })
     res.redirect('/user_profile')
   }).catch((err) => {
@@ -556,7 +556,7 @@ router.post('/add_shipping_address', (req, res, next) => {
 
 })
 router.post('/edit_shipping_address/:id', (req, res, next) => {
-  userHelper.editShippingAddress(req.body, user._id, req.params.id).then((response) => {
+  userHelper.editShippingAddress(req.body, req.session.user._id, req.params.id).then((response) => {
     res.json({ status: true })
   }).catch((err) => {
     next(err)
@@ -751,10 +751,6 @@ router.post('/verify-payment', (req, res) => {
 //.....................................................................................
 router.get('/logout', (req, res) => {
   req.session.destroy()
-  // user = null
-  // getImg = null
-  // buynow = false
-  // is_checkout = false
   res.redirect('/')
 })
 

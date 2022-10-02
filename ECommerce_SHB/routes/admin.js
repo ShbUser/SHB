@@ -10,8 +10,8 @@ let fs = require('fs');
 const { resolve } = require('path');
 const { reject } = require('promise');
 
-let imgArr = []
-let edit_Banner_ID, edit_coupen_ID, banner_img
+//let imgArr = []
+// let edit_Banner_ID, edit_coupen_ID, banner_img
 
 const verifyLogin = (req, res, next) => {
     if (req.session.adminLoggedIn) {
@@ -180,8 +180,8 @@ router.get('/delete_category/:id', verifyLogin, (req, res, next) => {
 router.get('/delete_products/:id/:imgs', verifyLogin, (req, res, next) => {
     productHelper.deleteProduct(req.params.id).then((id) => {
 
-        imgArr = req.params.imgs.split(",")
-        imgArr.forEach(element => {
+        req.session.admin.imgArr = req.params.imgs.split(",")
+        req.session.admin.imgArr.forEach(element => {
             fs.unlink("./public/product-images/" + element, (err) => {
                 if (err) {
                     throw err;
@@ -200,7 +200,7 @@ router.get('/edit_products/:id', verifyLogin, (req, res, next) => {
         productHelper.getUpdateProduct(req.params.id).then((product) => {
 
             //..................Storing edit images to imgArr[]......................
-            imgArr = product.myimg
+            req.session.admin.imgArr = product.myimg
             productHelper.getUpdateCategory(product.category).then((category) => {
                 res.render('admin/edit_products', { admin: true, categories, product, category })
             }).catch((err) => {
@@ -243,8 +243,8 @@ router.get('/banner_manage', verifyLogin, (req, res, next) => {
 
 router.get('/get_edit_banner/:id', verifyLogin, (req, res, next) => {
     adminHelper.getEditBanner(req.params.id).then((banner) => {
-        banner_img = banner.bannerImg
-        edit_Banner_ID = banner._id
+        req.session.admin.banner_img = banner.bannerImg
+        req.session.admin.edit_Banner_ID = banner._id
         res.json({ status: true, banner: banner })
     }).catch((err) => {
         next(err)
@@ -252,7 +252,7 @@ router.get('/get_edit_banner/:id', verifyLogin, (req, res, next) => {
 })
 router.get('/get_edit_coupen/:id', verifyLogin, (req, res, next) => {
     adminHelper.getEditCoupen(req.params.id).then((coupen) => {
-        edit_coupen_ID = coupen._id
+        req.session.admin.edit_coupen_ID = coupen._id
         res.json({ status: true, coupen: coupen })
     }).catch((err) => {
         next(err)
@@ -361,7 +361,7 @@ router.post('/update-categories/:id', verifyLogin, (req, res, next) => {
 
 router.post('/update_product/:id', verifyLogin, upload.array('img', 3), (req, res, next) => {
     if (req.files == "") {
-        req.body.myimg = imgArr
+        req.body.myimg = req.session.admin.imgArr
     }
     else {
         const images = req.files
@@ -369,17 +369,17 @@ router.post('/update_product/:id', verifyLogin, upload.array('img', 3), (req, re
         array = images.map((value) => value.filename)
         req.body.myimg = array
 
-        imgArr.forEach(element => {
+        req.session.admin.imgArr.forEach(element => {
             fs.unlink("./public/product-images/" + element, (err) => {
                 if (err) {
                     throw err;
                 }
             })
         })
-        imgArr = []
+        req.session.admin.imgArr = []
     }
     productHelper.setUpdateProduct(req.body, req.params.id).then((response) => {
-        imgArr = ""
+        req.session.admin.imgArr = ""
         res.redirect('/admin/view_products')
     }).catch((err) => {
         next(err)
@@ -406,28 +406,28 @@ router.post('/add_coupen', verifyLogin, (req, res, next) => {
 router.post('/edit_banner', verifyLogin, upload1.single('img'), (req, res, next) => {
 
     if (req.file == null) {
-        req.body.bannerImg = banner_img
+        req.body.bannerImg = req.session.admin.banner_img
     }
     else {
         req.body.bannerImg = req.file.filename
-        fs.unlink("./public/banner-images/" + banner_img, (err) => {
+        fs.unlink("./public/banner-images/" + req.session.admin.banner_img, (err) => {
             if (err) {
                 throw (err)
             }
         })
     }
-    adminHelper.editBanner(edit_Banner_ID, req.body).then((response) => {
+    adminHelper.editBanner(req.session.admin.edit_Banner_ID, req.body).then((response) => {
 
-        banner_img = ""
-        edit_Banner_ID = ""
+        req.session.admin.banner_img = ""
+        req.session.admin.edit_Banner_ID = ""
         res.redirect('/admin/banner_manage')
     }).catch((err) => {
         next(err)
     })
 })
 router.post('/edit_coupen', verifyLogin, (req, res, next) => {
-    adminHelper.editCoupen(edit_coupen_ID, req.body).then((response) => {
-        edit_coupen_ID = ""
+    adminHelper.editCoupen(req.session.admin.edit_coupen_ID, req.body).then((response) => {
+        req.session.admin.edit_coupen_ID = ""
         res.redirect('/admin/coupen_manage')
     }).catch((err) => {
         next(err)
