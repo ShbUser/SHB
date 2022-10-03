@@ -62,14 +62,14 @@ async function editPassword(userID) {
         })
     }
     else {
-        swal("Are you mad", "Fill the columns and try again....", { icon: "warning" });
+        swal("Hello!", "Fill the columns and try again....", { icon: "warning" });
     }
 }
 
 async function getSub() {
     let catID = document.getElementById("cat").value,
         select = document.getElementById("subcat")
-    select.innerHTML = ""
+        select.innerHTML = ""
     await axios.get('/admin/get_subcategory_onchange/' + catID).then((e) => {
         if (e.data.status) {
             let sub_length = e.data.category.subcategory.length
@@ -77,11 +77,12 @@ async function getSub() {
                 let option = document.createElement("OPTION"),
                     txt = document.createTextNode(e.data.category.subcategory[i].subname)
                 option.appendChild(txt)
-                option.setAttribute("value", e.data.category.subcategory[i].subname)
+                option.setAttribute("value", e.data.category.subcategory[i].sub_id)
                 select.insertBefore(option, select.lastChild)
                 // document.getElementById("subcat")[i].value=e.data.category.subcategory[i].sub_id
                 // document.getElementById("subcat")[i].innerHTML=e.data.category.subcategory[i].subname
             }
+
         }
     })
 
@@ -110,7 +111,7 @@ async function addToCart(proID) {
         else if (e.data.cartItems.prod_exist_in_cart) {
             swal("Product exist in cart", "", "success");
         } else {
-            location.href = '/login'
+            swal("Please login")
         }
 
     })

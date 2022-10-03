@@ -6,10 +6,10 @@
 
             </div>
             <div class="col-7 col-sm-7 col-md-7 col-lg-9 col-xl-9 datatablescroll">
-                <table class="table mt-3 text-center"  id="productsJS">
+                <table class="table mt-3 text-center" id="productsJS">
                     <thead class="bg-success ">
                         <tr>
-
+                            <th scope="col">Photo</th>
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
                             <th scope="col">Mobile</th>
@@ -21,24 +21,31 @@
                         {{#each users}}
 
                         {{#if this.isBlock}}
-                        <tr class="text-danger">                               
-                        {{else}}                           
+                        <tr class="text-danger">
+                            {{else}}
                         <tr class="text-success">
-                         {{/if}}
+                            {{/if}}
+
+                            <td>
+                                {{#if this.photo}}
+                                <img src="/user-images/{{this.photo}}" width="50" alt="img" class="rounded-circle">
+                                {{else}}
+                                <img src="/assets/img/user.jpg" width="65" alt="img" class="rounded-circle">
+                                {{/if}}
+                            </td>
                             <td>{{this.name}}</td>
                             <td>{{this.email}}</td>
                             <td>{{this.mobile}}</td>
                             <td>
                                 {{#if this.isBlock}}
-                                <a class="btn btn-outline-danger "
-                                    onclick="unBlockUser('{{this._id}}')">Un block?
+                                <a class="btn btn-outline-danger " onclick="unBlockUser('{{this._id}}')">Un block?
                                     <i class="fa-solid fa-unlock"></i></a>
-                                        {{else}}
+                                {{else}}
                                 <a class="btn btn-outline-success border-0 text-center"
                                     onclick="blockUser('{{this._id}}')">Block?
                                     <i class="fa-solid fa-lock"></i>
-                                    </a>
-                            
+                                </a>
+
                             </td>
                         </tr>
                         {{/if}}
@@ -51,6 +58,6 @@
     </section>
 </div>
 <script>
-    let dataTable=new simpleDatatables.DataTable("#productsJS")
-    
+    let dataTable = new simpleDatatables.DataTable("#productsJS")
+
 </script>

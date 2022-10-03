@@ -1,7 +1,7 @@
-<img src="/assets/img/Checkout-Banner-2.jpg" width="100%" height="300">
+<img src="/assets/img/Checkout-Banner-2.jpg" class="mt-4 " width="100%" height="220">
 
 <div class="container">
-    <h1 class="text-white" style="margin-top: -4.9em; margin-left: 1em;"><u>Checkout</u></h1>
+    <h1 class="text-center mt-5"><u>Checkout</u></h1>
 </div>
 
 <div class="modal fade" id="shippingaddress" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -76,8 +76,8 @@
 <!-- Modal -->
 
 
-<form action="/checkout" method="post" id="checkout-form">
-    <div class="container p-5 mt-5 ">
+<form action="" method="" id="checkout-form">
+    <div class="container mt-5">
 
         <div class="row ">
             <div class="col-lg-6 col-xl-6 bg-white">
@@ -98,75 +98,72 @@
 
                         <label>Name</label>
                         <input type="text" class="form-control " id="shipname" name="name"
-                            value="{{this.deliveryDetails.name}}" placeholder="" required><br>
+                            value="{{this.deliveryDetails.name}}" placeholder=""><br>
 
                         <label>Street</label>
                         <input type="text" class="form-control" id="streetaddress" name="streetaddress"
-                            value="{{this.deliveryDetails.street}}" placeholder="" required><br>
+                            value="{{this.deliveryDetails.street}}" placeholder=""><br>
 
                         <label>Mobile</label>
                         <input type="number" class="form-control " id="altermobile" name="altermobile"
-                            value="{{this.deliveryDetails.mobile}}" placeholder="" required><br>
+                            value="{{this.deliveryDetails.mobile}}" placeholder=""><br>
 
                         <label>Pincode</label>
                         <input type="number" class="form-control" id="pincode" name="pincode"
-                            value="{{this.deliveryDetails.pin}}" placeholder="" required><br>
+                            value="{{this.deliveryDetails.pin}}" placeholder=""><br>
                     </div>
                     <div class="col">
 
                         <label>Landmark</label>
                         <input type="text" class="form-control" name="landmark" id="landmark"
-                            value="{{this.deliveryDetails.landmark}}" placeholder="" required><br>
+                            value="{{this.deliveryDetails.landmark}}" placeholder=""><br>
 
                         <label>City</label>
                         <input type="text" class="form-control" id="city" name="city"
-                            value="{{this.deliveryDetails.city}}" placeholder="" required><br>
+                            value="{{this.deliveryDetails.city}}" placeholder=""><br>
 
                         <label>District</label>
                         <input type="text" class="form-control" id="district" name="district"
-                            value="{{this.deliveryDetails.district}}" placeholder="" required><br>
+                            value="{{this.deliveryDetails.district}}" placeholder=""><br>
 
                         <label>State</label>
                         <input type="text" class="form-control" name="state" id="state"
-                            value="{{this.deliveryDetails.state}}" placeholder="" required><br>
+                            value="{{this.deliveryDetails.state}}" placeholder=""><br>
                     </div>
 
                     {{/each}}
                     {{else}}
                     <div class="col">
                         <label>Name</label>
-                        <input type="text" class="form-control " id="shipname" name="name" value="" placeholder=""
-                            required><br>
+                        <input type="text" class="form-control " id="shipname" name="name" value="" placeholder=""><br>
 
                         <label>Street</label>
                         <input type="text" class="form-control" id="streetaddress" name="streetaddress" value=""
-                            placeholder="" required><br>
+                            placeholder=""><br>
 
                         <label>Mobile</label>
                         <input type="text" class="form-control " id="altermobile" name="altermobile" value=""
-                            placeholder="" required><br>
+                            placeholder=""><br>
 
                         <label>Pincode</label>
-                        <input type="number" class="form-control" id="pincode" name="pincode" value="" placeholder=""
-                            required><br>
+                        <input type="number" class="form-control" id="pincode" name="pincode" value=""
+                            placeholder=""><br>
                     </div>
                     <div class="col">
 
                         <label>Landmark</label>
-                        <input type="text" class="form-control" name="landmark" id="landmark" value="" placeholder=""
-                            required><br>
+                        <input type="text" class="form-control" name="landmark" id="landmark" value=""
+                            placeholder=""><br>
 
                         <label>City</label>
-                        <input type="text" class="form-control" id="city" name="city" value="" placeholder=""
-                            required><br>
+                        <input type="text" class="form-control" id="city" name="city" value="" placeholder=""><br>
 
                         <label>District</label>
-                        <input type="text" class="form-control" id="district" name="district" value="" placeholder=""
-                            required><br>
+                        <input type="text" class="form-control" id="district" name="district" value=""
+                            placeholder=""><br>
 
                         <label>State</label>
-                        <input type="text" class="form-control" name="state" id="state" value="" placeholder=""
-                            required><br>
+                        <input type="text" class="form-control" name="state" id="state" value="" placeholder=""><br>
                     </div>
                     {{/if}}
                 </div>
@@ -197,7 +194,7 @@
                     COD
                 </label><br>
 
-                <button type="submit" class="btn btn-outline-danger border-0"
+                <button type="button" onclick="check()" class="btn btn-outline-danger border-0"
                     style="float: right;">Checkout<i class="fa-solid fa-thumbs-up"></i></button>
 
             </div>
@@ -294,62 +291,91 @@
 <!-- End Footer -->
 
 <script>
-$(document).ready(function () {
-        $("#checkout-form").validate({
-            rules: {
-                name: {
-                    required: true,
-                    lettersonly: true
-                },
-                streetaddress: {
-                    required: true,
-
-                },
-                altermobile: {
-                    required: true
-                },
-                pincode: {
-                    required: true,
-                    number: true
-                },
-                landmark: {
-                    required: true
-                },
-                city: {
-                    required: true
-                },
-                district: {
-                    required: true
-                },
-                state: {
-                    required: true
-                }
-                
-            }
-
-        })
-
-    })
-
-    $("#checkout-form").submit((e) => {
-        
-        e.preventDefault(),
-
-            $.ajax({
-                url: '/checkout',
-                method: 'post',
-                data: $('#checkout-form').serialize(),
-                success: (response) => {
-                    if (response.codSuccess) {
-                        location.href = '/order'
-                    }
-                    else {
-                        razorPayPayment(response)
-                    }
-                }
-            })
-    })
+    /*$(document).ready(function () {
+            $("#checkout-form").validate({
+                rules: {
+                    name: {
+                        required: true,
+                        lettersonly: true
+                    },
+                    streetaddress: {
+                        required: true,
     
+                    },
+                    altermobile: {
+                        required: true
+                    },
+                    pincode: {
+                        required: true,
+                        number: true
+                    },
+                    landmark: {
+                        required: true
+                    },
+                    city: {
+                        required: true
+                    },
+                    district: {
+                        required: true
+                    },
+                    state: {
+                        required: true
+                    }
+                    
+                }
+    
+            })
+    
+        })*/
+    function check() {
+        if (document.getElementById("shipname").value == "") {
+            swal("Please fill Name column")
+        }
+        else if (document.getElementById("streetaddress").value == "") {
+            swal("Please fill Street column")
+        }
+        else if (document.getElementById("altermobile").value == "") {
+            swal("Please fill Mobile column")
+        }
+        else if (document.getElementById("pincode").value == "") {
+            swal("Please fill Pincode column")
+        }
+        else if (document.getElementById("landmark").value == "") {
+            swal("Please fill Landmark column")
+        }
+        else if (document.getElementById("city").value == "") {
+            swal("Please fill City column")
+        }
+        else if (document.getElementById("district").value == "") {
+            swal("Please fill District column")
+        }
+        else if (document.getElementById("state").value == "") {
+            swal("Please fill State column")
+        }
+        else {
+            //e.preventDefault(),
+
+                $.ajax({
+                    url: '/checkout',
+                    method: 'post',
+                    data: $('#checkout-form').serialize(),
+                    success: (response) => {
+                        if (response.codSuccess) {
+                            location.href = '/order'
+                        }
+                        else {
+                            razorPayPayment(response)
+                        }
+                    }
+                })
+        }
+    }
+    $("#checkout-form").submit((e) => {
+
+
+
+    })
+
     function razorPayPayment(order) {
 
         let options = {
@@ -407,7 +433,7 @@ $(document).ready(function () {
     }
 
     //................validation..................
-    
-    
+
+
 
 </script>

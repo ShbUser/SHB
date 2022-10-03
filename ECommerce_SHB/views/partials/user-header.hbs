@@ -4,8 +4,7 @@
         <div class="col-12 col-md-12 col-lg-12 col-xl-12">
 
 
-            <nav class="navbar fixed-top  bg-dark navbar-light d-lg-block col-12"
-                id="templatemo_nav_top">
+            <nav class="navbar fixed-top  bg-dark navbar-light d-lg-block col-12" id="templatemo_nav_top">
                 <div class="container text-light">
                     <div class="w-100 d-flex justify-content-between">
                         <div>
@@ -58,8 +57,9 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="navbar align-self-center d-flex">
-                                <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
+                            {{!-- align-self-center d-flex" --}}
+                            <div class="navbar">
+                                {{!-- <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="inputMobileSearch"
                                             placeholder="Search ...">
@@ -67,70 +67,81 @@
                                             <i class="fa fa-fw fa-search"></i>
                                         </div>
                                     </div>
-                                </div>
-                                <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal"
+                                </div> --}}
+                                {{!-- <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal"
                                     data-bs-target="#templatemo_search">
                                     <i class="fa fa-fw fa-search text-dark mr-2"></i>
-                                </a>
-                                <a class="nav-icon position-relative text-decoration-none" href="/cart">
-                                    <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                                    <span
-                                        class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-warning text-dark"
-                                        id="cart-count">{{cartCount}}</span>
-                                </a>
+                                </a> --}}
+                                <div class="row">
+                                    <div class="col-4 col-md-4 col-lg-4 col-xl-4">
+                                        <div class="mt-4 ms-5">
+                                            <a class="nav-icon position-relative text-decoration-none" href="/cart">
+                                                <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+                                                <span
+                                                    class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-warning text-dark"
+                                                    id="cart-count">{{cartCount}}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown col-4 col-md-4 col-lg-4 col-xl-4">
+                                        <div class="mt-3">
+                                            <button class="btn btn-light dropdown-toggle p-0 me-5" type="button" id=""
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                                                {{!-- <span
+                                                    class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span> --}}
+                                                {{#if user}}
+                                                {{user.name}}
+                                                {{else}}
+                                                Account
+                                                {{/if}}
+                                            </button>
+                                            <ul class="dropdown-menu bg-success p-1 list-inline"
+                                                style="line-height: 200%;border-color: black;"
+                                                aria-labelledby="dropdownMenuButton1">
+                                                {{#if user}}
 
-                                <div class="dropdown">
-                                    <button class="btn btn-light dropdown-toggle p-0 ms-5" type="button" id=""
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                                        <span
-                                            class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span>
+                                                <a class="dropdown-item" href="/user_profile"><i
+                                                        class="fa fa-fw fa-user text-dark mr-3"></i>
+                                                    Profile</a>
+                                                <a class="dropdown-item" href="/wishlist"><i
+                                                        class="fa-solid fa-heart"></i>
+                                                    Wish
+                                                    list</a>
+                                                <a class="dropdown-item " href="/order"> <i
+                                                        class="fa-solid fa-arrow-down-wide-short"></i>
+                                                    Orders</a></li>
+                                                <a class="dropdown-item" href="/logout"><i
+                                                        class="fa-solid fa-right-from-bracket"></i>
+                                                    Logout</a>
+
+                                                {{else}}
+                                                <a class="dropdown-item" href="/login"><i
+                                                        class="fa fa-fw fa-user text-dark mr-3"></i>
+                                                    Login</a>
+
+                                                <a class="dropdown-item" href="/signup"><i
+                                                        class="fa fa-fw fa-user text-dark mr-3"></i>
+                                                    SignUP</a>
+
+                                                {{/if}}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 col-md-4 col-lg-4 col-xl-4">
                                         {{#if user}}
-                                        {{user.name}}
-                                        {{else}}
-                                        Account
+                                        {{#if user.photo}}
+                                        <div class="me-5">
+                                            <a href="/user_profile">
+                                                <img src="/user-images/{{user.photo}}" class="rounded-circle"
+                                                    alt="image" width="50" height="50"></a>
+                                        </div>
                                         {{/if}}
-                                    </button>
-                                    <ul class="dropdown-menu bg-success p-1 list-inline"
-                                        style="line-height: 200%;border-color: black;"
-                                        aria-labelledby="dropdownMenuButton1">
-                                        {{#if user}}
-
-                                        <a class="dropdown-item" href="/user_profile"><i
-                                                class="fa fa-fw fa-user text-dark mr-3"></i>
-                                            Profile</a>
-                                        <a class="dropdown-item" href="/wishlist"><i class="fa-solid fa-heart"></i> Wish
-                                            list</a>
-                                        <a class="dropdown-item " href="/order"> <i
-                                                class="fa-solid fa-arrow-down-wide-short"></i>
-                                            Orders</a></li>
-                                        <a class="dropdown-item" href="/logout"><i
-                                                class="fa-solid fa-right-from-bracket"></i>
-                                            Logout</a>
-
-                                        {{else}}
-                                        <a class="dropdown-item" href="/login"><i
-                                                class="fa fa-fw fa-user text-dark mr-3"></i>
-                                            Login</a>
-
-                                         <a class="dropdown-item" href="/signup"><i
-                                                class="fa fa-fw fa-user text-dark mr-3"></i>
-                                            SignUP</a>
-                                      
                                         {{/if}}
-                                    </ul>
+                                    </div>
                                 </div>
+                            </div>
 
-                            </div>
-                            {{#if user}}
-                            {{#if user.photo}}
-                            <div class="ms-2">
-                                <a href="/user_profile">
-                                    <img src="/user-images/{{user.photo}}" class="rounded-circle" alt="image"
-                                        width="50" height="50"></a>
-                            </div>
-                            {{/if}}
-                            {{/if}}
                         </div>
 
                     </div>

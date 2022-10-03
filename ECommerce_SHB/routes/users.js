@@ -165,6 +165,7 @@ router.get('/shop', async (req, res, next) => {
 
 router.get('/add-to-cart/:id', verifyLogin, (req, res, next) => {
   userHelper.getUserCart(req.params.id, req.session.user._id).then((cartItems) => {
+    
     if (cartItems.no_stock) {
       res.json({ status: false, cartItems })
     } else if (cartItems.prod_exist_in_cart) {
@@ -209,7 +210,7 @@ router.get('/add_to_wishlist/:id', verifyLogin, (req, res, next) => {
 })
 
 router.get('/del-wish-item/:id', verifyLogin, (req, res, next) => {
-  userHelper.deleteWishItem(req.params.id, user._id).then(async (response) => {
+  userHelper.deleteWishItem(req.params.id, req.session.user._id).then(async (response) => {
     if (response.deletedCount != 0)
       res.json({ status: true })
     else
@@ -620,8 +621,6 @@ router.get('/buy_now/:id', verifyLogin, async (req, res, next) => {
   })
 })
 
-
-
 router.post('/place_order', verifyLogin, async (req, res, next) => {
   req.session.buynow = false
   await userHelper.getTotalAmount(req.session.user._id).then(async (total) => {
@@ -672,7 +671,7 @@ router.post('/checkout', async (req, res, next) => {
         if (req.body['payment-method'] === 'COD') {
 
           res.json({ codSuccess: true })
-          res.redirect('/order')
+          //res.redirect('/order')
         }
         else {
           userHelper.generateRazorPay(orderID, totalPrice).then((response) => {
@@ -752,6 +751,7 @@ router.post('/verify-payment', (req, res) => {
 //.....................................................................................
 router.get('/logout', (req, res) => {
   req.session.destroy()
+
   res.redirect('/')
 })
 
