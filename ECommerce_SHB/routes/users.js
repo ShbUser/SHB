@@ -378,7 +378,7 @@ router.get('/invoice/:id', verifyLogin, async (req, res, next) => {
         let totalAmount
         if (disc != undefined) {
           totalAmount= parseInt(order.deliveryDetails.totalAmount) + parseInt(disc)
-          totalAmount = parseInt(totalAmount) - parseInt(disc)
+          //totalAmount = parseInt(totalAmount) - parseInt(disc)
         } else {
           disc = "0.00"
           totalAmount = order.deliveryDetails.totalAmount
