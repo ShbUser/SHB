@@ -315,9 +315,22 @@ router.get('/coupen_manage', verifyLogin, (req, res, next) => {
 
 router.get('/invoice/:id', verifyLogin, async (req, res, next) => {
     await userHelper.getrOrderProducts(req.params.id).then(async (products) => {
-        await userHelper.getSingleOrder(req.params.id).then((order) => {
-
-            res.render('admin/invoice_admin', { order, products })
+        await userHelper.getSingleOrder(req.params.id).then(async(order) => {
+            await userHelper.totalWithCoupen(order.deliveryDetails.coupen).then((coupon) => {
+                let disc = coupon.coupendiscount
+                let totalAmount
+                if (disc != undefined) {
+                  totalAmount= parseInt(order.deliveryDetails.totalAmount) + parseInt(disc)
+                  //totalAmount = parseInt(totalAmount) - parseInt(disc)
+                } else {
+                  disc = "0.00"
+                  totalAmount = order.deliveryDetails.totalAmount
+                }
+                let date=new Date()
+            res.render('admin/invoice_admin', { order, products ,date, disc, totalAmount})
+        }).catch((err) => {
+            next(err)
+          })
         }).catch((err) => {
             next(err)
         })

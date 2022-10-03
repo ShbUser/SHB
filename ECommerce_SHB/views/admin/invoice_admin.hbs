@@ -37,7 +37,7 @@
             
             <br>
             108<br>
-            01/09/2022<br>
+            {{formatDate date}}<br>
             108<br>
             {{formatDate order.deliveryDetails.date}}<br>
             {{order.deliveryDetails.paymentMethod}}<br>
@@ -71,8 +71,9 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-7 col-md-7 col-lg-7 col-xl-7 text-end   ">
-            <h6>Sub total : {{order.deliveryDetails.totalAmount}}</h6>
+         <div class="col-7 col-md-7 col-lg-7 col-xl-7 text-end   ">
+            <h6>Sub total : {{totalAmount}}</h6>
+            <h6>Coupon for : ₹ {{disc}}</h6>
             <h6>Ship charge : ₹ 0.00</h6>
             <h6>GST : ₹ 0.00</h6>
             <hr>
