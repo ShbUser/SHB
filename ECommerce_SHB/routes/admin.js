@@ -219,13 +219,16 @@ router.get('/delete_products/:id/:imgs', verifyLogin, (req, res, next) => {
 router.get('/edit_products/:id', verifyLogin, (req, res, next) => {
     productHelper.getCategory().then((categories) => {
         productHelper.getUpdateProduct(req.params.id).then((product) => {
+           
             //..................Storing edit images to imgArr[]......................
             req.session.imgArr = product.myimg
 
             productHelper.getUpdateCategory(product.category).then((category) => {
+                productHelper.getSubCategoryOnChange(category._id).then((suCategories)=>{
+                    res.render('admin/edit_products', { admin: true, categories, product, category,suCategories })
 
-                res.render('admin/edit_products', { admin: true, categories, product, category })
-
+                })
+               
             }).catch((err) => {
                 next(err)
             })

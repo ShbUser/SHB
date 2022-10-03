@@ -1,56 +1,86 @@
-<div class="container">
+<div class="row mt-5 text-center">
+    <h1>Update &nbsp;<span><b><u>Products</u></b></span> </h1>
+</div>
+<div class="container mt-5">
 
     <section>
-        <div class="d-flex justify-content-center editColor">
-            <form action="/admin/update_product/{{product._id}}" method="post" id="editproduct" enctype="multipart/form-data">
-                <p>Update &nbsp;<span><b><u>Products</u></b></span> </p>
 
-                <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="Name"
-                    value="{{product.name}}" >
-                <br>
-                <input type="number" class="form-control" id="price" name="price" placeholder="" min="1" step="1"
-                    value="{{product.price}}" >
-                {{!-- <input type="text" class="form-control" id="inputAddress" name="price" placeholder="Price"
-                    required> --}}
-                <br>
-                <input type="text" class="form-control" id="inputAddress" placeholder="Size" name="size"
-                    value="{{product.size}}" >
-                <br>
-                <select class="form-select" aria-label="Default select example" name="category"
-                    style="border-color: blue;">
+        <form action="/admin/update_product/{{product._id}}" method="post" id="editproduct"
+            enctype="multipart/form-data">
 
-                    <option value="{{category._id}}" selected hidden>{{category.name}}</option>
-                    {{#each categories}}
-                    {{!-- {{#if (neq categories._id category._id)}} --}}
-                    <option value="{{this._id}}">{{this.name}}</option>
-                    {{!-- {{/if}} --}}
+            <div class="row editColor mt-5">
+                <div class="col-2 col-md-2 col-lg-2 col-xl-2">
 
-                    {{/each}}
-                </select>
+                </div>
+                <div class="col-4 col-md-4 col-lg-4 col-xl-4 mt-5">
+                    <label>Category</label>
+                    <select class="form-select" onchange="getSub()" aria-label="Default select example" name="category" id="cat"
+                        style="border-color: blue;">
+
+                        <option value="{{category._id}}" selected hidden>{{category.name}}</option>
+                        {{#each categories}}
+                        {{!-- {{#if (neq categories._id category._id)}} --}}
+                        <option value="{{this._id}}">{{this.name}}</option>
+                        {{!-- {{/if}} --}}
+
+                        {{/each}}
+                    </select><br>
+                    <label>Name</label>
+                    <select class="form-select" aria-label="Default select example" name="name" id="subcat" style="border-color: blue;">
+                           <option value="" selected hidden>{{product.name}}</option>
+                        {{#each suCategories}}
+                        {{#each this}}
+                        {{!-- {{#if (neq categories._id category._id)}} --}}
+                        <option value="{{this.subname}}">{{this.subname}}</option>
+                        {{!-- {{/if}} --}}
+                        {{/each}}
+                        {{/each}}                       
+                           
+                        </select><br>
+
+                    {{!-- <input type="text" class="form-control" id="inputEmail4" name="name" placeholder="Name"
+                        value="{{product.name}}"><br> --}}
+                    
+                    <label>Price</label>
+                    <input type="number" class="form-control" id="price" name="price" placeholder="" min="1" step="1"
+                        value="{{product.price}}">
+                    {{!-- <input type="text" class="form-control" id="inputAddress" name="price" placeholder="Price"
+                        required> --}}
+                    <br>
+                    <label>Size</label>
+                    <input type="text" class="form-control" id="inputAddress" placeholder="Size" name="size"
+                        value="{{product.size}}">
+                    <br>
+
+                    
 
 
-                <br>
-                <input type="text" class="form-control" id="qty" placeholder=""  name="qty"
-                    value="{{product.qty}}"><br>
-                {{!-- <input type="text" class="form-control" id="inputAddress" placeholder="Qauantity" name="qty"
-                    value="{{product.qty}}" required>
-                <br> --}}
+                    <br>
+                </div>
+                <div class="col-4 col-md-4 col-lg-4 col-xl-4 mt-5">
+                    <label>Quantity</label>
+                    <input type="text" class="form-control" id="qty" placeholder="" name="qty"
+                        value="{{product.qty}}"><br>
+                    {{!-- <input type="text" class="form-control" id="inputAddress" placeholder="Qauantity" name="qty"
+                        value="{{product.qty}}" required>
+                    <br> --}}
+                    <label>Description</label>
+                    <input type="text" class="form-control" id="inputCity" placeholder="Description" name="description"
+                        value="{{product.description}}">
+                    <br>
+                    <label for="inputCity" class="form-label">Image</label>
 
-                <input type="text" class="form-control" id="inputCity" placeholder="Description" name="description"
-                    value="{{product.description}}" >
-                <br>
-                <label for="inputCity" class="form-label">Image</label>
+                    <input class="form-control" type="file" id="img" name="img" multiple onchange=" previewFile(event)">
+                    <br>
+                    <div class="row mt-2"><button type="submit" class="btn btn-success mt-2"><i
+                                class="fa-solid fa-cloud-arrow-up"></i>Update</button></div><br>
+                </div>
+                <div class="col-2 col-md-2 col-lg-2 col-xl-2 mt-5"><br>
+                    <img src="/product-images/{{product.myimg.[0]}}" style="width: 150px; height: 180px;" id="preview">
+                </div>
+            </div>
+        </form>
 
-                <img src="/product-images/{{product.myimg.[0]}}" style="width: 150px; height: 180px;" id="preview">
-
-
-
-                <input class="form-control" type="file" id="img" name="img" multiple onchange=" previewFile(event)">
-
-                <div><button type="submit" class="btn btn-outline-success mt-2"><i
-                            class="fa-solid fa-cloud-arrow-up"></i>Update</button></div><br>
-            </form>
-        </div>
 
     </section>
 </div>
@@ -60,30 +90,30 @@
         document.getElementById('preview').src = URL.createObjectURL(event.target.files[0])
     }
 
-$(document).ready(function () {
+    $(document).ready(function () {
         $("#editproduct").validate({
             rules: {
                 name: {
-                    required: true                    
+                    required: true
                 },
                 price: {
                     required: true,
-                    number:true
+                    number: true
                 },
                 size: {
                     required: true
-                    
+
                 },
                 category: {
                     required: true
-                    
+
                 },
                 qty: {
-                   required: true,
-                    number:true
+                    required: true,
+                    number: true
                 },
-                description:{
-                    required:true
+                description: {
+                    required: true
                 }
             }
         })

@@ -21,6 +21,9 @@ body{
     overflow-x: scroll;
   }
 
+  .imgHover :hover{
+            cursor: pointer;
+  }
   
 /* ........................user side................................. */
 .errPage{

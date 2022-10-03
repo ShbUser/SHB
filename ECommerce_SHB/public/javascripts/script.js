@@ -155,6 +155,16 @@ async function delWishlistItem(wishID) {
         })
 }
 
+async function checkQtyForSingleProduct(proID){
+    await axios.get('/chck_qty_single_prod/'+proID).then((e)=>{
+        if(e.data.status){
+            swal("Sorry", "Stock not available for this count", "warning");
+        }else{
+            location.href='/view_product/'+proID
+        }
+    })
+}
+
 async function changeQty(cartID, proID, count, obj) {
 
     let quantity = parseInt(document.getElementById(proID).innerHTML)

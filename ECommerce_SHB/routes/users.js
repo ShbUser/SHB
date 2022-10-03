@@ -53,7 +53,7 @@ const verifyLogin = (req, res, next) => {
     userHelper.isBlock(req.session.user._id).then((response) => {
       if (response.status) {
         // scrpt.isBlock()          
-        res.render('users/user_blocked', { user_head: true, user:req.session.user })
+        res.render('users/user_blocked', { user_head: true, user: req.session.user })
         req.session.destroy()
         // user = null
 
@@ -73,14 +73,14 @@ router.get('/', async (req, res, next) => {
   // } 
   await productHelper.getAllProducts().then(async (products) => {
     await adminHelper.getAllBanners().then(async (banner) => {
-      if (req.session.userLoggedIn ) {
+      if (req.session.userLoggedIn) {
         await productHelper.getCountCart(req.session.user._id).then(async (cartcount) => {
           cartCount = cartcount
         }).catch((err) => {
           next(err)
         })
       }
-      res.render('users/home', { title: 'shb', user:req.session.user , user_head: true, cartCount, products, banner });
+      res.render('users/home', { title: 'shb', user: req.session.user, user_head: true, cartCount, products, banner });
 
     }).catch((err) => {
       next(err)
@@ -101,7 +101,7 @@ router.get('/login', (req, res, next) => {
     if (req.session.user) {
       res.redirect('/')
     } else {
-      res.render('users/login', { "loginErr": req.session.userLoginErr, user_head: true, user:req.session.user })
+      res.render('users/login', { "loginErr": req.session.userLoginErr, user_head: true, user: req.session.user })
       req.session.userLoginErr = false
     }
   } catch (error) {
@@ -110,7 +110,7 @@ router.get('/login', (req, res, next) => {
 })
 
 router.get('/contact', (req, res) => {
-  res.render('users/contact', { user_head: true, use:req.session.user })
+  res.render('users/contact', { user_head: true, use: req.session.user })
 })
 
 router.get('/signup', (req, res, next) => {
@@ -121,25 +121,48 @@ router.get('/signup', (req, res, next) => {
   }
 })
 
-router.get('/view_product/:id', async (req, res, next) => {
-  let cartCount = 0
-  await productHelper.getSingleProduct(req.params.id).then(async (product) => {
-    if (req.session.userLoggedIn) {
-      await productHelper.getCountCart(req.session.user._id).then((cartcount) => {
-        cartCount = cartcount
-      }).catch((err) => {
-        next(err)
-      })
+router.get('/chck_qty_single_prod/:id',(req,res)=>{
+  userHelper.checkProQty(req.params.id).then(async (stockstatus) => {
+
+    if (stockstatus.not_stock) {
+        res.json({status:true})
+    }else if(stockstatus.is_stock){
+      res.json({status:false})
     }
-  
-    res.render('users/view_product', { user_head: true, user:req.session.user , product, cartCount })
   }).catch((err) => {
     next(err)
   })
 })
 
+router.get('/view_product/:id', async (req, res, next) => {
+  // userHelper.checkProQty(req.params.id).then(async (stockstatus) => {
+  //   console.log(stockstatus,"llllllllllllllll");
+  //   if (stockstatus) {
+  //       res.json({status:true})
+  //   } else {
+      let cartCount = 0
+      await productHelper.getSingleProduct(req.params.id).then(async (product) => {
+        if (req.session.userLoggedIn) {
+          await productHelper.getCountCart(req.session.user._id).then((cartcount) => {
+            cartCount = cartcount
+          }).catch((err) => {
+            next(err)
+          })
+        }
+
+        res.render('users/view_product', { user_head: true, user: req.session.user, product, cartCount })
+      }).catch((err) => {
+        next(err)
+      })
+  //   }
+  // }).catch((err) => {
+  //   next(err)
+  // })
+
+})
+
 router.get('/shop', async (req, res, next) => {
-  let user,cartCount = 0
+  let user, cartCount = 0
   await productHelper.getCategory().then(async (category) => {
     await productHelper.getAllProducts().then(async (products) => {
       if (req.session.userLoggedIn) {
@@ -150,7 +173,7 @@ router.get('/shop', async (req, res, next) => {
         })
       }
       if (req.session.userLoggedIn) {
-        user=req.session.user
+        user = req.session.user
       }
       res.render('users/shop', { user_head: true, cartCount, category, user, products })
     }).catch((err) => {
@@ -165,7 +188,7 @@ router.get('/shop', async (req, res, next) => {
 
 router.get('/add-to-cart/:id', verifyLogin, (req, res, next) => {
   userHelper.getUserCart(req.params.id, req.session.user._id).then((cartItems) => {
-    
+
     if (cartItems.no_stock) {
       res.json({ status: false, cartItems })
     } else if (cartItems.prod_exist_in_cart) {
@@ -190,7 +213,7 @@ router.get('/wishlist', verifyLogin, async (req, res, next) => {
         next(err)
       })
     }
-    res.render('users/wishlist', { user_head: true, cartCount, user:req.session.user, products })
+    res.render('users/wishlist', { user_head: true, cartCount, user: req.session.user, products })
   }).catch((err) => {
     next(err)
   })
@@ -201,7 +224,7 @@ router.get('/add_to_wishlist/:id', verifyLogin, (req, res, next) => {
     if (wishItem == -1) {
       res.json({ status: true })
     } else {
-      res.json({ status: false, user:req.session.user })
+      res.json({ status: false, user: req.session.user })
     }
 
   }).catch((err) => {
@@ -234,7 +257,7 @@ router.get('/user_profile', verifyLogin, async (req, res, next) => {
       })
     }
     req.session.user.getImg = personalDet.photo;
-    res.render('users/user_profile', { user_head: true, cartCount, user:req.session.user, personalDet })
+    res.render('users/user_profile', { user_head: true, cartCount, user: req.session.user, personalDet })
   }).catch((err) => {
     next(err)
   })
@@ -265,7 +288,7 @@ router.get('/del-ship-address/:id', verifyLogin, (req, res, next) => {
 router.get('/cart', verifyLogin, async (req, res, next) => {
   let user
   if (req.session.userLoggedIn) {
-    user=req.session.user
+    user = req.session.user
     await productHelper.getCountCart(req.session.user._id).then(async (cartCount) => {
       await userHelper.getCartProducts(req.session.user._id).then(async (products) => {
         await adminHelper.getAllCoupens().then(async (coupens) => {
@@ -353,7 +376,7 @@ router.get('/place_order', verifyLogin, (req, res) => {
 
 router.get('/order', verifyLogin, async (req, res, next) => {
   await userHelper.getOrder(req.session.user._id).then((order) => {
-    res.render('users/order', { user_head: true, user:req.session.user, order })
+    res.render('users/order', { user_head: true, user: req.session.user, order })
   }).catch((err) => {
     next(err)
   })
@@ -363,7 +386,7 @@ router.get('/order', verifyLogin, async (req, res, next) => {
 
 router.get('/view_order_products/:id', verifyLogin, async (req, res, next) => {
   await userHelper.getrOrderProducts(req.params.id).then((products) => {
-    res.render('users/view_order_products', { user_head: true, user:req.session.user, products })
+    res.render('users/view_order_products', { user_head: true, user: req.session.user, products })
   }).catch((err) => {
     next(err)
   })
@@ -378,15 +401,15 @@ router.get('/invoice/:id', verifyLogin, async (req, res, next) => {
         let disc = coupon.coupendiscount
         let totalAmount
         if (disc != undefined) {
-          totalAmount= parseInt(order.deliveryDetails.totalAmount) + parseInt(disc)
+          totalAmount = parseInt(order.deliveryDetails.totalAmount) + parseInt(disc)
           //totalAmount = parseInt(totalAmount) - parseInt(disc)
         } else {
           disc = "0.00"
           totalAmount = order.deliveryDetails.totalAmount
         }
-        let date=new Date()
+        let date = new Date()
 
-        res.render('users/invoice', { user_head: true, user:req.session.user, order, products,date, disc, totalAmount })
+        res.render('users/invoice', { user_head: true, user: req.session.user, order, products, date, disc, totalAmount })
       })
     }).catch((err) => {
       next(err)
@@ -416,7 +439,7 @@ router.post('/login', (req, res, next) => {
     if (response.status) {
       req.session.user = response.user
       req.session.userLoggedIn = true
-     
+
       // user = req.session.user
       res.redirect('/')
     }
@@ -491,7 +514,7 @@ router.post('/signUpOtpVerify', (req, res, next) => {
 })
 
 router.post('/search_product', async (req, res, next) => {
-  let user,cartCount = 0
+  let user, cartCount = 0
   await productHelper.getCategory().then(async (category) => {
     await productHelper.getProductByCategory(req.body.category).then(async (products) => {
       if (req.session.userLoggedIn) {
@@ -502,7 +525,7 @@ router.post('/search_product', async (req, res, next) => {
         })
       }
       if (req.session.userLoggedIn) {
-       user=req.session.user
+        user = req.session.user
       }
       res.render('users/shop', { user_head: true, cartCount, category, user, products })
     }).catch((err) => {
@@ -606,8 +629,8 @@ router.get('/buy_now/:id', verifyLogin, async (req, res, next) => {
     await userHelper.getAddressFromOrderList(req.session.user._id).then(async (address) => {
       await userHelper.getAllShipAddress(req.session.user._id).then((shipAddressList) => {
         req.session.buynow = true
-       
-        res.render('users/place_order', { user_head: true, user:req.session.user , total, id, address, shipAddressList })
+
+        res.render('users/place_order', { user_head: true, user: req.session.user, total, id, address, shipAddressList })
 
       }).catch((err) => {
         next(err)
@@ -632,7 +655,7 @@ router.post('/place_order', verifyLogin, async (req, res, next) => {
             if (coupen != 0) {
               total = (parseInt(total) - parseInt(coupen.coupendiscount))
             }
-            res.render('users/place_order', { user_head: true, user:req.session.user , total, address, coupen, shipAddressList })
+            res.render('users/place_order', { user_head: true, user: req.session.user, total, address, coupen, shipAddressList })
 
           }).catch((err) => {
             next(err)
@@ -662,7 +685,7 @@ router.post('/checkout', async (req, res, next) => {
   let products = []
   // products = 0
   if (req.session.buynow) {
-   
+
     await productHelper.getSingleProduct(req.body.proid).then(async (product) => {
       products[0] = { item: product._id, quantity: 1 }
       totalPrice = product.price
@@ -690,7 +713,7 @@ router.post('/checkout', async (req, res, next) => {
 
   }
   else {
-    
+
     await userHelper.getCartProductList(req.session.user._id).then(async (products) => {
       await userHelper.getTotalAmount(req.session.user._id).then(async (totalPrice) => {
         await userHelper.totalWithCoupen(req.body.coupencode).then((coupen) => {

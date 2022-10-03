@@ -1,87 +1,100 @@
 <section>
 
-    <div class="container mt-5 datatablescroll ">
-        <div class="">
-            <h2><u>Order History </u></h2>
-        </div><br>
-        <table class="table mt-3 bg-success" id="productJS">
-            <thead class="">
-                <tr>
-                    <th scope="col">Products</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Street</th>                    
-                    <th scope="col">Mobile</th>
-                    <th scope="col">Pin</th>
-                    <th scope="col">Landmark</th>
-                    <th scope="col">City</th>
-                    <th scope="col">District</th>
-                    <th scope="col">State</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Payment</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Billing</th>
-                    <th scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody class="text-center bg-white align-middle">
+	<div class="container mt-5 datatablescroll ">
+		<div class="">
+			<h2><u>Order History </u></h2>
+		</div><br>
+		<table class="table mt-3 bg-success" id="productJS">
+			<thead class="">
+				<tr>
+					<th scope="col">Products</th>
+					<th scope="col">Name</th>
+					<th scope="col">Street</th>
+					<th scope="col">Mobile</th>
+					<th scope="col">Pin</th>
+					<th scope="col">Landmark</th>
+					<th scope="col">City</th>
+					<th scope="col">District</th>
+					<th scope="col">State</th>
+					<th scope="col">Amount</th>
+					<th scope="col">Payment</th>
+					<th scope="col">Status</th>
+					<th scope="col">Date</th>
+					<th scope="col">Billing</th>
+					<th scope="col">Action</th>
+				</tr>
+			</thead>
+			<tbody class="text-center bg-white align-middle">
 
-                {{#each order}}
-                <tr>
-                    <td><a href="/view_order_products/{{this._id}}" class="btn btn-outline-success border-0">
-                            <i class="fa-solid fa-eye"></i> </a></td>
+				{{#each order}}
+				<tr>
+					<td><a href="/view_order_products/{{this._id}}" class="btn btn-outline-success border-0">
+							<i class="fa-solid fa-eye"></i> </a></td>
 
-                    <td>{{this.deliveryDetails.name}}</td>
-                    <td>{{this.deliveryDetails.street}}</td>
-                    <td>{{this.deliveryDetails.mobile}}</td>
-                    <td>{{this.deliveryDetails.pin}}</td>
-                    <td>{{this.deliveryDetails.landmark}}</td>
-                    <td>{{this.deliveryDetails.city}}</td>
-                    <td>{{this.deliveryDetails.district}}</td>
-                    <td>{{this.deliveryDetails.state}}</td>
-                    <td>{{this.deliveryDetails.totalAmount}}</td>
-                    <td>{{this.deliveryDetails.paymentMethod}}</td>
-                    {{#if (eq this.deliveryDetails.status "Pending")}}
-                    <td style="color:red; font-weight: bolder;" id="status">
-                        {{this.deliveryDetails.status}}...</td>
-                    {{/if}}
-
-                    {{#if (eq this.deliveryDetails.status "Placed")}}
-                    <td class="text-warning" style=" font-weight: bolder;" id="status">
-                        {{this.deliveryDetails.status}}</td>
-                    {{/if}}
-
-                    {{#if (eq this.deliveryDetails.status "Shipped")}}
-                    <td style="color:blue;  font-weight: bolder" id="status">{{this.deliveryDetails.status}}
-                    </td>
-                    {{/if}}
-
-                    {{#if (eq this.deliveryDetails.status "Delivered")}}
-                    <td style="color:green; font-weight: bolder;" id="status">{{this.deliveryDetails.status}}
-                    </td>
-                    {{/if}}
-                    
-                    <td>{{formatDate this.deliveryDetails.date}}</td>
-                    <td><a class="btn btn-outline-success border-0" href="/invoice/{{this._id}}">
-                        <img src="/assets/img/bill.png" width="35px" alt="..."> Billing</a>
-                    </td>
+					<td>{{this.deliveryDetails.name}}</td>
+					<td>{{this.deliveryDetails.street}}</td>
+					<td>{{this.deliveryDetails.mobile}}</td>
+					<td>{{this.deliveryDetails.pin}}</td>
+					<td>{{this.deliveryDetails.landmark}}</td>
+					<td>{{this.deliveryDetails.city}}</td>
+					<td>{{this.deliveryDetails.district}}</td>
+					<td>{{this.deliveryDetails.state}}</td>
+					<td>{{this.deliveryDetails.totalAmount}}</td>
+					<td>{{this.deliveryDetails.paymentMethod}}</td>
 					{{#if (eq this.deliveryDetails.status "Pending")}}
-                    <td><button class="btn btn-outline-danger border-0" onclick="delOrderItems('{{this._id}}',this)" hidden>
-                        <img src="/assets/img/download.png" width="35px" alt="..."> Cancel</button>
+					<td style="color:red; font-weight: bolder;" id="status">
+						{{this.deliveryDetails.status}}...</td>
+					{{/if}}
+
+					{{#if (eq this.deliveryDetails.status "Placed")}}
+					<td class="text-warning" style=" font-weight: bolder;" id="status">
+						{{this.deliveryDetails.status}}</td>
+					{{/if}}
+
+					{{#if (eq this.deliveryDetails.status "Shipped")}}
+					<td style="color:blue;  font-weight: bolder" id="status">{{this.deliveryDetails.status}}
+					</td>
+					{{/if}}
+
+					{{#if (eq this.deliveryDetails.status "Delivered")}}
+					<td style="color:green; font-weight: bolder;" id="status">{{this.deliveryDetails.status}}
+					</td>
+					{{/if}}
+
+					<td>{{formatDate this.deliveryDetails.date}}</td>
+					{{#if (eq this.deliveryDetails.status "Pending")}}
+					<td>
+
+						{{!-- <a class="btn btn-outline-success border-0" href="/invoice/{{this._id}}">
+							<img src="/assets/img/bill.png" width="35px" alt="..."> Billing</a> --}}
 						<h3 class="text-danger">!</h3>
-                    </td>
+					</td>
+					{{else}}
+					<td>
+						<a class="btn btn-outline-success border-0" href="/invoice/{{this._id}}">
+							<img src="/assets/img/bill.png" width="35px" alt="..."> Billing</a>
+					</td>
+					{{/if}}
+
+					{{#if (eq this.deliveryDetails.status "Pending")}}
+					 <td>
+						{{!--<button class="btn btn-outline-danger border-0"
+							onclick="delOrderItems('{{this._id}}',this)" hidden>
+							<img src="/assets/img/download.png" width="35px" alt="..."> Cancel</button> --}}
+						<h3 class="text-danger">!</h3>
+					</td>
 					{{else}}
 					<td><button class="btn btn-outline-danger border-0" onclick="delOrderItems('{{this._id}}',this)">
-                        <img src="/assets/img/download.png" width="35px" alt="..."> Cancel</button>
+							<img src="/assets/img/download.png" width="35px" alt="..."> Cancel</button>
 
-                    </td>
+					</td>
 					{{/if}}
-                </tr>
-                {{/each}}
+				</tr>
+				{{/each}}
 
-            </tbody>
-        </table>
-    </div>
+			</tbody>
+		</table>
+	</div>
 </section>
 <!-- Start Footer -->
 <footer class="bg-dark mt-5" id="tempaltemo_footer">
@@ -170,9 +183,9 @@
 <!-- End Footer -->
 
 <script>
-    let dataTable=new simpleDatatables.DataTable("#productJS")
-    
-    
+	let dataTable = new simpleDatatables.DataTable("#productJS")
+
+
 
     //function deleteOrder(id, obj) {
 
