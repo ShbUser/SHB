@@ -75,7 +75,7 @@ async function getSub() {
             let sub_length = e.data.category.subcategory.length
             for (i = 0; i < sub_length; i++) {
                 let option = document.createElement("OPTION"),
-                    txt = document.createTextNode(e.data.category.name[i].subname)
+                    txt = document.createTextNode(e.data.category.subcategory[i].subname)
                 option.appendChild(txt)
                 option.setAttribute("value", e.data.category.name[i].subname)
                 select.insertBefore(option, select.lastChild)

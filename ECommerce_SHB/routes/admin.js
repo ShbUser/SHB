@@ -358,7 +358,6 @@ router.post('/add_product', verifyLogin, upload.array('img', 5), (req, res, next
 
     req.body.qty = parseInt(req.body.qty)
     req.body.price = parseInt(req.body.price)
-    console.log(req.body,"oooooooooooo");
     productHelper.addProduct(req.body).then((id) => {
         res.redirect('/admin/view_products')
     }).catch((err) => {
