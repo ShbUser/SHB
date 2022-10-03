@@ -77,7 +77,7 @@ async function getSub() {
                 let option = document.createElement("OPTION"),
                     txt = document.createTextNode(e.data.category.subcategory[i].subname)
                 option.appendChild(txt)
-                option.setAttribute("value", e.data.category.name[i].subname)
+                option.setAttribute("value", e.data.category.subcategory[i].subname)
                 select.insertBefore(option, select.lastChild)
                 // document.getElementById("subcat")[i].value=e.data.category.subcategory[i].sub_id
                 // document.getElementById("subcat")[i].innerHTML=e.data.category.subcategory[i].subname
