@@ -181,7 +181,7 @@ router.get('/add-to-cart/:id', verifyLogin, (req, res, next) => {
 
 router.get('/wishlist', verifyLogin, async (req, res, next) => {
   let cartCount = 0
-  await userHelper.getWishlist(user._id).then(async (products) => {
+  await userHelper.getWishlist(req.session.user._id).then(async (products) => {
     if (req.session.userLoggedIn) {
       await productHelper.getCountCart(req.session.user._id).then((cartcount) => {
         cartCount = cartcount

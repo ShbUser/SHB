@@ -66,6 +66,28 @@ async function editPassword(userID) {
     }
 }
 
+async function getSub() {
+    let catID = document.getElementById("cat").value,
+        select = document.getElementById("subcat")
+    select.innerHTML = ""
+    await axios.get('/admin/get_subcategory_onchange/' + catID).then((e) => {
+        if (e.data.status) {
+            let sub_length = e.data.category.subcategory.length
+            for (i = 0; i < sub_length; i++) {
+                let option = document.createElement("OPTION"),
+                    txt = document.createTextNode(e.data.category.subcategory[i].subname)
+                option.appendChild(txt)
+                option.setAttribute("value", e.data.category.subcategory[i].subname)
+                select.insertBefore(option, select.lastChild)
+                // document.getElementById("subcat")[i].value=e.data.category.subcategory[i].sub_id
+                // document.getElementById("subcat")[i].innerHTML=e.data.category.subcategory[i].subname
+            }
+        }
+    })
+
+    // alert()
+    // document.getElementById("subcat")[0].innerHTML= document.getElementById("cat").value
+}
 
 
 async function addToCart(proID) {
@@ -87,8 +109,8 @@ async function addToCart(proID) {
         }
         else if (e.data.cartItems.prod_exist_in_cart) {
             swal("Product exist in cart", "", "success");
-        }else{
-            location.href='/login'
+        } else {
+            location.href = '/login'
         }
 
     })
@@ -344,12 +366,12 @@ async function delCategory(catID, obj) {
                     swal("Item deleted", "", "success")
                 }
             })
-        } 
+        }
     })
 
 }
 
-async function delProduct(prodID,myImg, obj) {
+async function delProduct(prodID, myImg, obj) {
     swal({
         title: "Are you sure?",
         icon: "warning",
@@ -357,14 +379,14 @@ async function delProduct(prodID,myImg, obj) {
         dangerMode: true
     }).then(async (willDelete) => {
         if (willDelete) {
-            await axios.get('/admin/delete_products/' + prodID+'/'+myImg).then((e) => {
+            await axios.get('/admin/delete_products/' + prodID + '/' + myImg).then((e) => {
                 if (e.data.status) {
                     $(obj).closest('tr').remove()
                     swal("Item deleted", "", "success")
-                    
+
                 }
             })
-        } 
+        }
     })
 
 }
@@ -377,13 +399,13 @@ async function blockUser(userID) {
         dangerMode: true
     }).then(async (willDelete) => {
         if (willDelete) {
-            await axios.get('/admin/block-user/' +userID).then((e) => {
+            await axios.get('/admin/block-user/' + userID).then((e) => {
                 if (e.data.status) {
                     swal("Blocked", "", "success")
                     location.reload()
                 }
             })
-        } 
+        }
     })
 
 }
@@ -402,7 +424,7 @@ async function unBlockUser(userID) {
                     location.reload()
                 }
             })
-        } 
+        }
     })
 
 }
@@ -529,7 +551,7 @@ function delOrderItems(prodID, obj) {
                         // location.href='/order'
                     }
                 })
-            } 
+            }
         });
 }
 
@@ -555,7 +577,7 @@ function delOrderItemsAdmin(prodID, obj) {
                         // location.href='/order'
                     }
                 })
-            } 
+            }
         });
 }
 

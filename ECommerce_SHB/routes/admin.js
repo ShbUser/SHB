@@ -50,7 +50,7 @@ let upload1 = multer({ storage: storage1 })
 // ................................. GET methods................................................
 
 router.get('/', (req, res) => {
-    if(req.session.adminLoggedIn){
+    if (req.session.adminLoggedIn) {
         res.redirect('/admin/admin_home')
     }
     res.render('admin/log_in_ad', { "loginErr": req.session.adminLoginErr })
@@ -91,10 +91,18 @@ router.get('/admin_home', verifyLogin, (req, res, next) => {
 
 router.get('/add_products', verifyLogin, async (req, res, next) => {
     await productHelper.getCategory().then((category) => {
-        // console.log(category);
         res.render('admin/add_products', { admin: true, category })
     }).catch((err) => {
-        next(err)       
+        next(err)
+    })
+})
+
+router.get('/get_subcategory_onchange/:id', verifyLogin, async (req, res, next) => {
+    await productHelper.getSubCategoryOnChange(req.params.id).then((category) => {
+        console.log(category,"555555555");
+       res.json({status:true, category:category})
+    }).catch((err) => {
+        next(err)
     })
 })
 
@@ -110,8 +118,8 @@ router.get('/view_products', verifyLogin, (req, res, next) => {
     productHelper.getAllProducts().then((products) => {
         res.render('admin/view_products', { admin: true, products });
     }).catch((err) => {
-         next(err)
-         
+        next(err)
+
     })
 
 })
@@ -122,7 +130,7 @@ router.get('/status_Shipped/:id', verifyLogin, async (req, res, next) => {
         res.json({ status: true })
     }).catch((err) => {
         next(err)
-        
+
     })
 })
 
@@ -161,21 +169,22 @@ router.get('/view_users', verifyLogin, (req, res, next) => {
 
 router.get('/del-order-item/:id', verifyLogin, (req, res, next) => {
     userHelper.deleteOrderItem(req.params.id).then(async (response) => {
-      if (response.deletedCount != 0)
-        res.json({ status: true })
-      else
-        res.json({ status: false })
-  
+        if (response.deletedCount != 0)
+            res.json({ status: true })
+        else
+            res.json({ status: false })
+
     }).then((err) => {
-      next(err)
-  
+        next(err)
+
     })
-  })
-  
+})
+
 
 router.get('/edit_category/:id', verifyLogin, (req, res, next) => {
 
     productHelper.getUpdateCategory(req.params.id).then((categ) => {
+       
         res.render('admin/edit_categories', { admin: true, categ })
 
     }).catch((err) => {
@@ -208,19 +217,15 @@ router.get('/delete_products/:id/:imgs', verifyLogin, (req, res, next) => {
 })
 
 router.get('/edit_products/:id', verifyLogin, (req, res, next) => {
-   
-console.log("1111111111");
     productHelper.getCategory().then((categories) => {
-        console.log("222222222222222");
         productHelper.getUpdateProduct(req.params.id).then((product) => {
-console.log("333333333333333333");
             //..................Storing edit images to imgArr[]......................
             req.session.imgArr = product.myimg
-            console.log("44444444444444444");
+
             productHelper.getUpdateCategory(product.category).then((category) => {
-                console.log("55555555555555");
+
                 res.render('admin/edit_products', { admin: true, categories, product, category })
-                console.log("666666666666666");
+
             }).catch((err) => {
                 next(err)
             })
@@ -236,7 +241,7 @@ console.log("333333333333333333");
 
 router.get('/block-user/:id', verifyLogin, (req, res, next) => {
     adminHelper.doBlockUser(req.params.id).then((response) => {
-        res.json({status:true})
+        res.json({ status: true })
     }).catch((err) => {
         next(err)
     })
@@ -244,7 +249,7 @@ router.get('/block-user/:id', verifyLogin, (req, res, next) => {
 })
 router.get('/unblock-user/:id', verifyLogin, (req, res, next) => {
     adminHelper.doUnBlockUser(req.params.id).then((response) => {
-        res.json({status:true})
+        res.json({ status: true })
     }).catch((err) => {
         next(err)
     })
@@ -330,7 +335,7 @@ router.post('/log_in_ad', (req, res, next) => {
     adminHelper.doLogin_admin(req.body).then((response) => {
         if (response.status) {
             req.session.admin// = response.admin
-            
+
             req.session.adminLoggedIn = true
             res.redirect('/admin/admin_home')
         }
@@ -369,8 +374,25 @@ router.post('/add-categories', verifyLogin, (req, res, next) => {
     })
 })
 
+router.post('/add-sub-categories', verifyLogin, (req, res, next) => {
+    productHelper.addSubCategory(req.body).then((response) => {
+        res.redirect('/admin/add_categories')
+    }).catch((err) => {
+        next(err)
+    })
+})
+
 router.post('/update-categories/:id', verifyLogin, (req, res, next) => {
     productHelper.setUpdateCategory(req.body, req.params.id).then((response) => {
+        res.redirect('/admin/add_categories')
+    }).catch((err) => {
+        next(err)
+    })
+})
+
+router.post('/update-sub-categories/:id', verifyLogin, (req, res, next) => {
+    
+    productHelper.setUpdateSubCategory(req.body, req.params.id).then((response) => {
         res.redirect('/admin/add_categories')
     }).catch((err) => {
         next(err)

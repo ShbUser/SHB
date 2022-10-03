@@ -12,8 +12,7 @@
                         <input type="text" class="form-control" id="cat_name" name="name" placeholder="Category"><br>
                         <input type="text" class="form-control" id="description" name="description"
                             placeholder="Description"><br>
-                        <button type="submit" class="btn btn-success"><i
-                                class="fa-solid fa-cloud-arrow-up"></i>Add
+                        <button type="submit" class="btn btn-success"><i class="fa-solid fa-cloud-arrow-up"></i>Add
                             Category</button>
                     </form>
 
@@ -22,8 +21,8 @@
 
             </div>
             <div class="col-4 col-md-4 col-lg-4 col-xl-4">
-                <div >
-                    <form action="/admin/add-categories" method="post" id="sub_category_form">
+                <div>
+                    <form action="/admin/add-sub-categories" method="post" id="sub_category_form">
 
                         <select class="form-select" aria-label="Default select example" name="maincategory">
                             <option></option>
@@ -33,17 +32,16 @@
                         </select><br>
                         <input type="text" class="form-control" id="sub_cat_name" name="subcategoryname"
                             placeholder="Sub category"><br>
-                        <button type="submit" class="btn btn-success"><i
-                                class="fa-solid fa-cloud-arrow-up"></i>Add Sub
-                            Category</button>
+                        <button type="submit" class="btn btn-success"><i class="fa-solid fa-cloud-arrow-up"></i>Add Sub
+                        </button>
                     </form>
 
                 </div>
             </div>
         </div>
-       <br>
+        <br>
         <div class="container">
- 
+
 
             <div class="row d-flex justify-content-center text-center bdrShdw ">
                 <div class="col-2 col-md-3 col-lg-3 col-xl-2">
@@ -64,7 +62,10 @@
                             <tr class="text-success">
                                 <td>{{this.name}}</td>
                                 <td>{{this.description}}</td>
-                                <td>                                    
+                                <td>
+                                    {{!-- <a data-bs-toggle="modal" data-bs-target="#viewSubCategoryModal"
+                                        class="btn btn-outline-primary">View sub
+                                    </a> --}}
                                     <a href="/admin/edit_category/{{this._id}}" class="btn btn-outline-success">Edit <i
                                             class="fa-solid fa-file-pen"></i></a>
                                     <a class="btn btn-outline-danger"
@@ -118,6 +119,6 @@
         })
 
     })
-
+   
 
 </script>

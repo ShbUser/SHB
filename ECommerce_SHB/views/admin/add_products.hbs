@@ -2,7 +2,7 @@
     <p>Add &nbsp;<span><b><u>Products</u></b></span> </p>
 
 </div>
-<div class="container mt-5">
+<div class="container mt-5 editColor">
 
     <section>
 
@@ -16,41 +16,42 @@
                     <div class="col-4 col-md-4 col-lg-4 col-xl-4">
 
                         <label>Select Category</label>
-                        <select class="form-select" aria-label="Default select example" name="category">
+                        <select class="form-select" aria-label="Default select example" onchange="getSub()" name="category" id="cat">
                             <option></option>
                             {{#each category}}
-                            <option value="{{this._id}}">{{this.name}}</option>
+                            <option value="{{this._id}}" onclick="">{{this.name}}</option>
                             {{/each}}
                         </select><br>
 
-                        {{!-- <label>Select Sub Category</label>
-                        <select class="form-select" aria-label="Default select example" name="category">
-                            <option></option>
-                            {{#each category}}
-                            <option value="{{this._id}}">{{this.name}}</option>
-                            {{/each}}
-                        </select><br> --}}
-                        {{!-- <label>Select Sub Category</label>
-                        <select class="form-select" aria-label="Default select example" name="subcategory">
-                            <option></option>
-                            {{#each category}}
-                            <option value="{{this._id}}">{{this.name}}</option>
-                            {{/each}}
-                        </select><br> --}}
+                        <label>Select Sub Category</label>
+                        <select class="form-select" aria-label="Default select example" name="subcategory" id="subcat">
+                                                  
+                            {{!-- <option value=""></option> --}}
+                          
+                        </select><br>
 
-                        <label for="floatingInput">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder=""><br>
+                        {{!-- <label for="floatingInput">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder=""><br> --}}
 
                         <label>Price</label>
                         <input type="number" class="form-control" id="price" name="price" placeholder="" min="1"
                             step="1"><br>
 
                         <label>Size</label>
-                        <input type="text" class="form-control" id="size" placeholder="" name="size">
-                        <br>
+                        <select class="form-select" aria-label="Default select example" name="size" id="size">
+                            <option value="S">S</option>
+                            <option value="M">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                            <option value="XXL">XXL</option>
+                            
+                           
+                        </select><br>
+                        {{!-- <input type="text" class="form-control" id="size" placeholder="" name="size">
+                        <br> --}}
                     </div>
                     <div class="col-4 col-md-4 col-lg-4 col-xl-4">
-                                                <label>Quantity</label>
+                        <label>Quantity</label>
                         <input type="text" class="form-control" id="qty" placeholder="" name="qty"><br>
 
                         <label>Description </label>
@@ -73,13 +74,12 @@
 </div>
 
 <script>
+
     $(document).ready(function () {
         $("#addproduct").validate({
             rules: {
-                name: {
-                    required: true,
-                    lettersonly: true
-
+                subcategory: {
+                    required: true
                 },
                 price: {
                     required: true,
