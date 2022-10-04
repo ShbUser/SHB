@@ -65,6 +65,10 @@ const verifyLogin = (req, res, next) => {
   }
 }
 
+router.get('/signupotp',(req,res)=>{
+  res.render('users/signup_otp')
+})
+
 router.get('/', async (req, res, next) => {
 
   let cartCount = 0

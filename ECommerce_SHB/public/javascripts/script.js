@@ -20,18 +20,21 @@ async function isBlock() {
 }
 
 async function otpVerify() {
+    if (document.getElementById('otpID').value == "") {
+        swal("Please fill the column and move","", "warning")
+    } else {
+        this.document.getElementById('wrong').innerHTML = "Please Wait..."
+        let otp = document.getElementById('otpID').value
 
-    this.document.getElementById('wrong').innerHTML = "Please Wait..."
-    let otp = document.getElementById('otpID').value
-
-    await axios.post('/signUpOtpVerify', { otp: otp })
-        .then((e) => {
-            if (e.data.status) {
-                location.href = '/'
-            } else {
-                document.getElementById('wrong').innerHTML = "!!! You Entered Wrong OTP"
-            }
-        })
+        await axios.post('/signUpOtpVerify', { otp: otp })
+            .then((e) => {
+                if (e.data.status) {
+                    location.href = '/'
+                } else {
+                    document.getElementById('wrong').innerHTML = "!!! You Entered Wrong OTP"
+                }
+            })
+    }
 }
 async function editPassword(userID) {
     password = document.getElementById('password').value
@@ -69,7 +72,7 @@ async function editPassword(userID) {
 async function getSub() {
     let catID = document.getElementById("cat").value,
         select = document.getElementById("subcat")
-        select.innerHTML = ""
+    select.innerHTML = ""
     await axios.get('/admin/get_subcategory_onchange/' + catID).then((e) => {
         if (e.data.status) {
             let sub_length = e.data.category.subcategory.length
@@ -155,12 +158,12 @@ async function delWishlistItem(wishID) {
         })
 }
 
-async function checkQtyForSingleProduct(proID){
-    await axios.get('/chck_qty_single_prod/'+proID).then((e)=>{
-        if(e.data.status){
+async function checkQtyForSingleProduct(proID) {
+    await axios.get('/chck_qty_single_prod/' + proID).then((e) => {
+        if (e.data.status) {
             swal("Sorry", "Stock not available for this count", "warning");
-        }else{
-            location.href='/view_product/'+proID
+        } else {
+            location.href = '/view_product/' + proID
         }
     })
 }
