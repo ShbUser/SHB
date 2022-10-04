@@ -15,15 +15,15 @@
                             <td><img class="" width="160px" height="160px"
                                     style="border-radius: 1mm; border: 1px solid rgb(240, 240, 240)"
                                     src="/product-images/{{this.product.myimg.[0]}}" alt="">
-                                <div><label class="text-success fw-bold">Name : </label>{{this.product.name}}</div>
-                                <div><label class="text-success fw-bold">Category : </label>{{this.category.name}}</div>
+                                <div><label class="text-success ">Name : </label>{{this.product.name}}</div>
+                                <div><label class="text-success">Category : </label>{{this.category.name}}</div>
 
                             </td>
 
                             <td>
 
-                                <label class="text-success fw-bold">Size : </label>{{this.product.size}}<br>
-                                <div><label class="text-success fw-bold">Price : </label>Rs: {{this.product.price}}</div>
+                                <label class="text-success">Size : </label>{{this.product.size}}<br>
+                                <div><label class="text-success ">Price : </label>Rs: {{this.product.price}}</div>
                                 <br>
                                 <button class="btn btn-success"
                                     onclick="changeQty('{{this._id}}','{{this.product._id}}',-1,this)">-</button>

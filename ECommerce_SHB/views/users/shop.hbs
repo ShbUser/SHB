@@ -43,7 +43,8 @@
 
 				<div class="product-grid mt-3">
 					<div class="product-image">
-						<a href="/view_product/{{this._id}}" class="image">
+						<a class="imgHover" onclick="checkQtyForSingleProduct('{{this._id}}')">
+						{{!-- href="/view_product/{{this._id}}" class="image" --}}
 							<img class="pic-1" src="/product-images/{{this.myimg.[0]}}" style=" height: 300px;"
 								alt="...">
 						</a>

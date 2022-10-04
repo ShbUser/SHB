@@ -290,6 +290,19 @@ body{
         font-size: smaller !important;
         margin-top: -4em;
     }
+    #dash_report{            
+            margin-left: -3.5em;
+            padding: 1em;            
+    }
+    #worldwide-sales{
+        margin-left: 1.5em;
+        width: 100% !important;
+            height: 12em !important; 
+    }
+    #doughnut-chart{
+        margin-left: 1.5em;
+    }
+
     /* body {
       background-color: lightblue !important;
       
