@@ -21,7 +21,7 @@ async function isBlock() {
 
 async function otpVerify() {
 
-    this.document.getElementById('wrong').value = "Please Wait..."
+    this.document.getElementById('wrong').innerHTML = "Please Wait..."
     let otp = document.getElementById('otpID').value
 
     await axios.post('/signUpOtpVerify', { otp: otp })
@@ -29,7 +29,7 @@ async function otpVerify() {
             if (e.data.status) {
                 location.href = '/'
             } else {
-                document.getElementById('wrong').value = "!!! You Entered Wrong OTP"
+                document.getElementById('wrong').innerHTML = "!!! You Entered Wrong OTP"
             }
         })
 }

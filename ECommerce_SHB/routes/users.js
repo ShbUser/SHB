@@ -64,6 +64,7 @@ const verifyLogin = (req, res, next) => {
     res.redirect('/login')
   }
 }
+
 router.get('/', async (req, res, next) => {
 
   let cartCount = 0
