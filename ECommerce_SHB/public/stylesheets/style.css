@@ -286,6 +286,10 @@ body{
     #adm_panel{
         font-size: smaller;
     }
+    #banner_content{
+        font-size: smaller !important;
+        margin-top: -4em;
+    }
     /* body {
       background-color: lightblue !important;
       

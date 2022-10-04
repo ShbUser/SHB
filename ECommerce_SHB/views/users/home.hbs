@@ -6,14 +6,14 @@
 			<div class="carousel-inner">
 				{{#each banner}}
 				<div class=" carousel-item {{#if @first}} active {{/if}}">
-					<div style="height: 10em; background-size: cover;">
+					<div style="height: 9em; background-size: cover;">
 						<img class="img-fluid" src="/banner-images/{{this.bannerImg}}" alt="" width="100%" >
 					</div>
 					<div class=" d-flex align-items-center" style="z-index: 1;">
 						<div class="text-align-left align-self-center text-white">
-							<h1 class="ms-5 h1 text-success"><b>SHB</b> eCommerce</h1>
-							<h2 class="ms-5 h1">{{this.header}}</h2>
-							<h2 class="ms-5 h1">{{this.content}}</h2>
+							<h1 class="ms-5 h1 text-success" id="banner_content"><b>SHB</b> eCommerce</h1>
+							<h2 class="ms-5 h1" id="banner_content">{{this.header}}</h2>
+							<h2 class="ms-5 h1" id="banner_content">{{this.content}}</h2>
 						</div>
 					</div>
 
